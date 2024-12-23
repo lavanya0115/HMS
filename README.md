@@ -1,4 +1,4 @@
-### Medicall ERP 
+### Hotel Management System
 
 App URL - https://crm.medicall.in/
 Guide for install and run the project
@@ -19,8 +19,4 @@ Guide for install and run the project
     -   Copy current app domain (<http://127.0.0.1:8000/login/>) and paste it in the `APP_URL` variable in the `.env` file.
     -   Run the `npm run dev` command.
 
-### Login with the following credentials
-
--   Username: `admin@gmail.com`
--   Password: `password`
 # HMS
