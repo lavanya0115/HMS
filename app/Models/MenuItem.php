@@ -17,6 +17,7 @@ class MenuItem extends Model
         'nos',
         'price',
         'meta',
+        'is_available',
         'description',
         'created_by',
         'updated_by',
@@ -26,4 +27,9 @@ class MenuItem extends Model
     protected $casts = [
         'meta' => 'json',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }
