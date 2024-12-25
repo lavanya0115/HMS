@@ -108,10 +108,6 @@ Route::get('/visitor/registration/view', [VisitorController::class, 'index'])->n
 Route::post('/visitor/registration/store', [VisitorController::class, 'store'])->name('visitor.store')->middleware('frameGuard');
 
 Route::middleware([
-    // 'auth:sanctum',
-    // config('jetstream.auth_session'),
-    // 'verified',
-    // 'auth',
     'web',
 ])->group(function () {
 
@@ -126,7 +122,7 @@ Route::middleware([
 
     Route::get('/menu/items/create',MenuHandler::class)->name('menu.items.create');
     Route::get('/menu/items/list',MenuSummary::class)->name('menu.items.list');
-
+    Route::get('/category', CategorySummary::class)->name('category');
 });
 
 Route::middleware(['auth:web,visitor,exhibitor'])->group(function () {
@@ -155,7 +151,6 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/products', ProductSummary::class)->name('products')->middleware('can:View Product');
     Route::get('/announcement/{announcementId?}', AnnouncementHandler::class)->name('announcement');
     Route::get('/seminar/{seminarId?}', SeminarHandler::class)->name('upsert.seminar');
-    Route::get('/category', CategorySummary::class)->name('category')->middleware('can:View Category');
     Route::get('/announcements', AnnouncementSummary::class)->name('announcements.index')->middleware('can:View Announcement');
     Route::get('/seminars', SeminarSummary::class)->name('seminars')->middleware('can:View Seminar');
     Route::get('/seminar-list', SeminarList::class)->name('listofseminars');
