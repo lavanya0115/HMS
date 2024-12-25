@@ -8,6 +8,7 @@ use App\Models\Exhibitor;
 use App\Models\EventVisitor;
 use Illuminate\Http\Request;
 use App\Http\Livewire\Insights;
+use App\Http\Livewire\MenuCard;
 use App\Http\Livewire\LeadsList;
 use App\Http\Livewire\HallLayout;
 use App\Models\UserLoginActivity;
@@ -120,9 +121,10 @@ Route::middleware([
         return "Not Allowed";
     })->name('dashboard');
 
-    Route::get('/menu/items/create',MenuHandler::class)->name('menu.items.create');
-    Route::get('/menu/items/list',MenuSummary::class)->name('menu.items.list');
+    Route::get('/menu/items/create/{menuId?}', MenuHandler::class)->name('menu.items.create');
+    Route::get('/menu/items/list', MenuSummary::class)->name('menu.items.list');
     Route::get('/category', CategorySummary::class)->name('category');
+    Route::get('menu/card', MenuCard::class)->name('menu.card');
 });
 
 Route::middleware(['auth:web,visitor,exhibitor'])->group(function () {

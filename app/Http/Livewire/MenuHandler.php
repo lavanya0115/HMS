@@ -5,11 +5,11 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Category;
 use App\Models\MenuItem;
+use Illuminate\Support\Facades\Request;
 
 class MenuHandler extends Component
 {
     public $categories;
-
     public $menu = [
         'name' => '',
         'category_id' => '',
@@ -22,27 +22,23 @@ class MenuHandler extends Component
     protected $rules = [
         'menu.name' => 'required|string',
         'menu.category_id' => 'required',
-        'menu.nos' => 'required|digits:10',
-        'menu.price' => 'required|digits:10',
+        'menu.nos' => 'required',
+        'menu.price' => 'required',
     ];
 
     protected $messages = [
         'menu.name.required' => 'The menu name field is required.',
-        'menu.category_id.required' => 'The menu category filed is required.',
+        'menu.category.required' => 'The menu category filed is required.',
         'menu.nos.required' => 'The number of item field is required.',
-        'menu.nos.digits' => 'Please give the valid no',
         'menu.price.required' => 'The price field is required.',
     ];
 
     public function mount($menuId)
     {
-        $user = getAuthData();
-
         $this->categories = Category::get();
-
         if ($menuId) {
-
             $menu = MenuItem::find($menuId);
+            // dd($menu);
             if ($menu) {
                 $this->menu = $menu->toArray();
             } else {
@@ -54,7 +50,6 @@ class MenuHandler extends Component
     public function create()
     {
         $this->validate();
-
         $menuExists = MenuItem::where('name', $this->menu['name'])
             ->where('category_id', $this->menu['category_id'])->first();
 
@@ -62,27 +57,21 @@ class MenuHandler extends Component
             $this->addError('menu.name', 'menu already exists.');
             return;
         }
-
-
         $authorId = auth()->user()->id;
         $this->menu['created_by'] = $authorId;
         $this->menu['updated_by'] = $authorId;
+        try {
+            $menu = MenuItem::create($this->menu);
 
-
-        // try {
-        $menu = MenuItem::create($this->menu);
-
-        if ($menu) {
-            session()->flash('success', 'menu created successfully.');
-            // $this->dispatch('callShowNoticeEvent', 'Success', 'menu created successfully.');
-            return redirect()->route('menu.items.create');
+            if ($menu) {
+                session()->flash('success', 'menu created successfully.');
+                return redirect()->route('menu.items.list');
+            }
+            session()->flash('info', 'Something went wrong menu not created');
+        } catch (\Exception $e) {
+            session()->flash('error', $e->getMessage());
+            return redirect()->route('menu.items.list');
         }
-        session()->flash('info', 'Something went wrong menu not created');
-        // $this->dispatch('callShowNoticeEvent', 'info', 'Something went wrong menu not created');
-        // } catch (\Exception $e) {
-        //     session()->flash('error', $e->getMessage());
-
-        // }
     }
 
     public function update()
@@ -114,7 +103,7 @@ class MenuHandler extends Component
 
             session()->flash('success', 'menu updated successfully.');
             $this->dispatch('callShowNoticeEvent', 'success', 'menu updated successfully.');
-            $this->redirect(route('menus.index'));
+            $this->redirect(route('menus.items.list'));
         } catch (\Exception $e) {
             $this->dispatch('callShowNoticeEvent', 'error', $e->getMessage());
             return;

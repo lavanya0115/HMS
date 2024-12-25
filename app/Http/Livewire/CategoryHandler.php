@@ -31,6 +31,7 @@ class CategoryHandler extends Component
             // $this->authorize('Update Category');
             $category = Category::find($this->categoryId);
             $this->category = $category ? $category->toArray() : [];
+            $this->category['is_active'] = $category->is_active ? true : false;
         }
     }
     public function create()

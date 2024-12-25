@@ -1,7 +1,10 @@
 <div>
     <div class="page-body">
         <div class="container-xl">
-            @include('includes.alerts')
+            <div class="col-lg-12">
+                @include('includes.alerts')
+            </div>
+
 
             <div class="row">
                 <div class="col-lg-4">
@@ -56,12 +59,14 @@
                                                 <td>
 
                                                     <div class="d-flex align-items-center gap-2">
-                                                        <a href="{{ route('menu.items.create', ['menuId' => $menu->id, 'p' => $this->paginators['p'], 'pp' => $this->perPage]) }}"
+                                                        <a href="{{ route('menu.items.list', ['menuId' => $menu->id, 'p' => $this->paginators['p'], 'pp' => $this->perPage]) }}"
                                                             title="Edit" data-toggle="tooltip" data-placement="top">
                                                             <span>@include('icons.edit')</span>
                                                         </a>
-                                                        <a href="{{ route('menu.items.list', ['menuId' => $menu->id, 'p' => $this->paginators['p'], 'pp' => $this->perPage]) }}"
-                                                            title="Edit" data-toggle="tooltip" data-placement="top">
+
+                                                        <a href="#"
+                                                            wire:click.prevent="$dispatch('canDeleteMenu',{{ $menu->id }})"
+                                                            class="text-danger">
                                                             <span>@include('icons.trash')</span>
                                                         </a>
                                                     </div>
@@ -111,3 +116,14 @@
         </div>
     </div>
 </div>
+@push('scripts')
+    <script>
+        Livewire.on('canDeleteMenu', (menuId) => {
+            if (confirm('Are you sure you want to delete this MenuItem ?')) {
+                Livewire.dispatch('deleteMenu', {
+                    menuId
+                });
+            }
+        });
+    </script>
+@endpush
