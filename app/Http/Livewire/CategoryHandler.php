@@ -11,47 +11,35 @@ class CategoryHandler extends Component
     public $categoryType = null;
 
     public $category = [
-        'type',
-        'name',
+        'title',
         'description',
-        'is_active' => 0,
-        'is_default' => 0,
-
+        'is_active' => true,
     ];
 
     protected $rules = [
-        'category.name' => 'required|string',
-        'category.type' => 'required',
+        'category.title' => 'required|string',
     ];
 
     protected $messages = [
-        'category.name.required' => 'Name is required',
-        'category.type.required' => 'Type is required',
+        'category.title.required' => 'Name is required',
     ];
 
-    public function mount($categoryId = null, $type = null)
+    public function mount($categoryId = null)
     {
-        $categoryTypes = getCategoryTypes();
-        if (!array_key_exists($type, $categoryTypes)) {
-            return redirect()->back()->with('error', 'Invalid category type.');
-        }
         $this->categoryId = $categoryId;
-        $this->category['type'] = $type;
-        $this->categoryType = $categoryTypes[$type];
         if ($this->categoryId) {
-            $this->authorize('Update Category');
+            // $this->authorize('Update Category');
             $category = Category::find($this->categoryId);
             $this->category = $category ? $category->toArray() : [];
-            $this->category['is_active'] = $this->category['is_active'] == 1 ? true : false;
         }
     }
     public function create()
     {
-        $this->authorize('Create Category');
         $this->validate();
-        $categoryExists = Category::where('name', $this->category['name'])->where('type', $this->category['type'])->first();
+        $categoryExists = Category::where('title', $this->category['title'])
+            ->first();
         if ($categoryExists) {
-            $this->addError("category.name", "Name already exists");
+            $this->addError("category.title", "Name already exists");
             return;
         }
         $this->category['created_by'] = getAuthData()->id;
@@ -60,8 +48,8 @@ class CategoryHandler extends Component
         try {
             $category = Category::create($this->category);
             if ($category) {
-                session()->flash('success', $this->categoryType . ' created successfully!.');
-                return redirect(route('category', ['type' => $this->category['type']]));
+                session()->flash('success', 'Category created successfully!.');
+                return redirect(route('category'));
             }
             session()->flash('error', 'Error while creating category');
             return;
@@ -75,11 +63,11 @@ class CategoryHandler extends Component
     {
         $this->validate();
 
-        $categoryNameExists = Category::where('name', $this->category['name'])->where('type', $this->category['type'])
+        $categoryNameExists = Category::where('title', $this->category['title'])
             ->where('id', '!=', $this->category['id'])->first();
 
         if ($categoryNameExists) {
-            $this->addError("category.name", "Name already exists");
+            $this->addError("category.title", "Name already exists");
             return;
         }
 
@@ -89,9 +77,9 @@ class CategoryHandler extends Component
             if ($category) {
                 $this->category['updated_by'] = getAuthData()->id;
                 $category->update($this->category);
-                $isCategoryUpdated = $category->wasChanged('name', 'type', 'description', 'is_active');
+                $isCategoryUpdated = $category->wasChanged('title', 'description');
                 if ($isCategoryUpdated) {
-                    return redirect(route('category', ['type' => $this->category['type']]))->with('success', $this->categoryType . ' updated successfully!.');
+                    return redirect(route('category',))->with('success', 'Category updated successfully!.');
                 }
                 session()->flash('info', 'Do Some Changes to be Updated');
                 return;
@@ -108,11 +96,10 @@ class CategoryHandler extends Component
     {
         $this->categoryId = null;
         $this->category = [
-            'type' => null,
+
             'name' => null,
             'description' => null,
-            'is_active' => 1,
-            'is_default' => 0,
+
         ];
     }
 
@@ -120,5 +107,4 @@ class CategoryHandler extends Component
     {
         return view('livewire.category-handler')->layout('layouts.admin');
     }
-
 }

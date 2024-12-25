@@ -19,9 +19,8 @@ class CategorySummary extends Component
 
     public $type = null;
 
-    public $categoryType = null;
 
-    #[Url( as :'pp')]
+    #[Url(as: 'pp')]
     public $perPage = 10;
 
     protected $listeners = [
@@ -31,13 +30,7 @@ class CategorySummary extends Component
 
     public function mount(Request $request)
     {
-        $categoryTypes = getCategoryTypes();
-        if (!array_key_exists($request->type, $categoryTypes)) {
-            return redirect()->back()->with('error', 'Invalid category type.');
-        }
-        $this->type = $request->type;
         $this->categoryId = $request->categoryId;
-        $this->categoryType = $categoryTypes[$this->type];
     }
     public function deleteCategoryById($categoryId)
     {
@@ -49,8 +42,8 @@ class CategorySummary extends Component
         if ($category) {
             $isDeleted = $category->delete();
             if ($isDeleted) {
-                session()->flash("success", $this->categoryType . " deleted successfully!.");
-                return redirect(route('category', ['type' => $this->type]));
+                session()->flash("success",  " deleted successfully!.");
+                return redirect(route('category'));
             } else {
                 session()->flash("error", "Unable to delete category");
                 return;
@@ -66,16 +59,16 @@ class CategorySummary extends Component
 
     public function render()
     {
-        $categories = Category::where('type', $this->type)->orderBy('id', 'desc')->paginate($this->perPage);
+        $categories = Category::orderBy('id', 'desc')->paginate($this->perPage);
 
-        $activities = Activity::select('activity_log.*')->where('log_name', 'category_log')
-            ->join('categories', 'activity_log.subject_id', '=', 'categories.id')
-            ->where('categories.type', $this->type)
-            ->orderBy('activity_log.id', 'desc')->paginate(10, pageName: 'activity');
+        // $activities = Activity::select('activity_log.*')->where('log_name', 'category_log')
+        //     ->join('categories', 'activity_log.subject_id', '=', 'categories.id')
+        //     ->where('categories.type', $this->type)
+        //     ->orderBy('activity_log.id', 'desc')->paginate(10, pageName: 'activity');
 
         return view('livewire.category-summary', [
             'categories' => $categories,
-            'activities' => $activities,
+            // 'activities' => $activities,
         ])->layout('layouts.admin');
     }
 }
