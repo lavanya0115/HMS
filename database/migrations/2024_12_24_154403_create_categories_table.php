@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->boolean('is_active');
             $table->text('description')->nullable();
             $table->json('meta')->nullable();
             $table->unsignedBigInteger('created_by');
