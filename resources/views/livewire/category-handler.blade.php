@@ -1,5 +1,5 @@
 <div>
-    <h4>{{ isset($categoryId) ? 'Edit ' . $categoryType : 'New ' . $categoryType }}</h4>
+    <h4>{{ isset($categoryId) ? 'Edit ' : 'New ' }}</h4>
     <div class="card">
         <form wire:submit={{ isset($categoryId) ? 'update' : 'create' }}>
             <div class="card-body">
@@ -11,37 +11,16 @@
                                     <label class="form-label required" for="name">Name</label>
                                     <input type="text" id ="name" @class([
                                         'form-control',
-                                        'is-invalid' => $errors->has('category.name') ? true : false,
+                                        'is-invalid' => $errors->has('category.title') ? true : false,
                                     ]) placeholder="Name"
-                                        wire:model="category.name">
-                                    @error('category.name')
+                                        wire:model="category.title">
+                                    @error('category.title')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
-                                <div>
-                                    <label class="form-label required">Type </label>
-                                    @php
-                                        $categoryTypes = getCategoryTypes();
-                                    @endphp
-                                    <select wire:model="category.type" @class([
-                                        'form-select',
-                                        'is-invalid' => $errors->has('category.type') ? true : false,
-                                    ]) disabled>
-                                        <option value="">Choose Type</option>
-                                        @foreach ($categoryTypes as $key => $label)
-                                            <option value="{{ $key }}">{{ $label }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('category.type')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
 
-                                </div>
-                            </div>
 
                             <div class="col-md-12">
                                 <div>

@@ -4,12 +4,12 @@
             @include('includes.alerts')
             <div class="row">
                 <div class="col-lg-4">
-                    @livewire('category-handler', ['categoryId' => $categoryId,'type' => $type])
+                    @livewire('category-handler', ['categoryId' => $categoryId])
                 </div>
                 <div class="col-lg-8">
                     <div class="d-flex flex-row justify-content-between align-items-center">
                         <div>
-                            <h4 class="text">List all {{ $categoryType }}</h4>
+                            <h4 class="text">List all Categories</h4>
                         </div>
                     </div>
                     <div class="card">
@@ -19,6 +19,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
+                                        <th>Description</th>
                                         <th>Status</th>
                                         <th class="w-1"></th>
                                     </tr>
@@ -32,7 +33,11 @@
                                                 </td>
 
                                                 <td>
-                                                    <div class="text-capitalize">{{ $category->name }}</div>
+                                                    <div class="text-capitalize">{{ $category->title }}</div>
+                                                </td>
+                                                <td>
+                                                    <div class="text-capitalize">{{ $category->description ?? '--' }}
+                                                    </div>
                                                 </td>
 
                                                 <td>
@@ -48,48 +53,18 @@
 
                                                 <td>
                                                     <div class="d-flex align-items-center gap-2">
-                                                        @can('Update Category')
-                                                            <a
-                                                                href="{{ route('category', ['categoryId' => $category->id,'type' => $type, 'page' => $this->paginators['page'], 'pp' => $this->perPage]) }}">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    class="icon icon-tabler icon-tabler-edit" width="24"
-                                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                                    stroke="currentColor" fill="none"
-                                                                    stroke-linecap="round" stroke-linejoin="round">
-                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none">
-                                                                    </path>
-                                                                    <path
-                                                                        d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1">
-                                                                    </path>
-                                                                    <path
-                                                                        d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z">
-                                                                    </path>
-                                                                    <path d="M16 5l3 3"></path>
-                                                                </svg>
-                                                            </a>
-                                                        @endcan
-                                                        @can('Delete Category')
-                                                            <a href="#"
-                                                                wire:click.prevent="$dispatch('canDeleteCategory',{{ $category->id }})"
-                                                                class="text-danger">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    class="icon icon-tabler icon-tabler-trash"
-                                                                    width="24" height="24" viewBox="0 0 24 24"
-                                                                    stroke-width="2" stroke="currentColor" fill="none"
-                                                                    stroke-linecap="round" stroke-linejoin="round">
-                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none">
-                                                                    </path>
-                                                                    <path d="M4 7l16 0"></path>
-                                                                    <path d="M10 11l0 6"></path>
-                                                                    <path d="M14 11l0 6"></path>
-                                                                    <path
-                                                                        d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12">
-                                                                    </path>
-                                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3">
-                                                                    </path>
-                                                                </svg>
-                                                            </a>
-                                                        @endcan
+
+                                                        <a
+                                                            href="{{ route('category', ['categoryId' => $category->id, 'type' => $type, 'page' => $this->paginators['page'], 'pp' => $this->perPage]) }}">
+                                                            <span>@include('icons.edit')</span>
+                                                        </a>
+
+                                                        <a href="#"
+                                                            wire:click.prevent="$dispatch('canDeleteCategory',{{ $category->id }})"
+                                                            class="text-danger">
+                                                            <span>@include('icons.trash')</span>
+                                                        </a>
+
                                                     </div>
                                                 </td>
                                             </tr>
@@ -130,52 +105,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="pt-4">
-                    @if (isset($activities) && count($activities) > 0)
-                        <h4>Activity Logs</h4>
-                        <ul class="steps steps-vertical ps-5 pt-3">
-                            @foreach ($activities as $activity)
-                                <li class="step-item ">
-                                    <div class="h4 m-0">{{ $activity->event }}</div>
-                                    <div class="text-secondary">
-                                        @php
-                                            $role = $activity->causer->roles->first()->name;
-                                        @endphp
-                                        {{ $activity->causer?->name . '  (' . $role . ') ' }}
-
-                                        @if ($activity->event === 'updated')
-                                            changed value of
-                                        @elseif($activity->event === 'created')
-                                            created
-                                        @elseif($activity->event === 'deleted')
-                                            deleted
-                                        @endif
-
-                                        @php
-                                            $oldValues = $activity->getExtraProperty('old') ?? [];
-                                            $newValues = $activity->getExtraProperty('attributes') ?? [];
-                                            $changes = getChangedValues($oldValues, $newValues);
-                                        @endphp
-
-                                        {!! implode(', ', $changes) !!}
-                                        {{ ' ' .
-                                            ($activity->event === 'updated' ? ' in ' : ' ') .
-                                            ($activity->event === 'deleted' ? $oldValues['name'] : $activity->subject->name ?? '') .
-                                            ' Record  -  ' .
-                                            ($activity->created_at->diffForHumans() ?? '') }}
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
-                    <div class="col d-flex justify-content-end mt-3">
-                        @if (isset($activities) && count($activities) >= 0)
-                            {{ $activities->links() }}
-                        @endif
-                    </div>
-                </div>
             </div>
-
         </div>
     </div>
 </div>
