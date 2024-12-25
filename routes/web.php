@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Visitor;
+use App\Models\FollowUp;
 use App\Models\Exhibitor;
 use App\Models\EventVisitor;
 use Illuminate\Http\Request;
@@ -12,6 +13,8 @@ use App\Http\Livewire\HallLayout;
 use App\Models\UserLoginActivity;
 use App\Http\Livewire\LeadHandler;
 use App\Http\Livewire\LeadSummary;
+use App\Http\Livewire\MenuHandler;
+use App\Http\Livewire\MenuSummary;
 use App\Http\Livewire\RoleHandler;
 use App\Http\Livewire\SeminarList;
 use App\Http\Livewire\VisitorList;
@@ -73,12 +76,11 @@ use App\Http\Controllers\OneSignalController;
 use App\Http\Livewire\CampaignReportsHandler;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Livewire\Import\Leads as ImportLeads;
 use App\Http\Livewire\Profile\UserProfileSettings;
 use App\Http\Livewire\Import\Visitors as ImportVisitors;
 use App\Http\Livewire\Settings\Employee\EmployeeSummary;
 use App\Http\Livewire\Import\Exhibitors as ImportExhibitors;
-use App\Models\FollowUp;
-use App\Http\Livewire\Import\Leads as ImportLeads;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,23 +118,15 @@ Route::middleware([
     // Route::get('/dashboard', AdminDashboard::class)->name('dashboard');
 
     Route::get('/dashboard', function () {
-
-        if (Auth::guard('exhibitor')->check()) {
-            return redirect()->route('dashboard.exhibitor');
-        }
-
-        if (Auth::guard('visitor')->check()) {
-            return redirect()->route('dashboard.visitor');
-        }
-
         if (Auth::guard('web')->check()) {
             return redirect()->route('dashboard.user');
         }
         return "Not Allowed";
     })->name('dashboard');
 
-    Route::get('/exhibitor/edit/{exhibitorId}/{eventId?}', EditExhibitor::class)->name('exhibitor.edit')->middleware('can:Update Exhibitor');
-    Route::get('/visitors/{visitorId}/edit/{eventId?}', VisitorHandler::class)->name('visitors.edit')->middleware('can:Update Visitor');
+    Route::get('/menu/items/create',MenuHandler::class)->name('menu.items.create');
+    Route::get('/menu/items/list',MenuSummary::class)->name('menu.items.list');
+
 });
 
 Route::middleware(['auth:web,visitor,exhibitor'])->group(function () {
