@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('nos');
             $table->decimal('price');
+            $table->boolean('is_available')->nullable();
             $table->json('meta')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by')->nullable();
