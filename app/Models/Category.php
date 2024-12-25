@@ -21,7 +21,7 @@ class Category extends Model
 
     protected $fillable = [
         'type',
-        'name',
+        'title',
         'description',
         'is_active',
         'is_default',
@@ -32,44 +32,44 @@ class Category extends Model
         '_meta',
     ];
 
-    protected $logAttributes = [
-        'type',
-        'name',
-        'description',
-        'is_active',
-        'is_default',
-        'parent_id',
-        '_meta',
-    ];
+    // protected $logAttributes = [
+    //     'type',
+    //     'name',
+    //     'description',
+    //     'is_active',
+    //     'is_default',
+    //     'parent_id',
+    //     '_meta',
+    // ];
 
-    protected static $logOnlyDirty = true;
+    // protected static $logOnlyDirty = true;
 
-    protected $logName = 'category_log';
+    // protected $logName = 'category_log';
 
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->useLogName($this->logName)
-            ->logOnly($this->logAttributes)
-            ->setDescriptionForEvent(function (string $eventName) {
-                $description = "Changes: ";
-                $userName = getAuthData()->name ?? '';
-                if ($eventName === 'updated') {
-                    $changes = $this->getDirty();
-                    foreach ($changes as $attribute => $newValue) {
-                        $oldValue = $this->getOriginal($attribute);
-                        $description .= "$attribute changed from '$oldValue' to '$newValue', ";
-                    }
-                    $description .= '--by ' . $userName . ' on ' . now()->toDateTimeString();
-                    $description = rtrim($description, ', ');
-                } elseif ($eventName === 'created') {
-                    $description .= 'Record created --by' . $userName . ' on ' . now()->toDateTimeString();
-                } elseif ($eventName === 'deleted') {
-                    $description .= 'Record deleted --by' . $userName . ' on ' . now()->toDateTimeString();
-                }
-                return $description;
-            });
-    }
+    // public function getActivitylogOptions(): LogOptions
+    // {
+    //     return LogOptions::defaults()
+    //         ->useLogName($this->logName)
+    //         ->logOnly($this->logAttributes)
+    //         ->setDescriptionForEvent(function (string $eventName) {
+    //             $description = "Changes: ";
+    //             $userName = getAuthData()->name ?? '';
+    //             if ($eventName === 'updated') {
+    //                 $changes = $this->getDirty();
+    //                 foreach ($changes as $attribute => $newValue) {
+    //                     $oldValue = $this->getOriginal($attribute);
+    //                     $description .= "$attribute changed from '$oldValue' to '$newValue', ";
+    //                 }
+    //                 $description .= '--by ' . $userName . ' on ' . now()->toDateTimeString();
+    //                 $description = rtrim($description, ', ');
+    //             } elseif ($eventName === 'created') {
+    //                 $description .= 'Record created --by' . $userName . ' on ' . now()->toDateTimeString();
+    //             } elseif ($eventName === 'deleted') {
+    //                 $description .= 'Record deleted --by' . $userName . ' on ' . now()->toDateTimeString();
+    //             }
+    //             return $description;
+    //         });
+    // }
 
     public function creator()
     {
