@@ -92,6 +92,16 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="mb-1">
+                                <label class="form-label required">Price</label>
+                                <textarea @class([
+                                    'form-control',
+                                    'is-invalid' => $errors->has('menu.description') ? true : false,
+                                ]) wire:model="menu.description"></textarea>
+
+                            </div>
+                        </div>
 
                     </div>
                 </div>
