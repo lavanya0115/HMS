@@ -42,7 +42,7 @@ class LoginController extends FortifyAuthenticatedSessionController
             // ]);
             return redirect()->intended('/dashboard');
         }
-        return redirect()->route('admin-login-form')->with(['mobile_no' => $emailOrMobile]);
+        return redirect()->route('login')->with(['mobile_no' => $emailOrMobile]);
     }
 
     public function logout(Request $request)
