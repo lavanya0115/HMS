@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Models\MenuItem;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Request;
@@ -32,7 +33,7 @@ class MenuSummary extends Component
     {
         $user = getAuthData();
 
-        $menuItems = MenuItems::orderBy('name')
+        $menuItems = MenuItem::orderBy('name')
             ->paginate($this->perPage, pageName: 'p');
 
         return view('livewire.menu-summary', [
