@@ -9,7 +9,7 @@
                 </div>
 
                 <div class="col-lg-8">
-                    <h4>List of menuItems</h4>
+                    <h4>List of Menu Items</h4>
 
                     <div class="card">
                         <div class="table-responsive">

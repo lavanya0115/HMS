@@ -31,7 +31,7 @@
 
                         <div class="col-md-12">
                             <div class="mb-1">
-                                <div class="form-label">Category</div>
+                                <div class="form-label required">Category</div>
                                 <select wire:model="menu.category" @class([
                                     'form-select',
                                     'is-invalid' => $errors->has('menu.category') ? true : false,
@@ -94,7 +94,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="mb-1">
-                                <label class="form-label required">Price</label>
+                                <label class="form-label ">Description</label>
                                 <textarea @class([
                                     'form-control',
                                     'is-invalid' => $errors->has('menu.description') ? true : false,

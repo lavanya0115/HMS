@@ -1,32 +1,14 @@
 @php
     $currentRouteName = Route::currentRouteName();
     $masterMenuIsActive = in_array($currentRouteName, [
-        'exhibitor.edit',
-        'visitors.edit',
         'employees.index',
-        'visitors.summary',
-        'exhibitor.summary',
-        'events',
-        'create-event',
         'category',
         'products',
         'roles',
         'permissions',
         'seminars',
-        'delegates.summary',
-        'sales-person-mapping',
-        'leads.list',
-        'med-shorts',
-        'email-templates.summary',
-        'stall-summary',
-        'stall-handler',
-        'leads.summary',
-        'upsert.lead',
-        'potential-create',
-        'potential-summary',
-        'potential-follow-up',
-        'followup-summary',
-        'import.leads',
+        'menu.items.create',
+        'menu.items.list',
     ]);
 @endphp
 
@@ -103,43 +85,43 @@
                         <div class="dropdown-menu {{ $masterMenuIsActive ? 'show' : '' }}">
                             <div class="dropdown-menu-columns">
                                 <div class="dropdown-menu-column">
-                                   
-                                        <a class="dropdown-item {{ $currentRouteName == 'employees.index' ? 'active' : '' }}"
-                                            href="{{ route('employees.index') }}">
+
+                                    <a class="dropdown-item {{ $currentRouteName == 'employees.index' ? 'active' : '' }}"
+                                        href="{{ route('employees.index') }}">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            @include('icons.user')
+                                        </span>
+                                        <span class="nav-link-title">
+                                            Users
+                                        </span>
+                                    </a>
+
+
+                                    <a class="dropdown-item {{ in_array($currentRouteName, ['menu.items.create', 'menu.items.list']) ? 'active' : '' }}"
+                                        href="{{ route('menu.items.list') }}">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            @include('icons.basket-filled')
+                                        </span>
+                                        <span class="nav-link-title">
+                                            Menus
+                                        </span>
+                                    </a>
+
+
+                                    <div class="dropend">
+                                        <a class="dropdown-item dropdown-toggle" href="#"
+                                            data-bs-toggle="dropdown" data-bs-auto-close="false" role="button"
+                                            aria-expanded="true">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                                @include('icons.user')
+                                                @include('icons.category')
                                             </span>
                                             <span class="nav-link-title">
-                                                Users
+                                                Categories
                                             </span>
                                         </a>
-                                   
+                                    </div>
 
-                                    {{-- <a class="dropdown-item {{ in_array($currentRouteName, ['potential-summary', 'potential-create', 'followup-summary']) ? 'active' : '' }}"
-                                            href="{{ route('potential-summary') }}">
-                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                                @include('icons.user-cog')
-                                            </span>
-                                            <span class="nav-link-title">
-                                                Potentials
-                                            </span>
-                                        </a> --}}
-
-                                  
-                                        <div class="dropend">
-                                            <a class="dropdown-item dropdown-toggle" href="#"
-                                                data-bs-toggle="dropdown" data-bs-auto-close="false" role="button"
-                                                aria-expanded="true">
-                                                <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                                    @include('icons.category')
-                                                </span>
-                                                <span class="nav-link-title">
-                                                    Categories
-                                                </span>
-                                            </a>
-                                        </div>
-                               
-                                        <a class="dropdown-item {{ $currentRouteName == 'products' ? 'active' : '' }}"
+                                    {{-- <a class="dropdown-item {{ $currentRouteName == 'products' ? 'active' : '' }}"
                                             href='#'>
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                 @include('icons.basket-filled')
@@ -147,30 +129,30 @@
                                             <span class="nav-link-title">
                                                 Products
                                             </span>
-                                        </a>
-                                
-                                        <a class="dropdown-item {{ $currentRouteName == 'roles' ? 'active' : '' }}"
-                                            href='#'>
-                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                                @include('icons.user-shield')
-                                            </span>
-                                            <span class="nav-link-title">
-                                                Roles
-                                            </span>
-                                        </a>
-                                   
+                                        </a> --}}
 
-                                   
-                                        <a class="dropdown-item {{ $currentRouteName == 'permissions' ? 'active' : '' }}"
-                                            href='#'>
-                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                                @include('icons.user-check')
-                                            </span>
-                                            <span class="nav-link-title">
-                                                Permissions
-                                            </span>
-                                        </a>
-                                   
+                                    <a class="dropdown-item {{ $currentRouteName == 'roles' ? 'active' : '' }}"
+                                        href='#'>
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            @include('icons.user-shield')
+                                        </span>
+                                        <span class="nav-link-title">
+                                            Roles
+                                        </span>
+                                    </a>
+
+
+
+                                    <a class="dropdown-item {{ $currentRouteName == 'permissions' ? 'active' : '' }}"
+                                        href='#'>
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            @include('icons.user-check')
+                                        </span>
+                                        <span class="nav-link-title">
+                                            Permissions
+                                        </span>
+                                    </a>
+
                                 </div>
                             </div>
                         </div>
