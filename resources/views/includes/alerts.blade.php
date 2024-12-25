@@ -13,6 +13,15 @@
         </strong>
         {{ Session::get('success') }}
     </div>
+    {{-- <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false"
+        data-bs-toggle="toast">
+        <div class="toast-header">
+            <span class="avatar avatar-xs me-2"></span>
+            <strong class="me-auto text-success"> Success {{ Session::get('success') }}</strong>
+            <small>{{ now()->diffForHumans() }}</small>
+            <button type="button" class="ms-2 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div> --}}
 @endif
 
 @if (Session::has('info'))

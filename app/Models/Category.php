@@ -33,7 +33,6 @@ class Category extends Model
     ];
 
     protected $logAttributes = [
-        'type',
         'name',
         'description',
         'is_active',

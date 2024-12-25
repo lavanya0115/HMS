@@ -106,20 +106,16 @@
                                             Menus
                                         </span>
                                     </a>
+                                    <a class="dropdown-item {{ in_array($currentRouteName, ['category']) ? 'active' : '' }}"
+                                        href="{{ route('category') }}">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            @include('icons.category')
+                                        </span>
+                                        <span class="nav-link-title">
+                                            Categories
+                                        </span>
+                                    </a>
 
-
-                                    <div class="dropend">
-                                        <a class="dropdown-item dropdown-toggle" href="#"
-                                            data-bs-toggle="dropdown" data-bs-auto-close="false" role="button"
-                                            aria-expanded="true">
-                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                                @include('icons.category')
-                                            </span>
-                                            <span class="nav-link-title">
-                                                Categories
-                                            </span>
-                                        </a>
-                                    </div>
 
                                     {{-- <a class="dropdown-item {{ $currentRouteName == 'products' ? 'active' : '' }}"
                                             href='#'>

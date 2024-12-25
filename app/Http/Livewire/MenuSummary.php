@@ -6,13 +6,14 @@ use Livewire\Component;
 use App\Models\MenuItem;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class MenuSummary extends Component
 {
     use WithPagination;
     protected $listeners = [
         'callShowNoticeEvent' => 'showNoticeListener',
+        'deleteMenu' => 'deleteMenuById',
     ];
 
     protected $paginationTheme = 'bootstrap';
@@ -45,5 +46,23 @@ class MenuSummary extends Component
     {
         $this->perPage = $perPageValue;
         $this->resetPage(pageName: 'p');
+    }
+    public function deleteMenuById($menuId)
+    {
+
+        $menu = MenuItem::find($menuId);
+        $menu->update([
+            'deleted_by' => getAuthData()->id,
+        ]);
+        if ($menu) {
+            $isDeleted = $menu->delete();
+            if ($isDeleted) {
+                session()->flash("success",  " deleted successfully!.");
+                return redirect(route('menu.items.list'));
+            } else {
+                session()->flash("error", "Unable to delete menu");
+                return;
+            }
+        }
     }
 }
