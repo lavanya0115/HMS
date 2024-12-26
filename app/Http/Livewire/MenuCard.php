@@ -8,6 +8,6 @@ class MenuCard extends Component
 {
     public function render()
     {
-        return view('livewire.menu-card');
+        return view('livewire.menu-card')->layout('layouts.guest');;
     }
 }
