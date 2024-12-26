@@ -103,7 +103,7 @@ class MenuHandler extends Component
 
             session()->flash('success', 'menu updated successfully.');
             $this->dispatch('callShowNoticeEvent', 'success', 'menu updated successfully.');
-            $this->redirect(route('menus.items.list'));
+            $this->redirect(route('menu.items.list'));
         } catch (\Exception $e) {
             $this->dispatch('callShowNoticeEvent', 'error', $e->getMessage());
             return;

@@ -82,22 +82,97 @@
     </style> --}}
     <style>
         body {
-            background-image: url('public/theme/images/temple.png') ;
+            background-image: linear-gradient(rgba(255, 243, 205, 0.8), rgba(230, 255, 216, 0.9)), url('{{ asset('theme/logo/Food-03.png') }}');
             background-size: cover;
             background-attachment: fixed;
             background-repeat: no-repeat;
-            transition: background 0.5s ease-in-out;
+            transition: background 1.5s ease-in-out;    
             font-family: 'Georgia', serif;
-            color: #4a4a4a;
+            color: #7a0505;
+            /* opacity: 0.9; */
         }
+
 
         .menu-header {
             text-align: center;
-            padding: 20px;
-            background-color: rgba(255, 140, 0, 0.8);
             color: white;
-            margin-bottom: 20px;
+            background-color: #f7a94d;
+            padding: 40px 20px 0;
+            font-family: 'Georgia', serif;
+            font-size: 2rem;
         }
+
+        /* .animated-text {
+            animation: fadeSlideUp 2s ease-in-out;
+            font-size: 3rem;
+        }
+
+        @keyframes fadeSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        } */
+
+        /* .animated-text {
+            font-size: 3rem;
+            overflow: hidden;
+            border-right: 2px solid white;
+            white-space: nowrap;
+            width: 0;
+            animation: typing 3s steps(30, end), blink 0.5s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            from {
+                border-right-color: white;
+            }
+
+            to {
+                border-right-color: transparent;
+            }
+        } */
+
+        .animated-text {
+            background: linear-gradient(90deg, #144201ea, #9bcc6d, #1a4b04e5);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 5s infinite;
+            /* animation: typing 5s steps(30, end),  1.5s step-end infinite; */
+            font-size: 3rem;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+
 
         .menu-header h1 {
             margin: 0;
@@ -156,7 +231,88 @@
             margin: 0 auto 20px;
             display: block;
         }
+
+        #borderimg {
+            border: 10px solid transparent;
+            padding: 15px;
+            border-image: url("public\theme\logo\corner-design1.png") 30 stretch;
+        }
     </style>
+
+    {{-- <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #faf3e4;
+            color: #444;
+        }
+
+        .menu-card {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .menu-header {
+            background-color: #f7a94d;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .menu-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .menu-section {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .menu-section h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #f7a94d;
+        }
+
+        .menu-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-section ul li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .menu-footer {
+            background-color: #f7a94d;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+
+        @media (max-width: 768px) {
+            .menu-section {
+                flex: 1 1 100%;
+            }
+        }
+    </style> --}}
     @livewireStyles
     @stack('styles')
 </head>
