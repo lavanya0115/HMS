@@ -44,7 +44,7 @@
         }
 
         .dropdown-item:hover {
-            background-color:  #f0efed;
+            background-color: #f0efed;
             color: #ed7b34;
 
         }
@@ -72,7 +72,7 @@
 
         .nav-link.active,
         .dropdown-item.active::after {
-            background-color:  0.3s ease;
+            background-color: 0.3s ease;
             border-left: 2px solid #ed7b34 !important;
         }
 
@@ -97,11 +97,10 @@
 </head>
 
 <body>
-  
     @include('layouts.partials.admin-header')
     @include('layouts.partials.admin-sidebar')
-
     <div class="page">
+
 
         <div class="page-wrapper">
 

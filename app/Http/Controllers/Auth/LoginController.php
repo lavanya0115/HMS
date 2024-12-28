@@ -20,11 +20,10 @@ class LoginController extends FortifyAuthenticatedSessionController
     {
         $credentials = $request->only('email', 'password');
         $emailOrMobile = $request->input('email');
-       
 
         $verifiedUser = false;
         // Attempt to authenticate using  mobile number
-        if (Auth::guard('web')->attempt(['mobile_number' => $credentials['email'], 'password' => $credentials['password'], 'is_active' => 1]) ) {
+        if (Auth::guard('web')->attempt(['mobile_number' => $credentials['email'], 'password' => $credentials['password'], 'is_active' => 1])) {
             $verifiedUser = true;
         }
 
@@ -50,52 +49,11 @@ class LoginController extends FortifyAuthenticatedSessionController
         $isAdmin = Auth::guard('web')->check();
         Log::info('Logout');
 
-        if (Auth::guard('exhibitor')->check()) {
-            $lastUserLoginActivity = UserLoginActivity::where('userable_id', auth()->guard('exhibitor')->user()->id)
-                ->where('userable_type', 'App\Models\Exhibitor')
-                ->where('last_logout_at', null)
-                ->orderBy('id', 'desc')
-                ->first();
-
-            if ($lastUserLoginActivity) {
-                $lastUserLoginActivity->last_logout_at = now();
-                $lastUserLoginActivity->save();
-            }
-        } elseif (Auth::guard('visitor')->check()) {
-            $lastUserLoginActivity = UserLoginActivity::where('userable_id', auth()->guard('visitor')->user()->id)
-                ->where('userable_type', 'App\Models\Visitor')
-                ->where('last_logout_at', null)
-                ->orderBy('id', 'desc')
-                ->first();
-
-            if ($lastUserLoginActivity) {
-                $lastUserLoginActivity->last_logout_at = now();
-                $lastUserLoginActivity->save();
-            }
-        } elseif (Auth::guard('web')->check()) {
-            $lastUserLoginActivity = UserLoginActivity::where('userable_id', auth()->guard('web')->user()->id)
-                ->where('userable_type', 'App\Models\User')
-                ->where('last_logout_at', null)
-                ->orderBy('id', 'desc')
-                ->first();
-
-            if ($lastUserLoginActivity) {
-                $lastUserLoginActivity->last_logout_at = now();
-                $lastUserLoginActivity->save();
-            }
-        }
-
         Auth::guard('web')->logout();
-        Auth::guard('exhibitor')->logout();
-        Auth::guard('visitor')->logout();
 
         $request->session()->flush();
         $request->session()->regenerateToken();
 
-        if ($isAdmin) {
-            return redirect()->route('login');
-        } else {
-            return redirect()->route('login');
-        }
+        return redirect()->route('login');
     }
 }
