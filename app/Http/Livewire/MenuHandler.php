@@ -19,6 +19,9 @@ class MenuHandler extends Component
         'is_available' => true,
         'custom_status' => '',
         'description' => '',
+        'tax' => '',
+        'tax_amount' => '',
+        'mrp' => '',
     ];
 
     protected $rules = [
@@ -31,10 +34,21 @@ class MenuHandler extends Component
     protected $messages = [
         'menu.name.required' => 'The menu name field is required.',
         'menu.category.required' => 'The menu category filed is required.',
-        'menu.nos.required' => 'The number of item field is required.',
+        'menu.qty.required' => 'The number of item field is required.',
         'menu.price.required' => 'The price field is required.',
     ];
 
+    public function updatedMenuTax($value)
+    {
+        if (!empty($value)) {
+            $taxRate = $value / 100;
+            $this->menu['tax_amount'] = $taxRate;
+            $price = $this->menu['price'];
+            $total = $price + ($price * $taxRate);
+            $this->menu['mrp'] = round($total);
+            // dd($taxRate, $total);
+        }
+    }
     public function mount($menuId)
     {
         $this->categories = Category::get();

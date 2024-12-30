@@ -50,7 +50,9 @@
                                         <th>Name</th>
                                         <th>Qty</th>
                                         <th>Unit</th>
-                                        <th>Price</th>
+                                        <th>Basic Price</th>
+                                        <th>Tax %</th>
+                                        <th>MRP (₹)</th>
 
                                         <th class="w-1"></th>
                                     </tr>
@@ -100,6 +102,12 @@
                                                 </td>
                                                 <td>
                                                     <div class="text-capitalize">{{ $menu->price }}</div>
+                                                </td>
+                                                <td>
+                                                    <div class="text-capitalize">{{ $menu->tax ?? '--' }}</div>
+                                                </td>
+                                                <td>
+                                                    <div class="text-capitalize">{{ $menu->mrp ?? '--' }}</div>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex align-items-center gap-2">

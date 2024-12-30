@@ -70,7 +70,7 @@
                                         'is-invalid' => $errors->has('menu.unit_type') ? true : false,
                                     ])>
                                         <option value="">Select</option>
-                                        <option value="plate">Plate </option>
+                                        <option value="nos">Nos </option>
                                         <option value="pieces">Pieces</option>
                                         <option value="grams">Grams</option>
                                         <option value="ltr">Litters</option>
@@ -83,8 +83,8 @@
 
                             <div class="col-md-6">
                                 <div class="mb-1">
-                                    <label class="form-label required">Price</label>
-                                    <input type="number" @class([
+                                    <label class="form-label required">Basic Price</label>
+                                    <input type="text" @class([
                                         'form-control',
                                         'is-invalid' => $errors->has('menu.price') ? true : false,
                                     ]) placeholder="Enter price  "
@@ -95,7 +95,49 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="mb-1">
+                                    <label class="form-label required">Tax %</label>
+                                    <input type="number" @class([
+                                        'form-control',
+                                        'is-invalid' => $errors->has('menu.tax') ? true : false,
+                                    ]) placeholder="Enter tax %  "
+                                        wire:model.live="menu.tax">
+                                    @error('menu.tax')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-1">
+                                    <label class="form-label required">Tax Amount</label>
+                                    <input type="number" @class([
+                                        'form-control',
+                                        'is-invalid' => $errors->has('menu.tax_amount') ? true : false,
+                                    ]) placeholder="Enter price"
+                                        disabled wire:model="menu.tax_amount">
+                                    @error('menu.tax_amount')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-1">
+                                    <label class="form-label required">MRP</label>
+                                    <input type="number" @class([
+                                        'form-control',
+                                        'is-invalid' => $errors->has('menu.mrp') ? true : false,
+                                    ]) placeholder="Item MRP" disabled
+                                        wire:model="menu.mrp">
+                                    @error('menu.mrp')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 align-self-center mt-4">
                                 <div class="mb-1">
                                     <div class="form-check form-switch">
                                         <label class="form-check-label ">

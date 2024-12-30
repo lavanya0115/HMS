@@ -15,8 +15,17 @@ return new class extends Migration
             if (!Schema::hasColumn('menu_items', 'unit_type')) {
                 $table->string('unit_type')->nullable()->after('nos');
             }
+            if (!Schema::hasColumn('menu_items', 'tax')) {
+                $table->string('tax')->nullable()->after('price');
+            }
+            if (!Schema::hasColumn('menu_items', 'tax_amount')) {
+                $table->string('tax_amount')->nullable()->after('tax');
+            }
+            if (!Schema::hasColumn('menu_items', 'mrp')) {
+                $table->string('mrp')->nullable()->after('tax_amount');
+            }
             if (!Schema::hasColumn('menu_items', 'custom_status')) {
-                $table->string('custom_status')->nullable()->after('price');
+                $table->string('custom_status')->nullable()->after('is_available');
             }
             if (Schema::hasColumn('menu_items', 'nos')) {
                 $table->renameColumn('nos', 'qty');
@@ -32,6 +41,15 @@ return new class extends Migration
         Schema::table('menu_items', function (Blueprint $table) {
             if (Schema::hasColumn('menu_items', 'unit_type')) {
                 $table->dropColumn('unit_type');
+            }
+            if (Schema::hasColumn('menu_items', 'tax')) {
+                $table->dropColumn('tax');
+            }
+            if (Schema::hasColumn('menu_items', 'tax_amount')) {
+                $table->dropColumn('tax_amount');
+            }
+            if (Schema::hasColumn('menu_items', 'mrp')) {
+                $table->dropColumn('mrp');
             }
             if (Schema::hasColumn('menu_items', 'custom_status')) {
                 $table->dropColumn('custom_status');
