@@ -13,16 +13,18 @@ class MenuHandler extends Component
     public $menu = [
         'name' => '',
         'category_id' => '',
-        'nos' => '',
+        'qty' => '',
+        'unit_type' => '',
         'price' => 0,
-        'is_available' => 1,
+        'is_available' => true,
+        'custom_status' => '',
         'description' => '',
     ];
 
     protected $rules = [
         'menu.name' => 'required|string',
         'menu.category_id' => 'required',
-        'menu.nos' => 'required',
+        'menu.qty' => 'required',
         'menu.price' => 'required',
     ];
 
@@ -41,6 +43,7 @@ class MenuHandler extends Component
             // dd($menu);
             if ($menu) {
                 $this->menu = $menu->toArray();
+                $this->menu['is_available'] = $menu->is_available ? true : false;
             } else {
                 return redirect()->back()->with('warning', 'menu not found');
             }
@@ -50,6 +53,10 @@ class MenuHandler extends Component
     public function create()
     {
         $this->validate();
+
+        if ($this->menu['is_available'] && empty($this->menu['custom_status'])) {
+            return $this->addError('menu.custom_status', 'The custom status field is required.');
+        }
         $menuExists = MenuItem::where('name', $this->menu['name'])
             ->where('category_id', $this->menu['category_id'])->first();
 
@@ -77,6 +84,10 @@ class MenuHandler extends Component
     public function update()
     {
         $this->validate();
+
+        if ($this->menu['is_available'] == false && empty($this->menu['custom_status'])) {
+            return $this->addError('menu.custom_status', 'The custom status field is required.');
+        }
 
         $menuExists = MenuItem::where('name', $this->menu['name'])
             ->where('id', '!=', $this->menu['id'])->first();
