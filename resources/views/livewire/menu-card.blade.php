@@ -16,15 +16,25 @@
         <!--Section -->
         <div class="row" wire:poll.3s>
             @foreach ($menuItems as $lable => $items)
-                <div class="ms-3 col-md-3">
+                <div class="ms-3 col-md-5">
                     <div class="menu-section">
                         <div class="menu-title">{{ $lable }}</div>
                         <ul class="menu-list">
                             @foreach ($items as $item)
-                                <li class="menu-item">
-                                    <span class="menu-item-name">{{ $item->name . ' ( ' . $item->nos . ' Nos)' }}</span>
-                                    <span class="menu-item-price">{{ '₹ ' . $item->price }}</span>
-                                </li>
+                                @if ($item->is_available)
+                                    <li class="menu-item">
+                                        <span
+                                            class="menu-item-name fw-bold">{{ $item->name . ' ( ' . $item->qty . ' Nos)' }}</span>
+                                        <span class="menu-item-price">{{ '₹ ' . $item->price }}</span>
+                                    </li>
+                                @else
+                                    <li class="menu-item text-muted">
+                                        <small
+                                            class=" text-muted ">{{ $item->name . ' ( ' . $item->qty . ' Nos)' }}</small>
+                                        <span class="menu-item-price">{{ '₹ ' . $item->price }}</span>
+                                        <small class="fw-bold text-danger ">{{ $item->custom_status }}</small>
+                                    </li>
+                                @endif
                             @endforeach
                         </ul>
                     </div>
