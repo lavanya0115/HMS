@@ -24,7 +24,7 @@
                             <div class="card card-md" >
                                 {{-- Image Logo --}}
                                 <div class="text-center mt-3">
-                                    {{-- <img src="{{ asset('images/login.webp') }}" class="avata11r"
+                                    {{-- <img src="{{ asset('images/login.jpg') }}" class="avata11r"
                                         alt="HMS" height="100" width="100"> --}}
                                 </div>
                                 <h1 class="text-center p-3">Hotel Management System</h1>

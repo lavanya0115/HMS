@@ -22,7 +22,7 @@
 
         <h1 class="navbar-brand navbar-brand-autodark">
             <a href="{{ route('dashboard') }}">
-                <img src="{{ asset('images/login.webp') }}" alt="HMS" width="100" height="100">
+                <img src="{{ asset('images/login.jpg') }}" alt="HMS" width="100" height="100">
             </a>
         </h1>
 
