@@ -46,10 +46,12 @@
                                             </label>
                                         </th>
                                         <th>#</th>
-                                        <th>Name</th>
-                                        <th>Nos</th>
-                                        <th>Price</th>
                                         <th>Category</th>
+                                        <th>Name</th>
+                                        <th>Qty</th>
+                                        <th>Unit</th>
+                                        <th>Price</th>
+
                                         <th class="w-1"></th>
                                     </tr>
                                 </thead>
@@ -74,6 +76,9 @@
                                                     {{ $index + $menuItems->firstItem() }}
                                                 </td>
                                                 <td>
+                                                    <div class="text-capitalize">{{ $menu?->category?->title }}</div>
+                                                </td>
+                                                <td>
                                                     <div class="d-flex align-items-center">
                                                         <span @class([
                                                             'badge',
@@ -82,21 +87,21 @@
                                                             'bg-danger' => !$menu->is_available,
                                                         ])></span>
                                                         <div class="text-capitalize">{{ $menu->name }}</div>
-
                                                     </div>
+                                                    @if (!$menu->is_available)
+                                                        <small>{{ $menu->custom_status ?? 'Not Available' }}</small>
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     <div class="text-capitalize">{{ $menu->qty }}</div>
                                                 </td>
                                                 <td>
+                                                    <div class="text-capitalize">{{ $menu->unit_type ?? '--' }}</div>
+                                                </td>
+                                                <td>
                                                     <div class="text-capitalize">{{ $menu->price }}</div>
                                                 </td>
                                                 <td>
-                                                    <div class="text-capitalize">{{ $menu?->category?->title }}</div>
-                                                </td>
-
-                                                <td>
-
                                                     <div class="d-flex align-items-center gap-2">
                                                         <a href="{{ route('menu.items.list', ['menuId' => $menu->id]) }}"
                                                             title="Edit" data-toggle="tooltip" data-placement="top">
