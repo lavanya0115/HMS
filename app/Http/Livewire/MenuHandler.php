@@ -54,7 +54,7 @@ class MenuHandler extends Component
     {
         $this->validate();
 
-        if ($this->menu['is_available'] && empty($this->menu['custom_status'])) {
+        if ($this->menu['is_available']  == false && empty($this->menu['custom_status'])) {
             return $this->addError('menu.custom_status', 'The custom status field is required.');
         }
         $menuExists = MenuItem::where('name', $this->menu['name'])

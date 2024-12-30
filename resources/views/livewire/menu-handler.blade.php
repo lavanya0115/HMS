@@ -19,8 +19,8 @@
                                     <input type="text" @class([
                                         'form-control',
                                         'is-invalid' => $errors->has('menu.name') ? true : false,
-                                    ]) placeholder="Enter menu no"
-                                        wire:model="menu.name">
+                                    ])
+                                        placeholder="Enter Menu Item Name" wire:model="menu.name">
                                     @error('menu.name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
