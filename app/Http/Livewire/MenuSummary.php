@@ -74,12 +74,13 @@ class MenuSummary extends Component
 
     public function updateStatus()
     {
+        // dd($this->menu);
         $menuItems = MenuItem::whereIn('id', $this->selectedItems)->get();
         if ($menuItems) {
             foreach ($menuItems as $item) {
                 $item->update([
-                    'is_available' => $this->menu['is_available'],
-                    'custom_status' => $this->menu['custom_status'],
+                    'is_available' => $this->menu['is_available'] ?? 0,
+                    'custom_status' => $this->menu['custom_status'] ?? null,
                 ]);
                 $isUpdated = $item->wasChanged('is_available', 'custom_status');
             }
