@@ -30,6 +30,9 @@ class Category extends Model
         'updated_by',
         'deleted_by',
         '_meta',
+        'show_time_from',
+        'show_time_to',
+
     ];
 
     protected $logAttributes = [
