@@ -24,6 +24,7 @@ class MenuHandler extends Component
         'tax_amount' => '',
         'mrp' => '',
     ];
+    public $unitTypes;
 
     protected $rules = [
         'menu.name' => 'required|string',
@@ -54,7 +55,7 @@ class MenuHandler extends Component
     }
     public function mount($menuId)
     {
-        $this->categories = Category::get();
+        $this->categories = Category::whereNotIn('type', ['unit_type','slogan'])->get();
         if ($menuId) {
             $menu = MenuItem::find($menuId);
             // dd($menu);
@@ -65,6 +66,7 @@ class MenuHandler extends Component
                 return redirect()->back()->with('warning', 'menu not found');
             }
         }
+        $this->unitTypes = Category::where('type', 'unit_type')->get();
     }
 
     public function create()

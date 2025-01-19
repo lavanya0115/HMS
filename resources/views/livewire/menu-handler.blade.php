@@ -83,10 +83,11 @@
                                         'is-invalid' => $errors->has('menu.unit_type') ? true : false,
                                     ])>
                                         <option value="">Select</option>
-                                        <option value="nos">Nos </option>
-                                        <option value="pieces">Pieces</option>
-                                        <option value="grams">Grams</option>
-                                        <option value="ltr">Litters</option>
+                                        @if (!empty($unitTypes))
+                                            @foreach ($unitTypes as $type)
+                                                <option value="{{ $type->title }}">{{ $type->title }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                     @error('menu.unit_type')
                                         <div class="invalid-feedback">{{ $message }}</div>
