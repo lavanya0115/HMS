@@ -285,7 +285,7 @@
         }
 
         footer {
-            background: linear-gradient( rgba(225, 248, 212, 0.9), rgba(255, 228, 141, 0.8));
+            background: linear-gradient(rgba(225, 248, 212, 0.9), rgba(255, 228, 141, 0.8));
             color: #033b08e0;
             text-align: center;
             padding: 10px;
@@ -308,8 +308,8 @@
     @php
         use App\Models\Category;
         $day = now()->format('l');
-        $solgan = Category::where('is_active', 1)
-            ->where('type', 'solgan')
+        $slogan = Category::where('is_active', 1)
+            ->where('type', 'slogan')
             ->where('day', lcfirst($day))
             ->pluck('title')
             ->first();
@@ -325,7 +325,7 @@
                         <img src="{{ asset('designs/Header_design.png') }}" alt="Decorative Border" class="border-image"
                             style="max-width: 30%; height: auto;">
                     </div>
-                    <h3 class="animated-text text-center">{{ $solgan }}</h3>
+                    <h3 class="animated-text text-center">{{ $slogan }}</h3>
                     <div class="text-center">
                         <img src="{{ asset('designs/Header_design-02.png') }}" alt="Decorative Border"
                             class="border-image" style="max-width: 30%; height: auto;">
