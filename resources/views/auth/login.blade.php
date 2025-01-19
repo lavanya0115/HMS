@@ -55,7 +55,7 @@
                                     <form method="POST" action="{{ route('login') }}">
                                         @csrf
                                         <div class="mb-3">
-                                            <label class="form-label">Mobile</label>
+                                            <label class="form-label">Mobile / E-mail</label>
                                             <input type="text" class="form-control" name="email"
                                                 placeholder="Enter mobile no" value="{{ $mobileNo ?? '' }}">
                                         </div>
