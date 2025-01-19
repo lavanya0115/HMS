@@ -88,7 +88,10 @@
                                                             'bg-success' => $menu->is_available,
                                                             'bg-danger' => !$menu->is_available,
                                                         ])></span>
-                                                        <div class="text-capitalize">{{ $menu->name }}</div>
+                                                        <div class="text-capitalize">
+                                                            {{ $menu->name }} {{ $menu->kannada_name ?? '' }}</div>
+
+
                                                     </div>
                                                     @if (!$menu->is_available)
                                                         <small>{{ $menu->custom_status ?? 'Not Available' }}</small>
@@ -127,7 +130,7 @@
                                         @endforeach
                                     @endif
                                     @if (isset($menuItems) && count($menuItems) == 0)
-                                        @livewire('not-found-record-row', ['colspan' => 6])
+                                        @livewire('not-found-record-row', ['colspan' =>10])
                                     @endif
                                 </tbody>
                             </table>

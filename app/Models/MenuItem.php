@@ -13,6 +13,7 @@ class MenuItem extends Model
 
     protected $fillable = [
         'name',
+        'kannada_name',
         'category_id',
         'qty',
         'unit_type',
@@ -31,6 +32,7 @@ class MenuItem extends Model
 
     protected $casts = [
         'meta' => 'json',
+        // 'category_id' => 'json',
     ];
 
     public function category()

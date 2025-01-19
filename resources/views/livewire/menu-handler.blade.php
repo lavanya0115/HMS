@@ -26,6 +26,19 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="mb-1">
+                                    <label class="form-label required">Name in Kannada</label>
+                                    <input type="text" @class([
+                                        'form-control',
+                                        'is-invalid' => $errors->has('menu.kannada_name') ? true : false,
+                                    ])
+                                        placeholder="Enter Menu Item Name" wire:model="menu.kannada_name">
+                                    @error('menu.kannada_name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
 
                             <div class="col-md-7">
                                 <div class="mb-1">
@@ -63,9 +76,9 @@
                             </div>
 
                             <div class="col-md-6">
-                                <div class="mb-1">
+                                <div wire:ignore class="mb-1">
                                     <label class="form-label required">Unit type</label>
-                                    <select wire:model="menu.unit_type" @class([
+                                    <select id="unit_type" wire:model="menu.unit_type" @class([
                                         'form-select',
                                         'is-invalid' => $errors->has('menu.unit_type') ? true : false,
                                     ])>
@@ -189,3 +202,15 @@
         </form>
     </div>
 </div>
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        document.addEventListener('livewire:initialized', function() {
+            var category_type = new TomSelect('#unit_type', {
+                plugins: ['dropdown_input', 'remove_button'],
+                create: true,
+                createOnBlur: true,
+            });
+        });
+    </script>
+@endpush
