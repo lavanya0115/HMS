@@ -9,7 +9,9 @@
                             @foreach ($items as $item)
                                 @if ($item->is_available)
                                     <li class="menu-item">
-                                        <span class="menu-item-name fw-bold">{{ $item->name }}</span>
+                                        <span
+                                            class="menu-item-name fw-bold">{{ $item->name }}{{ ' - ' . $item->kannada_name }}</span>
+                                        {{-- <span class="menu-item-name fw-bold"></span> --}}
                                         <span class="menu-item-price">{{ '₹ ' . $item->price }}</span>
                                     </li>
                                 @else
@@ -26,7 +28,7 @@
                 </div>
             @endforeach
         </div>
-    </div>                              
+    </div>
 </div>
 {{-- @push('scripts')
     <script>
