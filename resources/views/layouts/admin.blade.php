@@ -94,6 +94,7 @@
 
     @livewireStyles
     @stack('styles')
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
 </head>
 
 <body>
@@ -122,6 +123,7 @@
     @stack('modals')
     @livewireScripts
     @stack('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
     <script>
         jQuery(document).ready(function() {
             jQuery('[data-toggle="tooltip"]').tooltip();

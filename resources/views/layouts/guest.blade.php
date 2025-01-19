@@ -155,7 +155,7 @@
             -webkit-text-fill-color: transparent;
             animation: gradientMove 5s infinite;
             /* animation: typing 5s steps(30, end),  1.5s step-end infinite; */
-            font-size: 3rem;
+            font-size: 2rem;
         }
 
         @keyframes gradientMove {
@@ -169,6 +169,48 @@
 
             100% {
                 background-position: 0% 50%;
+            }
+        }
+
+        .item-text {
+            animation: bounceIn 3.5s ease forwards;
+        }
+
+        .item-status {
+            animation: bounceIn 4.5s ease-out 3s forwards;
+        }
+
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounceOut {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(0.3);
+                opacity: 0;
             }
         }
 
@@ -232,10 +274,30 @@
             display: block;
         }
 
-        #borderimg {
-            border: 10px solid transparent;
-            padding: 15px;
-            border-image: url("public\theme\logo\corner-design1.png") 30 stretch;
+        @keyframes marquee {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        footer {
+            background: linear-gradient( rgba(225, 248, 212, 0.9), rgba(255, 228, 141, 0.8));
+            color: #033b08e0;
+            text-align: center;
+            padding: 10px;
+        }
+
+        footer span {
+            font-size: 1.2rem;
+        }
+
+        footer .order-image {
+            max-width: 5%;
+            vertical-align: middle;
         }
     </style>
     @livewireStyles
@@ -243,25 +305,31 @@
 </head>
 
 <body>
+    @php
+        use App\Models\Category;
+        $day = now()->format('l');
+        $solgan = Category::where('is_active', 1)
+            ->where('type', 'solgan')
+            ->where('day', lcfirst($day))
+            ->pluck('title')
+            ->first();
+    @endphp
+    {{-- <div class="container-xxl"> --}}
+
     <div class="page" style="height: 100vh; overflow: hidden;">
         <div class="page-wrapper" style="height: 100%; display: flex; flex-direction: column;">
             <div class="row g-0" style="height: 100%;">
-                <!-- Left Section -->
-                <div class="col-md-8" style="height: 100%; overflow-y: auto;">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 400" preserveAspectRatio="none"
-                        style="display: block; width: 100%; height: auto;">
-                        <defs>
-                            <linearGradient id="orangeGradient" x1="0%" y1="0%" x2="100%"
-                                y2="0%">
-                                <stop offset="0%" stop-color="#f7a94d" stop-opacity="0.9" />
-                                <stop offset="100%" stop-color="#f7a94d" stop-opacity="0.4" />
-                            </linearGradient>
-                        </defs>
-                        <path d="M0,150 C360,200 720,100 1080,250 C1320,330 1440,300 1440,300 L1440,0 L0,0 Z"
-                            fill="url(#orangeGradient)" />
-                        <path d="M0,200 C300,250 1140,50 1440,150 L1440,0 L0,0 Z" fill="#f5c377" opacity="0.6" />
-                    </svg>
-                    <h3 class="animated-text text-center" style="margin-top:-10%;">Magical Monday Menu</h3>
+                <div class="col-md-9" style="height: 100%; overflow-y: auto; position: relative;">
+
+                    <div class="text-center">
+                        <img src="{{ asset('designs/Header_design.png') }}" alt="Decorative Border" class="border-image"
+                            style="max-width: 30%; height: auto;">
+                    </div>
+                    <h3 class="animated-text text-center">{{ $solgan }}</h3>
+                    <div class="text-center">
+                        <img src="{{ asset('designs/Header_design-02.png') }}" alt="Decorative Border"
+                            class="border-image" style="max-width: 30%; height: auto;">
+                    </div>
                     <div>
                         @yield('content')
                         @if (isset($slot))
@@ -271,18 +339,28 @@
                 </div>
 
                 <!-- Right Section (Video) -->
-                <div class="col-md-4  g-0" style="height: 100%; display: flex;">
-                    <div class="video-section" style="position: relative; width: 120%; max-width: 400px; ">
-                        <video autoplay muted loop playsinline
-                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                            <source src="{{ asset('videos/VID1.mp4') }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
+                <div class="col-md-3 border" style=" position: relative; height: 100%; display: flex;">
+                    <video class="video-section" autoplay muted loop playsinline
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                        <source src="{{ asset('videos/VID1.mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
+
             </div>
+            <footer>
+                <div style="overflow: hidden; white-space: nowrap;">
+                    <span style="display: inline-block; animation: marquee 18s linear infinite; font-size: 1.2rem;">
+                        Fresh, fast, and flavorful <img src="{{ asset('theme/images/hurryup2.png') }}" alt="order"
+                            class="order-image"> place your order today!
+                    </span>
+                </div>
+            </footer>
         </div>
     </div>
+    @stack('modals')
+    @livewireScripts
+    @stack('scripts')
 </body>
 
 
