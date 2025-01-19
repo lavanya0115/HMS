@@ -15,6 +15,9 @@ return new class extends Migration
             if (!Schema::hasColumn('categories', 'type')) {
                 $table->string('type')->nullable()->after('title');
             }
+            if (!Schema::hasColumn('categories', 'day')) {
+                $table->string('day')->nullable()->after('type');
+            }
             if (!Schema::hasColumn('categories', 'show_time_from')) {
                 $table->string('show_time_from')->nullable()->after('type');
             }
@@ -32,6 +35,9 @@ return new class extends Migration
         Schema::table('categories', function (Blueprint $table) {
             if (Schema::hasColumn('categories', 'type')) {
                 $table->dropColumn('type');
+            }
+            if (Schema::hasColumn('categories', 'day')) {
+                $table->dropColumn('day');
             }
             if (Schema::hasColumn('categories', 'show_time_from')) {
                 $table->dropColumn('show_time_from');
