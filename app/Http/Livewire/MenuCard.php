@@ -12,9 +12,9 @@ class MenuCard extends Component
     {
         $currentHour = Carbon::now()->hour;
         $currentCategory = '';
-        if ($currentHour >= 8 && $currentHour < 12) {
+        if ($currentHour >= 5 && $currentHour <= 12) {
             $currentCategory = 'Break fast';
-        } elseif ($currentHour >= 12 && $currentHour < 17) {
+        } elseif ($currentHour >= 12 && $currentHour <= 17) {
             $currentCategory = 'Lunch';
         } else {
             $currentCategory = 'Dinner';
@@ -22,14 +22,21 @@ class MenuCard extends Component
 
         $menuItems = MenuItem::with('category')
             ->whereHas('category', function ($query) use ($currentCategory) {
-                $query->where('title', $currentCategory);
+
+                $query->where('title', $currentCategory)
+                    ->where('show_time_from', '<=', now())
+                    ->where('show_time_to', '>=', now());
             })
             ->orWhereHas('category', function ($query) {
-                $query->where('title', 'Refreshment');
+
+                $query->where('title', 'Refreshment')
+                    ->where('show_time_from', '<=', now())
+                    ->where('show_time_to', '>=', now());
             })
             ->orderByDesc('is_available')
             ->get()
             ->groupBy('category.title');
+
 
         return view(
             'livewire.menu-card',

@@ -1,6 +1,5 @@
 <div>
     <div class="container">
-        <!--Section -->
         <div class="row" wire:poll.3s>
             @foreach ($menuItems as $lable => $items)
                 <div class="ms-3 col-md-5">
@@ -10,16 +9,15 @@
                             @foreach ($items as $item)
                                 @if ($item->is_available)
                                     <li class="menu-item">
-                                        <span
-                                            class="menu-item-name fw-bold">{{ $item->name . ' ( ' . $item->qty . ' Nos)' }}</span>
+                                        <span class="menu-item-name fw-bold">{{ $item->name }}</span>
                                         <span class="menu-item-price">{{ '₹ ' . $item->price }}</span>
                                     </li>
                                 @else
                                     <li class="menu-item text-muted">
-                                        <small
-                                            class=" text-muted ">{{ $item->name . ' ( ' . $item->qty . ' Nos)' }}</small>
-                                        <span class="menu-item-price">{{ '₹ ' . $item->price }}</span>
-                                        <small class="fw-bold text-danger ">{{ $item->custom_status }}</small>
+                                        <small class="fw-bold text-danger item-text"
+                                            id="text-name-{{ $item->id }}">{{ $item->name }}</small>
+                                        <small class="fw-bold text-danger item-status "
+                                            id="text-status-{{ $item->id }}">{{ $item->custom_status }}</small>
                                     </li>
                                 @endif
                             @endforeach
@@ -28,20 +26,50 @@
                 </div>
             @endforeach
         </div>
-    </div>
-
-
-    {{-- <div >
-        <svg viewBox="0 0 1440 150" xmlns="http://www.w3.org/2000/svg" style="display:block; width:100%; height:auto;">
-            <path d="M0,100 C300,200 1140,0 1440,100 L1440,150 L0,150 Z" fill="#f7a94d"></path>
-        </svg>
-    </div> --}}
-
-    {{-- <div class="menu-footer">
-        <svg viewBox="0 0 1440 150" xmlns="http://www.w3.org/2000/svg" style="display:block; width:100%; height:auto;">
-            <path d="M0,100 C300,200 1140,0 1440,100 L1440,150 L0,150 Z" fill="#f7a94d"></path>
-            <path d="M0,120 C400,250 1040,-30 1440,120 L1440,150 L0,150 Z" fill="#f5c377" opacity="0.7"></path>
-        </svg>
-    </div> --}}
-
+    </div>                              
 </div>
+{{-- @push('scripts')
+    <script>
+        document.addEventListener('livewire:initialized', function() {
+            const items = @json($items);
+
+            items.forEach(item => {
+                const textName = document.getElementById(`text-name-${item.id}`);
+                const textStatus = document.getElementById(`text-status-${item.id}`);
+
+                if (textName && textStatus) {
+                    function toggleText() {
+                        if (textName.style.display !== 'none') {
+
+                            textName.classList.add('fade-out');
+                            textName.addEventListener('animationend', () => {
+                                textName.style.display = 'none';
+                                textName.classList.remove('fade-out');
+                                textStatus.style.display = 'inline';
+                                textStatus.classList.add('fade-in');
+                            }, {
+                                once: true
+                            });
+                        } else {
+
+                            textStatus.classList.add('fade-out');
+                            textStatus.addEventListener('animationend', () => {
+                                textStatus.style.display = 'none';
+                                textStatus.classList.remove('fade-out');
+                                textName.style.display = 'inline';
+                                textName.classList.add('fade-in');
+                            }, {
+                                once: true
+                            });
+                        }
+                    }
+
+                    textName.style.display = 'inline';
+                    textStatus.style.display = 'none';
+
+                    setInterval(toggleText, 4000);
+                }
+            });
+        });
+    </script>
+@endpush --}}
