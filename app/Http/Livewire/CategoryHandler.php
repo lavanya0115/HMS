@@ -90,7 +90,6 @@ class CategoryHandler extends Component
                     return redirect(route('category',))->with('success', 'Category updated successfully!.');
                 }
                 return session()->flash('info', 'Do Some Changes to be Updated');
-                
             }
             session()->flash('error', 'Error while creating category');
             return;
