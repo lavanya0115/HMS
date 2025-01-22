@@ -35,7 +35,6 @@
                                         <th>Type</th>
                                         <th>Show Time From</th>
                                         <th>Show Time To</th>
-                                        <th>Description</th>
                                         <th>Status</th>
                                         <th class="w-1"></th>
                                     </tr>
@@ -62,10 +61,7 @@
                                                     <div class="text-capitalize">{{ $category->show_time_to ?? '--' }}
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <div class="text-capitalize">{{ $category->description ?? '--' }}
-                                                    </div>
-                                                </td>
+                                               
 
                                                 <td>
                                                     <div @class([
