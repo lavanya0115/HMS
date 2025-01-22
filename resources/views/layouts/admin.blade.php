@@ -44,7 +44,7 @@
         }
 
         .dropdown-item:hover {
-            background-color:  #f0efed;
+            background-color: #f0efed;
             color: #ed7b34;
 
         }
@@ -72,7 +72,7 @@
 
         .nav-link.active,
         .dropdown-item.active::after {
-            background-color:  0.3s ease;
+            background-color: 0.3s ease;
             border-left: 2px solid #ed7b34 !important;
         }
 
@@ -94,15 +94,14 @@
 
     @livewireStyles
     @stack('styles')
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
 </head>
 
 <body>
-  
-    @include('layouts.partials.admin-header')
-    @include('layouts.partials.admin-sidebar')
-
+   
     <div class="page">
-
+        @include('layouts.partials.admin-header')
+        @include('layouts.partials.admin-sidebar')
         <div class="page-wrapper">
 
             @yield('content')
@@ -111,7 +110,7 @@
                 {{ $slot }}
             @endif
 
-            {{-- @include('layouts.partials.admin-footer') --}}
+
         </div>
     </div>
 
@@ -123,6 +122,7 @@
     @stack('modals')
     @livewireScripts
     @stack('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
     <script>
         jQuery(document).ready(function() {
             jQuery('[data-toggle="tooltip"]').tooltip();

@@ -12,9 +12,10 @@
             </h1>
         @else
             <div class="collapse navbar-collapse  d-flex justify-content-between" id="navbar-menu">
-                <span class="fw-bold text-danger fs-2 d-flex align-items-center" style="padding-left: 16%">
+                <span class="fw-bold text-warning fs-2 d-flex align-items-center" style="padding-left: 16%">
+                    SHREE ANANDHAM
                     <small class="badge bg-secondary-lt fs-6 ms-2">
-                        Admin
+                        Every Dish Tells A Story
                     </small>
                 </span>
                 <div class="navbar-nav">

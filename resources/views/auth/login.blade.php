@@ -12,29 +12,50 @@
     <link href="{{ asset('/theme/css/tabler-vendors.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('/theme/css/demo.min.css') }}" rel="stylesheet" />
     @livewireStyles
+    <style>
+        body {
+            background-image: linear-gradient(rgba(235, 235, 235, 0.8), rgba(228, 228, 228, 0.9)), url('{{ asset('theme/images/login-bg.webp') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: background 1.5s ease-in-out;
+        }
+    </style>
 </head>
 
-<body style="background: linear-gradient(135deg, #ece1db, #fdb376);">
+<body>
+
+    {{-- <img src="{{ asset('theme/images/login-bg.webp') }}" alt="Background"
+        style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        "> --}}
+
     <div class="d-flex flex-column">
         <div class="page page-center">
             <div class="container container-normal mt-5">
                 <div class="row align-items-center">
                     <div class="col-lg">
                         <div class="container-tight ">
-                            <div class="card card-md" >
+                            <div class="card card-md">
                                 {{-- Image Logo --}}
                                 <div class="text-center mt-3">
-                                    {{-- <img src="{{ asset('images/login.webp') }}" class="avata11r"
+                                    {{-- <img src="{{ asset('images/login.jpg') }}" class="avata11r"
                                         alt="HMS" height="100" width="100"> --}}
                                 </div>
                                 <h1 class="text-center p-3">Hotel Management System</h1>
                                 <h3 class="text-center">Login to your account</h3>
-                                <div class="card-body" >
+                                <div class="card-body">
                                     @include('includes.alerts')
                                     <form method="POST" action="{{ route('login') }}">
                                         @csrf
                                         <div class="mb-3">
-                                            <label class="form-label">Mobile</label>
+                                            <label class="form-label">Mobile / E-mail</label>
                                             <input type="text" class="form-control" name="email"
                                                 placeholder="Enter mobile no" value="{{ $mobileNo ?? '' }}">
                                         </div>
@@ -76,10 +97,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg d-none d-lg-block">
-                        <img src="{{ asset('theme/images/chef.png') }}" height="300" class="d-block mx-auto"
+                    {{-- <div class="col-lg d-none d-lg-block">
+                        <img src="{{ asset('theme/images/login-bg.webp') }}" height="300" class="d-block mx-auto"
                             alt="">
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

@@ -3,15 +3,19 @@
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Visitor;
+use App\Models\FollowUp;
 use App\Models\Exhibitor;
 use App\Models\EventVisitor;
 use Illuminate\Http\Request;
 use App\Http\Livewire\Insights;
+use App\Http\Livewire\MenuCard;
 use App\Http\Livewire\LeadsList;
 use App\Http\Livewire\HallLayout;
 use App\Models\UserLoginActivity;
 use App\Http\Livewire\LeadHandler;
 use App\Http\Livewire\LeadSummary;
+use App\Http\Livewire\MenuHandler;
+use App\Http\Livewire\MenuSummary;
 use App\Http\Livewire\RoleHandler;
 use App\Http\Livewire\SeminarList;
 use App\Http\Livewire\VisitorList;
@@ -73,12 +77,11 @@ use App\Http\Controllers\OneSignalController;
 use App\Http\Livewire\CampaignReportsHandler;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Livewire\Import\Leads as ImportLeads;
 use App\Http\Livewire\Profile\UserProfileSettings;
 use App\Http\Livewire\Import\Visitors as ImportVisitors;
 use App\Http\Livewire\Settings\Employee\EmployeeSummary;
 use App\Http\Livewire\Import\Exhibitors as ImportExhibitors;
-use App\Models\FollowUp;
-use App\Http\Livewire\Import\Leads as ImportLeads;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,33 +109,22 @@ Route::get('/visitor/registration/view', [VisitorController::class, 'index'])->n
 Route::post('/visitor/registration/store', [VisitorController::class, 'store'])->name('visitor.store')->middleware('frameGuard');
 
 Route::middleware([
-    // 'auth:sanctum',
-    // config('jetstream.auth_session'),
-    // 'verified',
-    // 'auth',
     'web',
 ])->group(function () {
 
     // Route::get('/dashboard', AdminDashboard::class)->name('dashboard');
 
     Route::get('/dashboard', function () {
-
-        if (Auth::guard('exhibitor')->check()) {
-            return redirect()->route('dashboard.exhibitor');
-        }
-
-        if (Auth::guard('visitor')->check()) {
-            return redirect()->route('dashboard.visitor');
-        }
-
         if (Auth::guard('web')->check()) {
             return redirect()->route('dashboard.user');
         }
         return "Not Allowed";
     })->name('dashboard');
 
-    Route::get('/exhibitor/edit/{exhibitorId}/{eventId?}', EditExhibitor::class)->name('exhibitor.edit')->middleware('can:Update Exhibitor');
-    Route::get('/visitors/{visitorId}/edit/{eventId?}', VisitorHandler::class)->name('visitors.edit')->middleware('can:Update Visitor');
+    Route::get('/menu/items/create/{menuId?}', MenuHandler::class)->name('menu.items.create');
+    Route::get('/menu/items/list', MenuSummary::class)->name('menu.items.list');
+    Route::get('/category', CategorySummary::class)->name('category');
+    Route::get('menu/card', MenuCard::class)->name('menu.card');
 });
 
 Route::middleware(['auth:web,visitor,exhibitor'])->group(function () {
@@ -161,7 +153,6 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/products', ProductSummary::class)->name('products')->middleware('can:View Product');
     Route::get('/announcement/{announcementId?}', AnnouncementHandler::class)->name('announcement');
     Route::get('/seminar/{seminarId?}', SeminarHandler::class)->name('upsert.seminar');
-    Route::get('/category', CategorySummary::class)->name('category')->middleware('can:View Category');
     Route::get('/announcements', AnnouncementSummary::class)->name('announcements.index')->middleware('can:View Announcement');
     Route::get('/seminars', SeminarSummary::class)->name('seminars')->middleware('can:View Seminar');
     Route::get('/seminar-list', SeminarList::class)->name('listofseminars');

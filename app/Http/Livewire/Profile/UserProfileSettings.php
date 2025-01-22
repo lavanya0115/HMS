@@ -122,58 +122,7 @@ class UserProfileSettings extends Component
             return;
         }
     }
-    public function updateExhibitorDetails()
-    {
-        $nameExists = Exhibitor::where('name', $this->user['name'])
-            ->where('id', '!=', getAuthData()->id)
-            ->first();
 
-        if ($nameExists) {
-            $this->addError('user.name', 'Name already exists.');
-            return;
-        }
-
-        $emailExists = Exhibitor::where('email', $this->user['email'])
-            ->where('id', '!=', getAuthData()->id)
-            ->first();
-
-        if ($emailExists) {
-            $this->addError('user.email', 'Email already exists.');
-            return;
-        }
-
-        $mobileNoExists = Exhibitor::where('mobile_number', $this->user['mobile_number'])
-            ->where('id', '!=', getAuthData()->id)
-            ->first();
-
-        if ($mobileNoExists) {
-            $this->addError('user.mobile_number', 'Mobile Number already exists.');
-            return;
-        }
-
-        $this->validate();
-        $exhibitorInfo = Exhibitor::find(getAuthData()->id);
-        $exhibitorInfo->update([
-            'name' => $this->user['name'],
-            'email' => $this->user['email'],
-            'mobile_number' => $this->user['mobile_number'],
-            'updated_by' => getAuthData()->id,
-
-        ]);
-
-        $isUpdate = $exhibitorInfo->wasChanged('name', 'email', 'mobile_number');
-
-        if ($isUpdate) {
-            session()->flash("success", "Successfully updated");
-            return;
-        } else if ($isUpdate === false) {
-            session()->flash("info", "Made Some Changes to Update");
-            return;
-        } else {
-            session()->flash("error", "Cannot Update Exhibitor Details");
-            return;
-        }
-    }
 
 
     public function updatePassword()
@@ -206,119 +155,10 @@ class UserProfileSettings extends Component
         session()->flash('error', 'Current password is does not match with existing password');
         return;
     }
-    public function updateVisitorDetails()
-    {
-        $nameExists = Visitor::where('name', $this->user['name'])
-            ->where('id', '!=', getAuthData()->id)
-            ->first();
-
-        if ($nameExists) {
-            $this->addError('user.name', 'Name already exists.');
-            return;
-        }
-
-        $emailExists = Visitor::where('email', $this->user['email'])
-            ->where('id', '!=', getAuthData()->id)
-            ->first();
-
-        if ($emailExists) {
-            $this->addError('user.email', 'Email already exists.');
-            return;
-        }
-
-        $mobileNoExists = Visitor::where('mobile_number', $this->user['mobile_number'])
-            ->where('id', '!=', getAuthData()->id)
-            ->first();
-
-        if ($mobileNoExists) {
-            $this->addError('user.mobile_number', 'Mobile Number already exists.');
-            return;
-        }
-
-        $this->validate();
-        $visitorInfo = Visitor::find(getAuthData()->id);
-        $visitorInfo->update([
-            'name' => $this->user['name'],
-            'email' => $this->user['email'],
-            'mobile_number' => $this->user['mobile_number'],
-            // 'updated_by' => getAuthData()->id,
-        ]);
-
-        $isUpdate = $visitorInfo->wasChanged('name', 'email', 'mobile_number');
-
-        if ($isUpdate) {
-            session()->flash("success", "Successfully updated");
-            return;
-        } else if ($isUpdate === false) {
-            session()->flash("info", "Made Some Changes to Update");
-            return;
-        } else {
-            session()->flash("error", "Cannot Update Visitor Details");
-            return;
-        }
-    }
 
 
-    public function updateVisitorPassword()
-    {
 
-        $messages = [
-            'currentPassword' => 'This is Required',
-            'newPassword' => 'This is Required',
-            'newPassword.different' => 'New Password same as current password',
-            'confirmPassword' => 'This is Required',
-            'confirmPassword.same' => 'Password does not match with new password',
-        ];
-        $this->validate([
-            'currentPassword' => 'required',
-            'newPassword' => 'required|different:currentPassword',
-            'confirmPassword' => 'required|same:newPassword',
-        ], $messages);
-
-        $VisitorInfo = Visitor::find(getAuthData()->id);
-
-        if (Hash::check($this->currentPassword, $VisitorInfo->password)) {
-            $VisitorInfo->update([
-                'password' => Hash::make($this->confirmPassword),
-                'updated_by' => null,
-            ]);
-            session()->flash('success', 'Passwords Changed Successfully');
-            return redirect(route('user.profile'));
-        }
-
-        session()->flash('error', 'Current password is does not match with existing password');
-        return;
-    }
-
-    public function updateExhibitorPassword()
-    {
-        $messages = [
-            'currentPassword' => 'This is Required',
-            'newPassword' => 'This is Required',
-            'newPassword.different' => 'New Password same as current password',
-            'confirmPassword' => 'This is Required',
-            'confirmPassword.same' => 'Password does not match with new password',
-        ];
-        $this->validate([
-            'currentPassword' => 'required',
-            'newPassword' => 'required|different:currentPassword',
-            'confirmPassword' => 'required|same:newPassword',
-        ], $messages);
-
-        $exhibitorInfo = Exhibitor::find(getAuthData()->id);
-
-        if (Hash::check($this->currentPassword, $exhibitorInfo->password)) {
-            $exhibitorInfo->update([
-                'password' => Hash::make($this->confirmPassword),
-                'updated_by' => null,
-            ]);
-            session()->flash('success', 'Passwords Changed Successfully');
-            return redirect(route('user.profile'));
-        }
-
-        session()->flash('error', 'Current password is does not match with existing password');
-        return;
-    }
+   
 
     public function mount()
     {
@@ -331,10 +171,10 @@ class UserProfileSettings extends Component
     }
     public function render()
     {
-        $userLogActivities = UserLoginActivity::where('userable_id', $this->userId)->orderBy('id', 'desc')->paginate(10, pageName: 'login-activity');
+        // $userLogActivities = UserLoginActivity::where('userable_id', $this->userId)->orderBy('id', 'desc')->paginate(10, pageName: 'login-activity');
 
         return view('livewire.profile.user-profile-settings', [
-            'userLogActivities' => $userLogActivities,
+            // 'userLogActivities' => $userLogActivities,
         ])->layout('layouts.admin');
     }
 }
