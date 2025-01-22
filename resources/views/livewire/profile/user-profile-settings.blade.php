@@ -21,9 +21,6 @@
                         </span>
 
                         <h2 class="m-0 mb-1">{{ getAuthData()->name ?? '' }}</h2>
-                        {{-- <h4 class="text-secondary">{{ $userData->emp_id ?? '' }}</h4> --}}
-                        {{-- <h5 class="text-secondary">{{ $userData->department->name ?? '' }}</h5> --}}
-                        {{-- <span class="text-secondary">{{ $userData->level }}</span> --}}
                         <div class="mt-3">
                             <span class="badge bg-purple-lt">
                                 @if (auth()->guard('exhibitor')->check())
@@ -36,46 +33,8 @@
                             </span>
                         </div>
                     </div>
-                    {{-- <div class="d-flex">
-                        <a href="#" class="card-btn" wire:click.prevent="updateUserProfile">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-recharging me-1"
-                                width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"
-                                fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M7.038 4.5a9 9 0 0 0 -2.495 2.47"></path>
-                                <path d="M3.186 10.209a9 9 0 0 0 0 3.508"></path>
-                                <path d="M4.5 16.962a9 9 0 0 0 2.47 2.495"></path>
-                                <path d="M10.209 20.814a9 9 0 0 0 3.5 0"></path>
-                                <path d="M16.962 19.5a9 9 0 0 0 2.495 -2.47"></path>
-                                <path d="M20.814 13.791a9 9 0 0 0 0 -3.508"></path>
-                                <path d="M19.5 7.038a9 9 0 0 0 -2.47 -2.495"></path>
-                                <path d="M13.791 3.186a9 9 0 0 0 -3.508 -.02"></path>
-                                <path d="M12 8l-2 4h4l-2 4"></path>
-                                <path d="M12 21a9 9 0 0 0 0 -18"></path>
-                            </svg>
-                            Update Profile
-                        </a>
-                        <a href="#" class="card-btn" wire:click.prevent="changeUserPassword">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-exchange"
-                                width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"
-                                fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M5 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                                <path d="M19 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                                <path d="M19 8v5a5 5 0 0 1 -5 5h-3l3 -3m0 6l-3 -3"></path>
-                                <path d="M5 16v-5a5  5 0 0 1 5 -5h3l-3 -3m0 6l3 -3"></path>
-                            </svg>
-                            Change Password
-                        </a>
-                    </div> --}}
-                </div>
-                {{-- <div class="col-4">
-                    <div class="card">
-                        <div class="card-body text-center">
-                        </div>
 
-                    </div>
-                </div> --}}
+                </div>
             </div>
 
             {{-- update Profile --}}
@@ -333,56 +292,6 @@
             </div>
         </div>
 
-        <div class="col-12 mt-5 mb-3">
-            <div class="card" style="height: 28rem">
-                <div class="card-header ">
-                    <h4>Activity Logs</h4>
-                </div>
-                <div class="card-body card-body-scrollable card-body-scrollable-shadow">
-                    <div class="divide-y">
-                        <div class="row">
-                            @if (isset($userLogActivities) && count($userLogActivities) > 0)
-                                {{-- <h4>Activity Logs</h4> --}}
-                                @foreach ($userLogActivities as $activity)
-                                    @if (isset($activity->last_login_at))
-                                        @if (isset($activity->last_logout_at))
-                                            <ul class="steps steps-vertical ps-5 pt-3">
-                                                <li class="step-item ">
-                                                    <div class="text-secondary">
-                                                        @php
-                                                            $logOutTime = Carbon\Carbon::parse(
-                                                                $activity->last_logout_at,
-                                                            );
-                                                        @endphp
-                                                        {{ ($activity->user->name ?? '') . ' Logged Out ' . $logOutTime->diffForHumans() }}
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        @endif
 
-                                        <ul class="steps steps-vertical ps-5 pt-3">
-                                            <li class="step-item ">
-                                                <div class="text-secondary">
-                                                    @php
-                                                        $logInTime = Carbon\Carbon::parse($activity->last_login_at);
-                                                    @endphp
-                                                    {{ ($activity->user->name ?? '') . ' Logged In ' . $logInTime->diffForHumans() }}
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    @endif
-                                @endforeach
-
-                            @endif
-                        </div>
-                        <div class="col d-flex justify-content-end">
-                            @if (isset($userLogActivities) && count($userLogActivities) >= 0)
-                                {{ $userLogActivities->links() }}
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
