@@ -98,11 +98,10 @@
 </head>
 
 <body>
-    @include('layouts.partials.admin-header')
-    @include('layouts.partials.admin-sidebar')
+   
     <div class="page">
-
-
+        @include('layouts.partials.admin-header')
+        @include('layouts.partials.admin-sidebar')
         <div class="page-wrapper">
 
             @yield('content')
@@ -111,7 +110,7 @@
                 {{ $slot }}
             @endif
 
-            {{-- @include('layouts.partials.admin-footer') --}}
+
         </div>
     </div>
 
