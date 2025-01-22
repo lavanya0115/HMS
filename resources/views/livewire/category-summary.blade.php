@@ -1,7 +1,20 @@
 <div>
     <div class="page-body">
         <div class="container-xl">
-            @include('includes.alerts')
+            <div class="col-lg-12">
+                @include('includes.alerts')
+            </div>
+            <div class="row justify-content-end ">
+                <div class="col-md-3">
+                    <a title="import" data-bs-toggle="modal" data-bs-target="#importModal"
+                        class="btn btn-warning d-flex float-end">
+                        <span class="text-white" style="cursor: pointer;">
+                            @include('icons.file-import')
+                        </span>
+                        Import
+                    </a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-4">
                     @livewire('category-handler', ['categoryId' => $categoryId])
@@ -122,6 +135,7 @@
             </div>
         </div>
     </div>
+    @include('import.modal', ['title' => 'categories'])
 </div>
 @push('scripts')
     <script>
@@ -131,6 +145,46 @@
                     categoryId
                 });
             }
+        });
+    </script>
+    <script src="{{ asset('/libs/sheetjs/xlsx.full.min.js') }}"></script>
+
+    <script>
+        if (typeof require !== 'undefined') XLSX = require('xlsx');
+        jQuery(document).ready(function() {
+            Livewire.on('processData', () => {
+                const attachmentField = document.getElementById("file");
+                const file = attachmentField ? attachmentField.files[0] : [];
+                if (!file) {
+                    alert("Please select a file before importing.");
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const data = e.target.result;
+                    let workbook;
+                    try {
+                        workbook = XLSX.read(data, {
+                            type: "array",
+                            cellDates: true,
+                        });
+                    } catch (e) {
+                        alert(e);
+                        return false;
+                    }
+                    let workbookSheetName = workbook.SheetNames[0];
+                    let workSheet = workbook.Sheets[workbookSheetName];
+                    let readArgs = {
+                        defval: "",
+                        header: 1,
+                        blankrows: false,
+                    };
+                    let jsonData = XLSX.utils.sheet_to_json(workSheet, readArgs);
+                    console.log("Parsed JSON:", jsonData);
+                    @this.call('import', jsonData);
+                }
+                reader.readAsArrayBuffer(file);
+            });
         });
     </script>
 @endpush
