@@ -86,7 +86,7 @@
             background-size: cover;
             background-attachment: fixed;
             background-repeat: no-repeat;
-            transition: background 1.5s ease-in-out;    
+            transition: background 1.5s ease-in-out;
             font-family: 'Georgia', serif;
             color: #7a0505;
             /* opacity: 0.9; */
@@ -155,7 +155,7 @@
             -webkit-text-fill-color: transparent;
             animation: gradientMove 5s infinite;
             /* animation: typing 5s steps(30, end),  1.5s step-end infinite; */
-            font-size: 3rem;
+            font-size: 2rem;
         }
 
         @keyframes gradientMove {
@@ -169,6 +169,48 @@
 
             100% {
                 background-position: 0% 50%;
+            }
+        }
+
+        .item-text {
+            animation: bounceIn 3.5s ease forwards;
+        }
+
+        .item-status {
+            animation: bounceIn 4.5s ease-out 3s forwards;
+        }
+
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounceOut {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(0.3);
+                opacity: 0;
             }
         }
 
@@ -232,120 +274,94 @@
             display: block;
         }
 
-        #borderimg {
-            border: 10px solid transparent;
-            padding: 15px;
-            border-image: url("public\theme\logo\corner-design1.png") 30 stretch;
-        }
-    </style>
+        @keyframes marquee {
+            from {
+                transform: translateX(100%);
+            }
 
-    {{-- <style>
-        body {
-            font-family: 'Georgia', serif;
-            margin: 0;
-            padding: 0;
-            background-color: #faf3e4;
-            color: #444;
-        }
-
-        .menu-card {
-            max-width: 1200px;
-            margin: 20px auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .menu-header {
-            background-color: #f7a94d;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            width: 100%;
-        }
-
-        .menu-header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-        }
-
-        .menu-section {
-            flex: 1;
-            padding: 20px;
-        }
-
-        .menu-section h2 {
-            text-align: center;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: #f7a94d;
-        }
-
-        .menu-section ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .menu-section ul li {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        .menu-footer {
-            background-color: #f7a94d;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            width: 100%;
-            font-size: 1rem;
-        }
-
-
-        @media (max-width: 768px) {
-            .menu-section {
-                flex: 1 1 100%;
+            to {
+                transform: translateX(-100%);
             }
         }
-    </style> --}}
+
+        footer {
+            background: linear-gradient(rgba(225, 248, 212, 0.9), rgba(255, 228, 141, 0.8));
+            color: #033b08e0;
+            text-align: center;
+            padding: 10px;
+        }
+
+        footer span {
+            font-size: 1.2rem;
+        }
+
+        footer .order-image {
+            max-width: 5%;
+            vertical-align: middle;
+        }
+    </style>
     @livewireStyles
     @stack('styles')
 </head>
 
 <body>
-    <div class="page">
-        <div class="page-wrapper">
+    @php
+        use App\Models\Category;
+        $day = now()->format('l');
+        $slogan = Category::where('is_active', 1)
+            ->where('type', 'slogan')
+            ->where('day', lcfirst($day))
+            ->pluck('title')
+            ->first();
+    @endphp
+    {{-- <div class="container-xxl"> --}}
 
-            @yield('content')
+    <div class="page" style="height: 100vh; overflow: hidden;">
+        <div class="page-wrapper" style="height: 100%; display: flex; flex-direction: column;">
+            <div class="row g-0" style="height: 100%;">
+                <div class="col-md-9" style="height: 100%; overflow-y: auto; position: relative;">
 
-            @if (isset($slot))
-                {{ $slot }}
-            @endif
+                    <div class="text-center">
+                        <img src="{{ asset('designs/Header_design.png') }}" alt="Decorative Border" class="border-image"
+                            style="max-width: 30%; height: auto;">
+                    </div>
+                    <h3 class="animated-text text-center">{{ $slogan }}</h3>
+                    <div class="text-center">
+                        <img src="{{ asset('designs/Header_design-02.png') }}" alt="Decorative Border"
+                            class="border-image" style="max-width: 30%; height: auto;">
+                    </div>
+                    <div>
+                        @yield('content')
+                        @if (isset($slot))
+                            {{ $slot }}
+                        @endif
+                    </div>
+                </div>
 
+                <!-- Right Section (Video) -->
+                <div class="col-md-3 border" style=" position: relative; height: 100%; display: flex;">
+                    <video class="video-section" autoplay muted loop playsinline
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                        <source src="{{ asset('videos/VID1.mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+            </div>
+            <footer>
+                <div style="overflow: hidden; white-space: nowrap;">
+                    <span style="display: inline-block; animation: marquee 18s linear infinite; font-size: 1.2rem;">
+                        Fresh, fast, and flavorful <img src="{{ asset('theme/images/hurryup2.png') }}" alt="order"
+                            class="order-image"> place your order today!
+                    </span>
+                </div>
+            </footer>
         </div>
-        {{-- @include('layouts.partials.admin-footer') --}}
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-    <script src="{{ asset('theme/js/tabler.min.js') }}" defer></script>
-    <script src="{{ asset('theme/js/demo.js') }}" defer></script>
-    <script src="{{ asset('theme/js/demo-theme.min.js') }}"></script>
     @stack('modals')
     @livewireScripts
     @stack('scripts')
-    <script>
-        jQuery(document).ready(function() {
-            jQuery('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
-
-
 </body>
+
 
 </html>

@@ -4,7 +4,17 @@
             <div class="col-lg-12">
                 @include('includes.alerts')
             </div>
-
+            <div class="row justify-content-end ">
+                <div class="col-md-3">
+                    <a title="import" data-bs-toggle="modal" data-bs-target="#importModal"
+                        class="btn btn-warning d-flex float-end">
+                        <span class="text-white" style="cursor: pointer;">
+                            @include('icons.file-import')
+                        </span>
+                        Import
+                    </a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-4">
                     @livewire('menu-handler', ['menuId' => $menuId])
@@ -88,7 +98,10 @@
                                                             'bg-success' => $menu->is_available,
                                                             'bg-danger' => !$menu->is_available,
                                                         ])></span>
-                                                        <div class="text-capitalize">{{ $menu->name }}</div>
+                                                        <div class="text-capitalize">
+                                                            {{ $menu->name }} {{ $menu->kannada_name ?? '' }}</div>
+
+
                                                     </div>
                                                     @if (!$menu->is_available)
                                                         <small>{{ $menu->custom_status ?? 'Not Available' }}</small>
@@ -127,7 +140,7 @@
                                         @endforeach
                                     @endif
                                     @if (isset($menuItems) && count($menuItems) == 0)
-                                        @livewire('not-found-record-row', ['colspan' => 6])
+                                        @livewire('not-found-record-row', ['colspan' => 10])
                                     @endif
                                 </tbody>
                             </table>
@@ -228,6 +241,36 @@
             </div>
         </div>
     </div>
+
+    {{-- Import Modal --}}
+    <div wire:ignore.self class="modal modal-blur fade" id="importModal" role="dialog" aria-hidden="true"
+        data-bs-backdrop='static' tabindex="-1" aria-labelledby="staticModalLabel">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">Menus</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <p class="card-text">
+                                Import Menus from an Excel file. Download the sample file
+                                <a href="{{ asset('assets/menus.xlsx') }}" target="_blank" download>here</a>.
+                            </p>
+                            <div>
+                                <input type="file" name ="file1" id="file" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button wire:click="$dispatch('processData')" type="button"
+                            class="btn btn-primary">Import</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @push('scripts')
     <script>
@@ -242,6 +285,46 @@
             if (confirm('Are you sure you want to delete these MenuItems ?')) {
                 Livewire.dispatch('deleteSelected');
             }
+        });
+    </script>
+    <script src="{{ asset('/libs/sheetjs/xlsx.full.min.js') }}"></script>
+
+    <script>
+        if (typeof require !== 'undefined') XLSX = require('xlsx');
+        jQuery(document).ready(function() {
+            Livewire.on('processData', () => {
+                const attachmentField = document.getElementById("file");
+                const file = attachmentField ? attachmentField.files[0] : [];
+                if (!file) {
+                    alert("Please select a file before importing.");
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const data = e.target.result;
+                    let workbook;
+                    try {
+                        workbook = XLSX.read(data, {
+                            type: "array",
+                            cellDates: true,
+                        });
+                    } catch (e) {
+                        alert(e);
+                        return false;
+                    }
+                    let workbookSheetName = workbook.SheetNames[0];
+                    let workSheet = workbook.Sheets[workbookSheetName];
+                    let readArgs = {
+                        defval: "",
+                        header: 1,
+                        blankrows: false,
+                    };
+                    let jsonData = XLSX.utils.sheet_to_json(workSheet, readArgs);
+                    console.log("Parsed JSON:", jsonData);
+                    @this.call('import', jsonData);
+                }
+                reader.readAsArrayBuffer(file);
+            });
         });
     </script>
 @endpush

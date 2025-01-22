@@ -12,6 +12,7 @@ class MenuHandler extends Component
     public $categories;
     public $menu = [
         'name' => '',
+        'kannada_name' => '',
         'category_id' => '',
         'qty' => '',
         'unit_type' => '',
@@ -23,9 +24,11 @@ class MenuHandler extends Component
         'tax_amount' => '',
         'mrp' => '',
     ];
+    public $unitTypes;
 
     protected $rules = [
         'menu.name' => 'required|string',
+        'menu.kannada_name' => 'required|string',
         'menu.category_id' => 'required',
         'menu.qty' => 'required',
         'menu.price' => 'required',
@@ -33,6 +36,7 @@ class MenuHandler extends Component
 
     protected $messages = [
         'menu.name.required' => 'The menu name field is required.',
+        'menu.kannada_name.required' => 'This field is required.',
         'menu.category.required' => 'The menu category filed is required.',
         'menu.qty.required' => 'The number of item field is required.',
         'menu.price.required' => 'The price field is required.',
@@ -51,7 +55,7 @@ class MenuHandler extends Component
     }
     public function mount($menuId)
     {
-        $this->categories = Category::get();
+        $this->categories = Category::whereNotIn('type', ['unit_type','slogan'])->get();
         if ($menuId) {
             $menu = MenuItem::find($menuId);
             // dd($menu);
@@ -62,6 +66,7 @@ class MenuHandler extends Component
                 return redirect()->back()->with('warning', 'menu not found');
             }
         }
+        $this->unitTypes = Category::where('type', 'unit_type')->get();
     }
 
     public function create()

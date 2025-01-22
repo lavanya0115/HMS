@@ -9,29 +9,36 @@ class CategoryHandler extends Component
 {
     public $categoryId = null;
     public $categoryType = null;
-
+    public $types;
     public $category = [
         'title',
+        'type',
+        'show_time_from',
+        'show_time_to',
         'description',
         'is_active' => true,
     ];
 
     protected $rules = [
         'category.title' => 'required|string',
+        'category.type' => 'required|string',
     ];
 
     protected $messages = [
         'category.title.required' => 'Name is required',
+        'category.type.required' => 'Name is required',
     ];
 
     public function mount($categoryId = null)
     {
         $this->categoryId = $categoryId;
+        $this->types = Category::whereNotNull('type')->pluck('type', 'id');
         if ($this->categoryId) {
             // $this->authorize('Update Category');
             $category = Category::find($this->categoryId);
             $this->category = $category ? $category->toArray() : [];
             $this->category['is_active'] = $category->is_active ? true : false;
+            $this->category['type'] = $category->type;
         }
     }
     public function create()

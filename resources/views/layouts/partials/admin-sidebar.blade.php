@@ -157,5 +157,9 @@
                 </ul>
             </div>
         </div>
+
+        @include('layouts.partials.admin-footer')
+
     </div>
+
 </aside>

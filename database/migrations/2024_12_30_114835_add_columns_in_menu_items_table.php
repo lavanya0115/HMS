@@ -15,6 +15,9 @@ return new class extends Migration
             if (!Schema::hasColumn('menu_items', 'unit_type')) {
                 $table->string('unit_type')->nullable()->after('nos');
             }
+            if (!Schema::hasColumn('menu_items', 'kannada_name')) {
+                $table->string('kannada_name')->nullable()->after('name');
+            }
             if (!Schema::hasColumn('menu_items', 'tax')) {
                 $table->string('tax')->nullable()->after('price');
             }

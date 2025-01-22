@@ -21,6 +21,7 @@ class Category extends Model
 
     protected $fillable = [
         'type',
+        'day',
         'title',
         'description',
         'is_active',
@@ -30,6 +31,9 @@ class Category extends Model
         'updated_by',
         'deleted_by',
         '_meta',
+        'show_time_from',
+        'show_time_to',
+
     ];
 
     protected $logAttributes = [

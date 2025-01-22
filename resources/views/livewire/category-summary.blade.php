@@ -19,6 +19,9 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Show Time From</th>
+                                        <th>Show Time To</th>
                                         <th>Description</th>
                                         <th>Status</th>
                                         <th class="w-1"></th>
@@ -34,6 +37,17 @@
 
                                                 <td>
                                                     <div class="text-capitalize">{{ $category->title }}</div>
+                                                </td>
+                                                <td>
+                                                    <div class="text-capitalize">{{ $category->type }}</div>
+                                                </td>
+                                                <td>
+                                                    <div class="text-capitalize">{{ $category->show_time_from ?? '--' }}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="text-capitalize">{{ $category->show_time_to ?? '--' }}
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <div class="text-capitalize">{{ $category->description ?? '--' }}
@@ -71,7 +85,7 @@
                                         @endforeach
                                     @endif
                                     @if (isset($categories) && count($categories) == 0)
-                                        @livewire('not-found-record-row', ['colspan' => 6])
+                                        @livewire('not-found-record-row', ['colspan' => 8])
                                     @endif
                                 </tbody>
                             </table>

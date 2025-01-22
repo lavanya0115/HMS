@@ -3,10 +3,11 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Models\Category;
 use App\Models\MenuItem;
+use Illuminate\Http\Request;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
-use Illuminate\Http\Request;
 
 class MenuSummary extends Component
 {
@@ -74,12 +75,13 @@ class MenuSummary extends Component
 
     public function updateStatus()
     {
+        // dd($this->menu);
         $menuItems = MenuItem::whereIn('id', $this->selectedItems)->get();
         if ($menuItems) {
             foreach ($menuItems as $item) {
                 $item->update([
-                    'is_available' => $this->menu['is_available'],
-                    'custom_status' => $this->menu['custom_status'],
+                    'is_available' => $this->menu['is_available'] ?? 0,
+                    'custom_status' => $this->menu['custom_status'] ?? null,
                 ]);
                 $isUpdated = $item->wasChanged('is_available', 'custom_status');
             }
@@ -141,5 +143,122 @@ class MenuSummary extends Component
                 return;
             }
         }
+    }
+
+    public function import($data)
+    {
+        $authId = getAuthData()->id;
+        $updatedCount = 0;
+        $insertedCount = 0;
+
+        $headings = $data[0];
+        $rows = array_slice($data, 1);
+        foreach ($rows as $row) {
+            $menuData = array_combine($headings, $row);
+
+
+            // $menu = MenuItem::where('name', 'like', '%' . $menuData['Item Name (En)'] . '%')
+            //     ->first();
+            $category = Category::where('title', $menuData['Category Title'])->where('type', $menuData['Category Type'])->first();
+            $unitTypeExists = Category::where('type', 'unit_type')->where('title', $menuData['Unit Type'])->exists();
+
+            if (!$unitTypeExists) {
+                $unitType = Category::create([
+                    'title' => $menuData['Unit Type'],
+                    'type' => 'unit_type',
+                    'is_active' => 1,
+                    'created_by' => $authId,
+                    'updated_by' => $authId,
+                ]);
+            }
+
+            if (!$category) {
+                $category = Category::create([
+                    'title' => $menuData['Category Title'],
+                    'type' => lcfirst($menuData['Category Type']),
+                    'is_active' => 1,
+                    'created_by' => $authId,
+                    'updated_by' => $authId,
+                ]);
+            }
+
+
+            $menuExists = MenuItem::where('name', 'like', '%' . $menuData['Item Name (En)'] . '%')
+                ->where('category_id', $category->id)
+                ->first();
+            if (!empty($menuData['Tax %'])) {
+                $taxRate = $menuData['Tax %'] / 100;
+                $menuData['tax_amount'] = $taxRate;
+                $price = $menuData['Basic Price'];
+                $total = $price + ($price * $taxRate);
+                $menuData['mrp'] = round($total);
+            }
+            if ($menuExists) {
+                $menuExists->update([
+                    'name'         => $menuData['Item Name (En)'],
+                    'kannada_name' => $menuData['Item Name (Ka)'],
+                    'category_id'  => $category->id,
+                    'qty' => $menuData['Qty'],
+                    'unit_type' => $menuData['Unit Type'],
+                    'price' => $menuData['Basic Price'],
+                    'tax' => $menuData['Tax %'],
+                    'tax_amount' =>  $menuData['tax_amount'],
+                    'mrp' => $menuData['mrp'],
+                    'is_available' => 1,
+                    'description' => $menuData['Description'],
+                    // 'custom_status' => $menu->custom_status,
+                    'updated_by'       => $authId,
+                ]);
+                $isUpdated = $menuExists->wasChanged([
+                    'name',
+                    'kannada_name',
+                    'category_id',
+                    'qty',
+                    'unit_type',
+                    'price',
+                    'tax',
+                    'tax_amount',
+                    'mrp',
+                    'is_available',
+                    'custom_status',
+                    'updated_by',
+                ]);
+                if ($isUpdated) {
+                    $updatedCount++;
+                }
+            } else {
+                $menu = MenuItem::create([
+                    'name'         => $menuData['Item Name (En)'],
+                    'kannada_name' => $menuData['Item Name (Ka)'],
+                    'category_id'  => $category->id,
+                    'qty' => $menuData['Qty'],
+                    'unit_type' =>  $menuData['Unit Type'],
+                    'price' => $menuData['Basic Price'],
+                    'tax' => $menuData['Tax %'],
+                    'tax_amount' =>  $menuData['tax_amount'],
+                    'mrp' => $menuData['mrp'],
+                    'is_available' => 1,
+                    'description' => $menuData['Description'],
+                    // 'custom_status' => $menu->custom_status,
+                    'updated_by'       => $authId,
+                    'created_by'       => $authId,
+                ]);
+                // dd($menu);
+                if ($menu) {
+                    $insertedCount++;
+                }
+            }
+        }
+
+        $messages = [];
+        if ($insertedCount > 0) {
+            $messages[] = "$insertedCount menus inserted.";
+        }
+        if ($updatedCount > 0) {
+            $messages[] = "$updatedCount menus updated.";
+        }
+
+        session()->flash('success', implode(' ', $messages) ?: 'No changes made.');
+        return redirect()->route('menu.items.list');
     }
 }
