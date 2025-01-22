@@ -89,8 +89,8 @@ class CategoryHandler extends Component
                 if ($isCategoryUpdated) {
                     return redirect(route('category',))->with('success', 'Category updated successfully!.');
                 }
-                session()->flash('info', 'Do Some Changes to be Updated');
-                return;
+                return session()->flash('info', 'Do Some Changes to be Updated');
+                
             }
             session()->flash('error', 'Error while creating category');
             return;
