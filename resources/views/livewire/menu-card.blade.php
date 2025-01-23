@@ -1,16 +1,38 @@
+@push('styles')
+    <style>
+        .title {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .menu-design-before,
+        .menu-design-after {
+            width: 20px;
+            height: 20px;
+            /* Adjust height of the images */
+            margin: 0 5px;
+            /* Add spacing around the images */
+        }
+    </style>
+@endpush
 <div>
     <div class="container">
         <div class="row" wire:poll.3s>
             @foreach ($menuItems as $lable => $items)
                 <div class="ms-3 col-md-5">
                     <div class="menu-section">
-                        <div class="menu-title">{{ $lable }}</div>
+                        {{-- <div class="title"> --}}
+                            {{-- <img src="{{ asset('designs/lable.png') }}" class="menu-design-before"> --}}
+                            <div class="menu-title">{{ $lable }}</div>
+                            {{-- <img src="{{ asset('designs/Star_Header-02.png') }}" class="menu-design-after"> --}}
+                        {{-- </div> --}}
                         <ul class="menu-list">
                             @foreach ($items as $item)
                                 @if ($item->is_available)
                                     <li class="menu-item">
                                         <span
-                                            class="menu-item-name fw-bold">{{ $item->name }}{{ ' - ' . $item->kannada_name }}</span>
+                                            class="menu-item-name ">{{ $item->name }}{{ ' - ' . $item->kannada_name }}</span>
                                         {{-- <span class="menu-item-name fw-bold"></span> --}}
                                         <span class="menu-item-price">{{ '₹ ' . $item->price }}</span>
                                     </li>
@@ -30,48 +52,13 @@
         </div>
     </div>
 </div>
-{{-- @push('scripts')
-    <script>
-        document.addEventListener('livewire:initialized', function() {
-            const items = @json($items);
-
-            items.forEach(item => {
-                const textName = document.getElementById(`text-name-${item.id}`);
-                const textStatus = document.getElementById(`text-status-${item.id}`);
-
-                if (textName && textStatus) {
-                    function toggleText() {
-                        if (textName.style.display !== 'none') {
-
-                            textName.classList.add('fade-out');
-                            textName.addEventListener('animationend', () => {
-                                textName.style.display = 'none';
-                                textName.classList.remove('fade-out');
-                                textStatus.style.display = 'inline';
-                                textStatus.classList.add('fade-in');
-                            }, {
-                                once: true
-                            });
-                        } else {
-
-                            textStatus.classList.add('fade-out');
-                            textStatus.addEventListener('animationend', () => {
-                                textStatus.style.display = 'none';
-                                textStatus.classList.remove('fade-out');
-                                textName.style.display = 'inline';
-                                textName.classList.add('fade-in');
-                            }, {
-                                once: true
-                            });
-                        }
-                    }
-
-                    textName.style.display = 'inline';
-                    textStatus.style.display = 'none';
-
-                    setInterval(toggleText, 4000);
-                }
-            });
-        });
-    </script>
-@endpush --}}
+@push('scripts')
+    @if (Route::currentRouteName() === 'menu.card')
+        <!-- Only for the menu card page -->
+        <script>
+            setTimeout(function() {
+                location.reload(); // Reload the page after 15 minutes (900,000 ms)
+            }, 15 * 60 * 1000); // 15 minutes
+        </script>
+    @endif
+@endpush
