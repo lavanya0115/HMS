@@ -2,9 +2,10 @@
     <div class="container">
         <div class="row" wire:poll.3s>
             @foreach ($menuItems as $lable => $items)
-                <div class="ms-3 col-md-5">
+                <div class="col-md-5">
                     <div class="menu-section">
                         <div class="menu-title">{{ $lable }}</div>
+                        {{-- <div class="menu-title">{{ $lable }}</div> --}}
                         <ul class="menu-list">
                             @foreach ($items as $item)
                                 @if ($item->is_available)
@@ -15,10 +16,10 @@
                                         <span class="menu-item-price">{{ '₹ ' . $item->price }}</span>
                                     </li>
                                 @else
-                                    <li class="menu-item text-muted">
-                                        <small class="fw-bold text-danger item-text"
+                                    <li class="menu-item not-available-menus text-muted">
+                                        <small class="fw-bold text-danger animate__animated animate__fadeIn"
                                             id="text-name-{{ $item->id }}">{{ $item->name }}</small>
-                                        <small class="fw-bold text-danger item-status "
+                                        <small class="fw-bold text-danger animate__animated animate__flash d-none"
                                             id="text-status-{{ $item->id }}">{{ $item->custom_status }}</small>
                                     </li>
                                 @endif
@@ -30,48 +31,31 @@
         </div>
     </div>
 </div>
-{{-- @push('scripts')
+@push('scripts')
     <script>
-        document.addEventListener('livewire:initialized', function() {
-            const items = @json($items);
+        document.addEventListener('DOMContentLoaded', () => {
+            const items = document.querySelectorAll('.not-available-menus');
+            console.log(items);
 
             items.forEach(item => {
-                const textName = document.getElementById(`text-name-${item.id}`);
-                const textStatus = document.getElementById(`text-status-${item.id}`);
+                const name = item.querySelector('[id^="text-name-"]');
+                const status = item.querySelector('[id^="text-status-"]');
+                console.log(name, status);
 
-                if (textName && textStatus) {
-                    function toggleText() {
-                        if (textName.style.display !== 'none') {
+                name.addEventListener('animationend', () => {
+                    name.classList.add('d-none');
+                    status.classList.remove('d-none');
+                    status.classList.add('animate__animated animate__flash');
 
-                            textName.classList.add('fade-out');
-                            textName.addEventListener('animationend', () => {
-                                textName.style.display = 'none';
-                                textName.classList.remove('fade-out');
-                                textStatus.style.display = 'inline';
-                                textStatus.classList.add('fade-in');
-                            }, {
-                                once: true
-                            });
-                        } else {
+                });
 
-                            textStatus.classList.add('fade-out');
-                            textStatus.addEventListener('animationend', () => {
-                                textStatus.style.display = 'none';
-                                textStatus.classList.remove('fade-out');
-                                textName.style.display = 'inline';
-                                textName.classList.add('fade-in');
-                            }, {
-                                once: true
-                            });
-                        }
-                    }
+                status.addEventListener('animationend', () => {
+                    status.classList.add('d-none');
+                    name.classList.remove('d-none');
+                    name.classList.add('animate__animated animate__flash');
 
-                    textName.style.display = 'inline';
-                    textStatus.style.display = 'none';
-
-                    setInterval(toggleText, 4000);
-                }
+                });
             });
         });
     </script>
-@endpush --}}
+@endpush
