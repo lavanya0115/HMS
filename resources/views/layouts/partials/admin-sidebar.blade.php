@@ -9,6 +9,7 @@
         'seminars',
         'menu.items.create',
         'menu.items.list',
+        'video',
     ]);
 @endphp
 
