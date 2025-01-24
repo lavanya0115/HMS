@@ -156,8 +156,9 @@
                                     <div class="form-check form-switch">
                                         <label class="form-check-label ">
                                             Is Available
-                                            <input class="form-check-input " type="checkbox"
-                                                wire:model.live="menu.is_available">
+                                            <input class="form-check-input " id="is_available" type="checkbox"
+                                                wire:model.live="menu.is_available"
+                                                wire:click="$dispatch('initializeTomSelect')">
                                         </label>
                                     </div>
                                     @error('menu.is_available')
@@ -167,13 +168,20 @@
                             </div>
                             @if (!$menu['is_available'])
                                 <div class="col-md-12">
-                                    <div class="mb-1">
+                                    <div wire:ignore class="mb-1">
                                         <label class="form-label required">Custom Status</label>
-                                        <input type="text" @class([
-                                            'form-control',
+                                        <select id="cus_status" @class([
+                                            'form-select',
                                             'is-invalid' => $errors->has('menu.custom_status') ? true : false,
-                                        ]) placeholder="Enter Status"
-                                            wire:model="menu.custom_status">
+                                        ])
+                                            placeholder="add or choose status" wire:model="menu.custom_status">
+                                            <option value="">add or choose status</option>
+                                            @if (!empty($customStatus))
+                                                @foreach ($customStatus as $status)
+                                                    <option value="{{ $status->title }}">{{ $status->title }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
                                         @error('menu.custom_status')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -212,6 +220,18 @@
                 create: true,
                 createOnBlur: true,
             });
+
+            Livewire.on('initializeTomSelect', function() {
+                const initializeTom = () => {
+                    const cusStatusElement = document.querySelector('#cus_status');
+                    tomSelectInstance = new TomSelect(cusStatusElement, {
+                        plugins: ['dropdown_input', 'remove_button'],
+                        create: true,
+                        createOnBlur: true,
+                    });
+                };
+            })
+
         });
     </script>
 @endpush

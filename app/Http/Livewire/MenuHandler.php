@@ -55,7 +55,7 @@ class MenuHandler extends Component
     }
     public function mount($menuId)
     {
-        $this->categories = Category::whereNotIn('type', ['unit_type','slogan'])->get();
+        $this->categories = Category::whereNotIn('type', ['unit_type', 'slogan'])->get();
         if ($menuId) {
             $menu = MenuItem::find($menuId);
             // dd($menu);
@@ -66,24 +66,35 @@ class MenuHandler extends Component
                 return redirect()->back()->with('warning', 'menu not found');
             }
         }
-        $this->unitTypes = Category::where('type', 'unit_type')->get();
     }
 
     public function create()
     {
         $this->validate();
-
+        $authorId = auth()?->user()?->id ?? null;
         if ($this->menu['is_available']  == false && empty($this->menu['custom_status'])) {
             return $this->addError('menu.custom_status', 'The custom status field is required.');
         }
         $menuExists = MenuItem::where('name', $this->menu['name'])
             ->where('category_id', $this->menu['category_id'])->first();
 
+        $unitTypeExists = Category::where('type', 'unit_type')->where('title', 'like', '%' . $this->menu['unit_type'] . '%')->exists();
+
+        if (!$unitTypeExists) {
+            $unitType = Category::create([
+                'title' => $this->menu['unit_type'],
+                'type' => 'unit_type',
+                'is_active' => 1,
+                'created_by' =>  $authorId,
+                'updated_by' =>  $authorId,
+            ]);
+        }
+
         if ($menuExists) {
             $this->addError('menu.name', 'menu already exists.');
             return;
         }
-        $authorId = auth()->user()->id;
+
         $this->menu['created_by'] = $authorId;
         $this->menu['updated_by'] = $authorId;
         try {
@@ -103,7 +114,7 @@ class MenuHandler extends Component
     public function update()
     {
         $this->validate();
-
+        $authorId = auth()->user()->id;
         if ($this->menu['is_available'] == false && empty($this->menu['custom_status'])) {
             return $this->addError('menu.custom_status', 'The custom status field is required.');
         }
@@ -114,12 +125,19 @@ class MenuHandler extends Component
             $this->addError('menu.name', 'menu Name already exists.');
             return;
         }
+        $unitTypeExists = Category::where('type', 'unit_type')->where('title', 'like', '%' . $this->menu['unit_type'] . '%')->exists();
 
+        if (!$unitTypeExists) {
+            $unitType = Category::create([
+                'title' => $this->menu['unit_type'],
+                'type' => 'unit_type',
+                'is_active' => 1,
+                'created_by' =>  $authorId,
+                'updated_by' =>  $authorId,
+            ]);
+        }
 
-        $authorId = auth()->user()->id;
         $this->menu['updated_by'] = $authorId;
-
-
 
         try {
             $menu = MenuItem::find($this->menu['id']);
@@ -141,6 +159,7 @@ class MenuHandler extends Component
     }
     public function render()
     {
+        $this->unitTypes = Category::where('type', 'unit_type')->get();
         return view('livewire.menu-handler')->layout('layouts.admin');;
     }
 }
