@@ -19,14 +19,15 @@ class MenuCard extends Component
         } else {
             $currentCategory = 'Dinner';
         }
+        // dd($currentCategory, $currentHour);
 
 
         $menuItems = MenuItem::with('category')
             ->whereHas('category', function ($query) use ($currentCategory) {
 
                 $query
-                // ->whereIn('type', ['menu', 'starters', 'drinks'])
-                    // ->where('title', $currentCategory)
+                ->whereIn('type', ['menu', 'starters', 'drinks'])
+                    ->where('title', $currentCategory)
                     ->where('show_time_from', '>=', now())
                     ->orWhere('show_time_to', '<=', now());
             })
