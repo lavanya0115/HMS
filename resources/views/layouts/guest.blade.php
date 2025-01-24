@@ -255,7 +255,7 @@
             justify-content: space-between;
             padding: 10px 0;
             border-bottom: 1px solid #ddd;
-            font-size: 1.1rem;
+            font-size: 1.0rem;
         }
 
         .menu-item:last-child {
