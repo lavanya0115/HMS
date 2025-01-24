@@ -1,8 +1,7 @@
 <div>
     <h4>New</h4>
     <div class="card">
-        {{-- <form wire:submit.prevent=>
-            @csrf  --}}
+        
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-12">
@@ -34,6 +33,6 @@
             <a href={{ route('video') }} class="text-danger me-2 text-decoration-none"> Cancel </a>
             <button wire:click.prevent="create" class="btn btn-primary ">Upload</button>
         </div>
-        {{-- </form> --}}
+    
     </div>
 </div>
