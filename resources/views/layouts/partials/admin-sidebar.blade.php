@@ -115,6 +115,15 @@
                                             Categories
                                         </span>
                                     </a>
+                                    <a class="dropdown-item {{ in_array($currentRouteName, ['video']) ? 'active' : '' }}"
+                                        href="{{ route('video') }}">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            @include('icons.video')
+                                        </span>
+                                        <span class="nav-link-title">
+                                            Videos
+                                        </span>
+                                    </a>
 
 
                                     {{-- <a class="dropdown-item {{ $currentRouteName == 'products' ? 'active' : '' }}"

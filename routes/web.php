@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Livewire\FindProducts;
 use App\Http\Livewire\StallHandler;
 use App\Http\Livewire\StallSummary;
+use App\Http\Livewire\VideoHandler;
+use App\Http\Livewire\VideoSummary;
 use Illuminate\Support\Facades\Log;
 use App\Http\Livewire\EditExhibitor;
 use App\Http\Livewire\EventsHandler;
@@ -124,6 +126,7 @@ Route::middleware([
     Route::get('/menu/items/create/{menuId?}', MenuHandler::class)->name('menu.items.create');
     Route::get('/menu/items/list', MenuSummary::class)->name('menu.items.list');
     Route::get('/category', CategorySummary::class)->name('category');
+    Route::get('/video', VideoSummary::class)->name('video');
     Route::get('menu/card', MenuCard::class)->name('menu.card');
 });
 
