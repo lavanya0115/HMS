@@ -32,6 +32,7 @@ class MenuHandler extends Component
         'menu.category_id' => 'required',
         'menu.qty' => 'required',
         'menu.price' => 'required',
+        'menu.custom_status' => 'required_if:menu.is_available,false',
     ];
 
     protected $messages = [
@@ -40,6 +41,7 @@ class MenuHandler extends Component
         'menu.category.required' => 'The menu category filed is required.',
         'menu.qty.required' => 'The number of item field is required.',
         'menu.price.required' => 'The price field is required.',
+        'menu.custom_status.required_if' => 'This field is required.',
     ];
 
     public function updatedMenuTax($value)
@@ -89,6 +91,17 @@ class MenuHandler extends Component
                 'updated_by' =>  $authorId,
             ]);
         }
+        $customStatusExists = Category::where('type', 'custom_status')->where('title', 'like', '%' . $this->menu['custom_status'] . '%')->exists();
+
+        if (!$customStatusExists) {
+            $customStatus = Category::create([
+                'title' => $this->menu['custom_status'],
+                'type' => 'custom_status',
+                'is_active' => 1,
+                'created_by' =>  $authorId,
+                'updated_by' =>  $authorId,
+            ]);
+        }
 
         if ($menuExists) {
             $this->addError('menu.name', 'menu already exists.');
@@ -131,6 +144,18 @@ class MenuHandler extends Component
             $unitType = Category::create([
                 'title' => $this->menu['unit_type'],
                 'type' => 'unit_type',
+                'is_active' => 1,
+                'created_by' =>  $authorId,
+                'updated_by' =>  $authorId,
+            ]);
+        }
+
+        $customStatusExists = Category::where('type', 'custom_status')->where('title', 'like', '%' . $this->menu['custom_status'] . '%')->exists();
+
+        if (!$customStatusExists) {
+            $customStatus = Category::create([
+                'title' => $this->menu['custom_status'],
+                'type' => 'custom_status',
                 'is_active' => 1,
                 'created_by' =>  $authorId,
                 'updated_by' =>  $authorId,

@@ -166,10 +166,11 @@
                                     @enderror
                                 </div>
                             </div>
-                            @if (!$menu['is_available'])
+                            {{-- @if (!$menu['is_available']) --}}
                                 <div class="col-md-12">
+                                    
                                     <div wire:ignore class="mb-1">
-                                        <label class="form-label required">Custom Status</label>
+                                        <label class="form-label {{$menu['is_available'] ? '':'required'}}">Custom Status</label>
                                         <select id="cus_status" @class([
                                             'form-select',
                                             'is-invalid' => $errors->has('menu.custom_status') ? true : false,
@@ -182,12 +183,12 @@
                                                 @endforeach
                                             @endif
                                         </select>
-                                        @error('menu.custom_status')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
                                     </div>
                                 </div>
-                            @endif
+                                @error('menu.custom_status')
+                                    <span class="text text-danger" style="margin-top:-2% ">{{ $message }}</span>
+                                @enderror
+                            {{-- @endif --}}
                             <div class="col-md-12">
                                 <div class="mb-1">
                                     <label class="form-label ">Description</label>
@@ -220,17 +221,11 @@
                 create: true,
                 createOnBlur: true,
             });
-
-            Livewire.on('initializeTomSelect', function() {
-                const initializeTom = () => {
-                    const cusStatusElement = document.querySelector('#cus_status');
-                    tomSelectInstance = new TomSelect(cusStatusElement, {
-                        plugins: ['dropdown_input', 'remove_button'],
-                        create: true,
-                        createOnBlur: true,
-                    });
-                };
-            })
+            var cus_status = new TomSelect('#cus_status', {
+                plugins: ['dropdown_input', 'remove_button'],
+                create: true,
+                createOnBlur: true,
+            });
 
         });
     </script>

@@ -327,7 +327,7 @@
                         <!-- Logo Section -->
                         <div class="col-md-2 text-center">
                             <img src="{{ asset('images/logo.png') }}" alt="HMS" class="img-fluid"
-                                style="max-width: 100px; height: 100%;">
+                                style="max-width: 115px; height: 100%;">
                         </div>
                         <!-- Title Section -->
                         <div class="col-md-10 text-center">
