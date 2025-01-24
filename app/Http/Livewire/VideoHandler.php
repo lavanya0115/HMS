@@ -4,9 +4,11 @@ namespace App\Http\Livewire;
 
 use App\Models\Video;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class VideoHandler extends Component
 {
+    use WithFileUploads;
 
     public $videoId = null;
     public $video;
