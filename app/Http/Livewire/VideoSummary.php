@@ -34,6 +34,7 @@ class VideoSummary extends Component
         $video = Video::find($videoId);
         $video->update([
             'deleted_by' => getAuthData()->id,
+            'updated_by' => getAuthData()->id,
         ]);
         if ($video) {
             $isDeleted = $video->delete();
