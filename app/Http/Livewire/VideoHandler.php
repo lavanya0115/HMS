@@ -58,7 +58,7 @@ class VideoHandler extends Component
                 'title' => $fileName,
                 'path' => $filePath,
                 'format' => $fileMimeType,
-                'size' => $fileSizeInMB . ' MB',
+                'size' => $fileSizeInMB,
                 'created_by' => $authId,
                 'updated_by' => $authId,
             ]);
