@@ -13,7 +13,7 @@
     <link href="{{ asset('/theme/css/tabler-vendors.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('/theme/css/demo.min.css') }}" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-{{-- Animate.css --}}
+    {{-- Animate.css --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
     {{-- <style>
@@ -310,12 +310,25 @@
 <body>
     @php
         use App\Models\Category;
+        use App\Models\Video;
         $day = now()->format('l');
         $slogan = Category::where('is_active', 1)
             ->where('type', 'slogan')
             ->where('day', lcfirst($day))
             ->pluck('title')
             ->first();
+
+        $videos = Video::select('title', 'path')->get();
+        // ->map(function ($video) {
+        //     $video->path = asset($video->path);
+        //     // dd( $video->path);
+        //     return $video;
+        // });
+        $videosPath = [];
+        foreach ($videos as $key => $video) {
+            $videosPath[$key] = asset($video->path);
+        }
+        // dd($videosPath);
     @endphp
     {{-- <div class="container-xxl"> --}}
 
@@ -355,11 +368,12 @@
 
                 <!-- Right Section (Video) -->
                 <div class="col-md-3 border" style=" position: relative; height: 100%; display: flex;">
-                    <video class="video-section" autoplay muted loop playsinline
+                    <video id="videoPlayer" class="video-section" autoplay muted playsinline
                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
-                        <source src="{{ asset('videos/VID1.mp4') }}" type="video/mp4">
+                        <source id="videoSource" src="" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
+
                 </div>
 
             </div>
@@ -370,8 +384,6 @@
                             class="order-image"> place your order today!
                         <span class="text fw-bold " style="color:#ff8c00">Contact: +91 99012 88017</span>
                     </div>
-
-
                 </div>
             </footer>
         </div>
@@ -379,6 +391,34 @@
     @stack('modals')
     @livewireScripts
     @stack('scripts')
+    <script>
+        document.addEventListener('livewire:initialized', function() {
+            const videos = @json($videosPath);
+            let currentVideoIndex = 0;
+            const videoPlayer = document.getElementById('videoPlayer');
+            const videoSource = document.getElementById('videoSource');
+
+            function playVideo(index) {
+                currentVideoIndex = index % videos.length;
+                console.log(currentVideoIndex);
+                const video = videos[currentVideoIndex];
+                if (video) {
+                    videoSource.src = video;
+                    videoPlayer.load();
+                    videoPlayer.play();
+
+                    videoPlayer.onended = () => {
+                        playVideo(currentVideoIndex + 1);
+                    };
+                }
+
+            }
+
+            // if (videos.length > 0) {
+            playVideo(currentVideoIndex);
+            // }
+        });
+    </script>
 </body>
 
 
