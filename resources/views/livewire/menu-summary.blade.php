@@ -88,7 +88,9 @@
                                                     {{ $index + $menuItems->firstItem() }}
                                                 </td>
                                                 <td>
-                                                    <div class="text-capitalize">{{ $menu?->category?->title }}</div>
+
+                                                    <div class="text-capitalize">{{ $menu?->category?->title ?? '--' }}
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
@@ -99,7 +101,7 @@
                                                             'bg-danger' => !$menu->is_available,
                                                         ])></span>
                                                         <div class="text-capitalize">
-                                                            {{ $menu->name }} {{ $menu->kannada_name ?? '' }}</div>
+                                                            {{ $menu->name }}</div>
 
 
                                                     </div>
@@ -242,7 +244,7 @@
         </div>
     </div>
 
-    @include('import.modal',['title'=>"menus"])
+    @include('import.modal', ['title' => 'menus'])
 </div>
 @push('scripts')
     <script>

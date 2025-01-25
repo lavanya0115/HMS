@@ -159,8 +159,8 @@ class MenuSummary extends Component
 
             // $menu = MenuItem::where('name', 'like', '%' . $menuData['Item Name (En)'] . '%')
             //     ->first();
-            $category = Category::where('title', $menuData['Category Title'])->where('type', $menuData['Category Type'])->first();
-            $unitTypeExists = Category::where('type', 'unit_type')->where('title', $menuData['Unit Type'])->exists();
+            $category = Category::where('title', 'like', '%' . $menuData['Category Title'] . '%')->where('type', 'like', '%' . $menuData['Category Type'] . '%')->first();
+            $unitTypeExists = Category::where('type', 'unit_type')->where('title', 'like', '%' . $menuData['Unit Type'] . '%')->exists();
 
             if (!$unitTypeExists) {
                 $unitType = Category::create([
@@ -193,6 +193,7 @@ class MenuSummary extends Component
                 $total = $price + ($price * $taxRate);
                 $menuData['mrp'] = round($total);
             }
+            // dd($menuExists);
             if ($menuExists) {
                 $menuExists->update([
                     'name'         => $menuData['Item Name (En)'],
