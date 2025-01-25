@@ -10,10 +10,9 @@
         .menu-design-after {
             width: 20px;
             height: 20px;
-            /* Adjust height of the images */
             margin: 0 5px;
-            /* Add spacing around the images */
         }
+
         #commingsoon {
             animation-iteration-count: infinite;
             /* animation-delay: 10s;     */
@@ -29,7 +28,7 @@
                     <div class="col-md-4">
                         <div class="menu-section">
                             <div class="menu-title">{{ $lable }}</div>
-                            {{-- <div class="menu-title">{{ $lable }}</div> --}}
+
                             <ul class="menu-list">
                                 @foreach ($items as $item)
                                     @if ($item->is_available)
@@ -89,10 +88,10 @@
         });
     </script>
     @if (Route::currentRouteName() === 'menu.card')
-    <!-- Only for the menu card page -->
-    <script>
-        setTimeout(function() {
-            location.reload(); // Reload the page after 15 minutes (900,000 ms)
-        }, 15 * 60 * 1000);
-        @endif
+        <script>
+            setTimeout(function() {
+                location.reload();
+            }, 15 * 60 * 1000);
+        </script>
+    @endif
 @endpush
