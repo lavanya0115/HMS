@@ -13,6 +13,9 @@
     <link href="{{ asset('/theme/css/tabler-vendors.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('/theme/css/demo.min.css') }}" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+{{-- Animate.css --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
     {{-- <style>
         body {
             background-color: #fdf2e9;
@@ -155,7 +158,7 @@
             -webkit-text-fill-color: transparent;
             animation: gradientMove 5s infinite;
             /* animation: typing 5s steps(30, end),  1.5s step-end infinite; */
-            font-size: 2rem;
+            font-size: 1.5rem;
         }
 
         @keyframes gradientMove {
@@ -252,7 +255,7 @@
             justify-content: space-between;
             padding: 10px 0;
             border-bottom: 1px solid #ddd;
-            font-size: 1.1rem;
+            font-size: 1.0rem;
         }
 
         .menu-item:last-child {
@@ -319,17 +322,28 @@
     <div class="page" style="height: 100vh; overflow: hidden;">
         <div class="page-wrapper" style="height: 100%; display: flex; flex-direction: column;">
             <div class="row g-0" style="height: 100%;">
-                <div class="col-md-9" style="height: 100%; overflow-y: auto; position: relative;">
+                <div class="col-md-9" style="height: 100%;">
+                    <div class="row align-items-center ">
+                        <!-- Logo Section -->
+                        <div class="col-md-2 text-center">
+                            <img src="{{ asset('images/logo.png') }}" alt="HMS" class="img-fluid"
+                                style="max-width: 120px; height: 100%;">
+                        </div>
+                        <!-- Title Section -->
+                        <div class="col-md-10 text-center">
+                            <div class="text-center">
+                                <img src="{{ asset('designs/Header_design.png') }}" alt="Decorative Border"
+                                    class="border-image" style="max-width: 20%; height: auto;">
+                            </div>
+                            <h3 class="animated-text">{{ $slogan }}</h3>
+                            <div class="text-center">
+                                <img src="{{ asset('designs/Header_design-02.png') }}" alt="Decorative Border"
+                                    class="border-image" style="max-width: 20%; height: auto;">
+                            </div>
+                        </div>
+                    </div>
 
-                    <div class="text-center">
-                        <img src="{{ asset('designs/Header_design.png') }}" alt="Decorative Border" class="border-image"
-                            style="max-width: 30%; height: auto;">
-                    </div>
-                    <h3 class="animated-text text-center">{{ $slogan }}</h3>
-                    <div class="text-center">
-                        <img src="{{ asset('designs/Header_design-02.png') }}" alt="Decorative Border"
-                            class="border-image" style="max-width: 30%; height: auto;">
-                    </div>
+                    <!-- Content Section -->
                     <div>
                         @yield('content')
                         @if (isset($slot))
@@ -337,6 +351,7 @@
                         @endif
                     </div>
                 </div>
+
 
                 <!-- Right Section (Video) -->
                 <div class="col-md-3 border" style=" position: relative; height: 100%; display: flex;">
@@ -350,10 +365,13 @@
             </div>
             <footer>
                 <div style="overflow: hidden; white-space: nowrap;">
-                    <span style="display: inline-block; animation: marquee 18s linear infinite; font-size: 1.2rem;">
+                    <div style="display: inline-block; animation: marquee 18s linear infinite; font-size: 1.2rem;">
                         Fresh, fast, and flavorful <img src="{{ asset('theme/images/hurryup2.png') }}" alt="order"
                             class="order-image"> place your order today!
-                    </span>
+                        <span class="text fw-bold " style="color:#ff8c00">Contact: +91 99012 88017</span>
+                    </div>
+
+
                 </div>
             </footer>
         </div>
