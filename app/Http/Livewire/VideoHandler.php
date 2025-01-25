@@ -26,19 +26,18 @@ class VideoHandler extends Component
     {
         $this->videoId = $videoId;
     }
-    public function updatedVideo()
-    {
-        dd($this->video);
-    }
+    // public function updatedVideo()
+    // {
+    //     dd($this->video);
+    // }
     public function create(Request $request)
     {
         $this->validate();
         $authId = getAuthData()->id;
 
         try {
-            dd($this->video,$request->file('video'));
 
-            $file = $request->file('vidoe');
+            $file = $this->video;
 
             $fileName = $file->getClientOriginalName();
             $fileExtension = $file->getClientOriginalExtension();
@@ -58,13 +57,13 @@ class VideoHandler extends Component
                 'title' => $fileName,
                 'path' => $filePath,
                 'format' => $fileMimeType,
-                'size' => $fileSizeInMB . ' MB',
+                'size' => $fileSizeInMB,
                 'created_by' => $authId,
                 'updated_by' => $authId,
             ]);
             if ($video) {
                 session()->flash('success', 'Video Uploaded successfully!.');
-                return redirect(route('category'));
+                return redirect(route('video'));
             }
             session()->flash('error', 'Error while uploading video');
             return;
@@ -78,12 +77,6 @@ class VideoHandler extends Component
     public function resetFields()
     {
         $this->videoId = null;
-        $this->category = [
-
-            'name' => null,
-            'description' => null,
-
-        ];
     }
     public function render()
     {

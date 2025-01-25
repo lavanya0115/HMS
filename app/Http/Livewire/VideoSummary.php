@@ -34,6 +34,7 @@ class VideoSummary extends Component
         $video = Video::find($videoId);
         $video->update([
             'deleted_by' => getAuthData()->id,
+            'updated_by' => getAuthData()->id,
         ]);
         if ($video) {
             $isDeleted = $video->delete();
@@ -55,6 +56,9 @@ class VideoSummary extends Component
 
     public function render()
     {
-        return view('livewire.video-summary')->layout('layouts.admin');
+        $videos = Video::orderBy('id', 'desc')->paginate($this->perPage);
+        return view('livewire.video-summary', [
+            'videos' => $videos,
+        ])->layout('layouts.admin');
     }
 }
