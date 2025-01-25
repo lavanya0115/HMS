@@ -235,10 +235,10 @@
         }
 
         .menu-title {
-            text-align: center;
-            font-size: 1.0rem;
+            text-align: left;
+            font-family: cursive;
+            font-size: large;
             font-weight: bold;
-            margin-bottom: 15px;
             color: #ff8c00;
             border-bottom: 2px solid #ff8c00;
             display: inline-block;

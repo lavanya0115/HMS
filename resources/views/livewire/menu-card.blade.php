@@ -1,5 +1,19 @@
 @push('styles')
     <style>
+        .title {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .menu-design-before,
+        .menu-design-after {
+            width: 20px;
+            height: 20px;
+            /* Adjust height of the images */
+            margin: 0 5px;
+            /* Add spacing around the images */
+        }
         #commingsoon {
             animation-iteration-count: infinite;
             /* animation-delay: 10s;     */
@@ -74,4 +88,11 @@
             });
         });
     </script>
+    @if (Route::currentRouteName() === 'menu.card')
+    <!-- Only for the menu card page -->
+    <script>
+        setTimeout(function() {
+            location.reload(); // Reload the page after 15 minutes (900,000 ms)
+        }, 15 * 60 * 1000);
+        @endif
 @endpush

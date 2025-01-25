@@ -9,6 +9,7 @@
         'seminars',
         'menu.items.create',
         'menu.items.list',
+        'video',
     ]);
 @endphp
 
@@ -113,6 +114,15 @@
                                         </span>
                                         <span class="nav-link-title">
                                             Categories
+                                        </span>
+                                    </a>
+                                    <a class="dropdown-item {{ in_array($currentRouteName, ['video']) ? 'active' : '' }}"
+                                        href="{{ route('video') }}">
+                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            @include('icons.video')
+                                        </span>
+                                        <span class="nav-link-title">
+                                            Videos
                                         </span>
                                     </a>
 
