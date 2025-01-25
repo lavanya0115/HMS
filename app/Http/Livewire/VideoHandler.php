@@ -36,9 +36,8 @@ class VideoHandler extends Component
         $authId = getAuthData()->id;
 
         try {
-            dd($this->video,$request->file('video'));
 
-            $file = $request->file('vidoe');
+            $file = $this->video;
 
             $fileName = $file->getClientOriginalName();
             $fileExtension = $file->getClientOriginalExtension();
@@ -64,7 +63,7 @@ class VideoHandler extends Component
             ]);
             if ($video) {
                 session()->flash('success', 'Video Uploaded successfully!.');
-                return redirect(route('category'));
+                return redirect(route('video'));
             }
             session()->flash('error', 'Error while uploading video');
             return;
@@ -78,12 +77,6 @@ class VideoHandler extends Component
     public function resetFields()
     {
         $this->videoId = null;
-        $this->category = [
-
-            'name' => null,
-            'description' => null,
-
-        ];
     }
     public function render()
     {
