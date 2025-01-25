@@ -54,16 +54,16 @@
                                         @endforeach
                                     @endif
                                     @if (isset($videos) && count($videos) == 0)
-                                        @livewire('not-found-record-row', ['colspan' => 5])
+                                        @livewire('not-found-record-row', ['colspan' => 4])
                                     @endif
                                 </tbody>
                             </table>
                         </div>
                         <div class="card-footer">
-                            <div class="row d-flex flex-row mb-3">
+                            <div class="row d-flex flex-row">
                                 @if (isset($videos) && count($videos) != 0)
                                     <div class="col">
-                                        <div class="d-flex flex-row mb-3">
+                                        <div class="d-flex flex-row ">
                                             <div>
                                                 <label class="p-2" for="perPage">Per Page</label>
                                             </div>
@@ -91,5 +91,15 @@
             </div>
         </div>
     </div>
-
 </div>
+@push('scripts')
+    <script>
+        Livewire.on('canDeletevideo', (videoId) => {
+            if (confirm('Are you sure you want to delete this video ?')) {
+                Livewire.dispatch('deleteVideo', {
+                    videoId
+                });
+            }
+        });
+    </script>
+@endpush

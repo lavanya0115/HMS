@@ -55,6 +55,9 @@ class VideoSummary extends Component
 
     public function render()
     {
-        return view('livewire.video-summary')->layout('layouts.admin');
+        $videos = Video::orderBy('id', 'desc')->paginate($this->perPage);
+        return view('livewire.video-summary', [
+            'videos' => $videos,
+        ])->layout('layouts.admin');
     }
 }
