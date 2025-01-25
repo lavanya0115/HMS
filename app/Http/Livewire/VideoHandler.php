@@ -26,10 +26,10 @@ class VideoHandler extends Component
     {
         $this->videoId = $videoId;
     }
-    public function updatedVideo()
-    {
-        dd($this->video);
-    }
+    // public function updatedVideo()
+    // {
+    //     dd($this->video);
+    // }
     public function create(Request $request)
     {
         $this->validate();
