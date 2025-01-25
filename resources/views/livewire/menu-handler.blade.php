@@ -156,8 +156,9 @@
                                     <div class="form-check form-switch">
                                         <label class="form-check-label ">
                                             Is Available
-                                            <input class="form-check-input " type="checkbox"
-                                                wire:model.live="menu.is_available">
+                                            <input class="form-check-input " id="is_available" type="checkbox"
+                                                wire:model.live="menu.is_available"
+                                                wire:click="$dispatch('initializeTomSelect')">
                                         </label>
                                     </div>
                                     @error('menu.is_available')
@@ -165,21 +166,29 @@
                                     @enderror
                                 </div>
                             </div>
-                            @if (!$menu['is_available'])
+                            {{-- @if (!$menu['is_available']) --}}
                                 <div class="col-md-12">
-                                    <div class="mb-1">
-                                        <label class="form-label required">Custom Status</label>
-                                        <input type="text" @class([
-                                            'form-control',
+                                    
+                                    <div wire:ignore class="mb-1">
+                                        <label class="form-label {{$menu['is_available'] ? '':'required'}}">Custom Status</label>
+                                        <select id="cus_status" @class([
+                                            'form-select',
                                             'is-invalid' => $errors->has('menu.custom_status') ? true : false,
-                                        ]) placeholder="Enter Status"
-                                            wire:model="menu.custom_status">
-                                        @error('menu.custom_status')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                        ])
+                                            placeholder="add or choose status" wire:model="menu.custom_status">
+                                            <option value="">add or choose status</option>
+                                            @if (!empty($customStatus))
+                                                @foreach ($customStatus as $status)
+                                                    <option value="{{ $status->title }}">{{ $status->title }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
                                     </div>
                                 </div>
-                            @endif
+                                @error('menu.custom_status')
+                                    <span class="text text-danger" style="margin-top:-2% ">{{ $message }}</span>
+                                @enderror
+                            {{-- @endif --}}
                             <div class="col-md-12">
                                 <div class="mb-1">
                                     <label class="form-label ">Description</label>
@@ -212,6 +221,12 @@
                 create: true,
                 createOnBlur: true,
             });
+            var cus_status = new TomSelect('#cus_status', {
+                plugins: ['dropdown_input', 'remove_button'],
+                create: true,
+                createOnBlur: true,
+            });
+
         });
     </script>
 @endpush

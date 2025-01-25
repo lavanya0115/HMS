@@ -10,55 +10,88 @@
         .menu-design-after {
             width: 20px;
             height: 20px;
-            /* Adjust height of the images */
             margin: 0 5px;
-            /* Add spacing around the images */
+        }
+
+        #commingsoon {
+            animation-iteration-count: infinite;
+            /* animation-delay: 10s;     */
+            animation-duration: 5s;
         }
     </style>
 @endpush
 <div>
     <div class="container">
         <div class="row" wire:poll.3s>
-            @foreach ($menuItems as $lable => $items)
-                <div class="ms-3 col-md-5">
-                    <div class="menu-section">
-                        {{-- <div class="title"> --}}
-                            {{-- <img src="{{ asset('designs/lable.png') }}" class="menu-design-before"> --}}
+            @if (count($menuItems) > 0)
+                @foreach ($menuItems as $lable => $items)
+                    <div class="col-md-4">
+                        <div class="menu-section">
                             <div class="menu-title">{{ $lable }}</div>
-                            {{-- <img src="{{ asset('designs/Star_Header-02.png') }}" class="menu-design-after"> --}}
-                        {{-- </div> --}}
-                        <ul class="menu-list">
-                            @foreach ($items as $item)
-                                @if ($item->is_available)
-                                    <li class="menu-item">
-                                        <span
-                                            class="menu-item-name ">{{ $item->name }}{{ ' - ' . $item->kannada_name }}</span>
-                                        {{-- <span class="menu-item-name fw-bold"></span> --}}
-                                        <span class="menu-item-price">{{ '₹ ' . $item->price }}</span>
-                                    </li>
-                                @else
-                                    <li class="menu-item text-muted">
-                                        <small class="fw-bold text-danger item-text"
-                                            id="text-name-{{ $item->id }}">{{ $item->name }}</small>
-                                        <small class="fw-bold text-danger item-status "
-                                            id="text-status-{{ $item->id }}">{{ $item->custom_status }}</small>
-                                    </li>
-                                @endif
-                            @endforeach
-                        </ul>
+
+                            <ul class="menu-list">
+                                @foreach ($items as $item)
+                                    @if ($item->is_available)
+                                        <li class="menu-item">
+                                            <span
+                                                class="menu-item-name fw-bold">{{ $item->name }}{{ ' - ' . $item->kannada_name }}</span>
+                                            {{-- <span class="menu-item-name fw-bold"></span> --}}
+                                            <span class="menu-item-price">{{ '₹ ' . $item->price }}</span>
+                                        </li>
+                                    @else
+                                        <li class="menu-item not-available-menus text-muted">
+                                            <small class="fw-bold text-danger animate__animated animate__fadeIn"
+                                                id="text-name-{{ $item->id }}">{{ $item->name }}</small>
+                                            <small class="fw-bold text-danger animate__animated animate__flash d-none"
+                                                id="text-status-{{ $item->id }}">{{ $item->custom_status }}</small>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
+                @endforeach
+            @else
+                <div class="text-center mt-5">
+                    <img src="{{ asset('images/commingsoon.webp') }}" alt="HMS" id="commingsoon"
+                        class="img-fluid animate__animated animate__swing" style="width: 28%; height: 100%;">
                 </div>
-            @endforeach
+            @endif
         </div>
     </div>
 </div>
 @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const items = document.querySelectorAll('.not-available-menus');
+            console.log(items);
+
+            items.forEach(item => {
+                const name = item.querySelector('[id^="text-name-"]');
+                const status = item.querySelector('[id^="text-status-"]');
+                console.log(name, status);
+
+                name.addEventListener('animationend', () => {
+                    name.classList.add('d-none');
+                    status.classList.remove('d-none');
+                    status.classList.add('animate__animated animate__flash');
+
+                });
+
+                status.addEventListener('animationend', () => {
+                    status.classList.add('d-none');
+                    name.classList.remove('d-none');
+                    name.classList.add('animate__animated animate__flash');
+
+                });
+            });
+        });
+    </script>
     @if (Route::currentRouteName() === 'menu.card')
-        <!-- Only for the menu card page -->
         <script>
             setTimeout(function() {
-                location.reload(); // Reload the page after 15 minutes (900,000 ms)
-            }, 15 * 60 * 1000); // 15 minutes
+                location.reload();
+            }, 15 * 60 * 1000);
         </script>
     @endif
 @endpush
