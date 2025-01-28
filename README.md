@@ -1,6 +1,4 @@
 ### Hotel Management System
-
-App URL - https://crm.medicall.in/
 Guide for install and run the project
 
 -   [x] Clone the project in your local machine
