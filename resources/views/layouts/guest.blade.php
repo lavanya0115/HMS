@@ -317,7 +317,7 @@
             ->where('day', lcfirst($day))
             ->pluck('title')
             ->first();
-
+          
         $videos = Video::select('title', 'path')->get();
         // ->map(function ($video) {
         //     $video->path = asset($video->path);
