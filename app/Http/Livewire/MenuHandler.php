@@ -57,10 +57,11 @@ class MenuHandler extends Component
     }
     public function mount($menuId)
     {
-        $this->categories = Category::whereNotIn('type', ['unit_type', 'slogan'])->get();
+        $this->categories = Category::whereNotIn('type', ['unit_type', 'slogan'])
+        ->where('is_active',1)                       
+        ->get();
         if ($menuId) {
             $menu = MenuItem::find($menuId);
-            // dd($menu);
             if ($menu) {
                 $this->menu = $menu->toArray();
                 $this->menu['is_available'] = $menu->is_available ? true : false;
