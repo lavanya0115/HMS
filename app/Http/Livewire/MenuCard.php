@@ -11,6 +11,7 @@ class MenuCard extends Component
     public function render()
     {
         $currentHour = Carbon::now()->hour;
+        $currentday  = Carbon::now()->format('l');
         $currentCategory = '';
         if ($currentHour >= 5 && $currentHour <= 12) {
             $currentCategory = 'Break fast';
@@ -21,8 +22,9 @@ class MenuCard extends Component
         }
 
         $menuItems = MenuItem::with('category')
-            ->whereHas('category', function ($query) use ($currentCategory) {
-                $query->where('show_time_from', '<=', now()->format('H:i'))
+            ->whereHas('category', function ($query) use ($currentCategory, $currentday) {
+                $query->where('day', $currentday)
+                    ->where('show_time_from', '<=', now()->format('H:i'))
                     ->where('show_time_to', '>=', now()->format('H:i'));
             })
             ->orderByDesc('is_available')
