@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use Monolog\Level;
+use App\Models\Category;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
 use Laravel\Jetstream\HasProfilePhoto;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract; // Import Authenticatable interface
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements AuthenticatableContract
 {
@@ -97,11 +98,4 @@ class User extends Authenticatable implements AuthenticatableContract
         return $this->belongsTo(Category::class, 'department_id')->where('type', 'department');
     }
 
-    public function eventExhibitors(){
-        return $this->hasMany(EventExhibitor::class,'sales_person_id');
-    }
-
-    public function exhibitors(){
-        return $this->hasMany(Exhibitor::class,'sales_person_id');
-    }
 }

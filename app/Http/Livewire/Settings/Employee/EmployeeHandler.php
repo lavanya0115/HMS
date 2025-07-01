@@ -118,20 +118,9 @@ class EmployeeHandler extends Component
         $authorId = auth()->user()->id;
         $this->employee['updated_by'] = $authorId;
 
-        if ($this->employee['type'] === 'caller') {
-            $this->employee['department_id'] = 0;
-        }
-
         try {
             $employee = User::find($this->employee['id']);
-            $isSalesPersonCount = $employee->exhibitors->where('sales_person_id', $this->employee['id'])->count();
-
-            if ($employee->type != $this->employee['type'] && $isSalesPersonCount > 0) {
-                session()->flash('info', 'Unmap the exhibitors from ' . $employee->name . ' to update their type.');
-                return redirect(route('employees.index'));
-            }
             $employee->update($this->employee);
-            
             session()->flash('success', 'Employee updated successfully.');
             $this->dispatch('callShowNoticeEvent', 'success', 'Employee updated successfully.');
             $this->redirect(route('employees.index'));
