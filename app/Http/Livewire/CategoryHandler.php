@@ -85,7 +85,7 @@ class CategoryHandler extends Component
             if ($category) {
                 $this->category['updated_by'] = getAuthData()->id;
                 $category->update($this->category);
-                $isCategoryUpdated = $category->wasChanged('title', 'description');
+                $isCategoryUpdated = $category->wasChanged('title', 'description','is_active','day','type','show_time_from','show_time_to');
                 if ($isCategoryUpdated) {
                     return redirect(route('category',))->with('success', 'Category updated successfully!.');
                 }
