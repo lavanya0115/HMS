@@ -81,19 +81,39 @@ class CategorySummary extends Component
 
         $headings = $data[0];
         $rows = array_slice($data, 1);
-        foreach ($rows as $row) {
+        foreach ($rows as $index => $row) {
             $categoryData = array_combine($headings, $row);
 
-            $categoryExists = Category::where('title', 'like', '%' . $categoryData['Name'] . '%')->where('type', 'like', '%' . $categoryData['Type'] . '%')->first();
+            if(empty($categoryData['Name'])){
+                session()->flash('warning', "Name is empty in $index row. Check and Re-upload");
+                return redirect()->route('category');
+            }
+            if(empty($categoryData['Type'])){
+                session()->flash('warning', "Type is empty in $index row. Check and Re-upload");
+                return redirect()->route('category');
+            }
+            if(empty($categoryData['Day'])){
+                session()->flash('warning', "Day is empty in $index row. Check and Re-upload");
+                return redirect()->route('category');
+            }
+            if(empty($categoryData['Show Time From'])){
+                dd($categoryData);
+                session()->flash('warning', "Show time from is empty in $index row. Check and Re-upload");
+                return redirect()->route('category');
+            }
+            if(empty($categoryData['Show Time To'])){
+                session()->flash('warning', "Show time to is empty in $index row. Check and Re-upload");
+                return redirect()->route('category');
+            }
+    
+            $categoryExists = Category::where('title', 'like', '%' . strtolower($categoryData['Name']) . '%')->where('type', 'like', '%' . strtolower($categoryData['Type']) . '%')->first();
             if (!empty($categoryData['Show Time From']) && !empty($categoryData['Show Time To'])) {
                 $parsedFrom =  Carbon::parse($categoryData['Show Time From'])->timezone('Asia/Kolkata');
                 $from = $parsedFrom->format('H:i');
                 $parsedTo =  Carbon::parse($categoryData['Show Time To'])->timezone('Asia/Kolkata');
                 $to = $parsedTo->format('H:i');
-                // dd($from, $to);
             }
-
-
+            
             if ($categoryExists) {
 
                 if ($categoryExists->title !== $categoryData['Name']) {
