@@ -33,6 +33,8 @@ class MenuHandler extends Component
         'menu.qty' => 'required',
         'menu.price' => 'required',
         'menu.custom_status' => 'required_if:menu.is_available,false',
+        'menu.unit_type' => 'required',
+        'menu.tax' => 'required',
     ];
 
     protected $messages = [
@@ -42,6 +44,8 @@ class MenuHandler extends Component
         'menu.qty.required' => 'The number of item field is required.',
         'menu.price.required' => 'The price field is required.',
         'menu.custom_status.required_if' => 'This field is required.',
+        'menu.unit_type.required' => 'This field is required.',
+        'menu.tax.required' => 'This field is required.',
     ];
 
     public function updatedMenuTax($value)

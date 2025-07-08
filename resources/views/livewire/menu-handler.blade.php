@@ -89,10 +89,10 @@
                                             @endforeach
                                         @endif
                                     </select>
-                                    @error('menu.unit_type')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
                                 </div>
+                                @error('menu.unit_type')
+                                    <span class="text text-danger fs-5 fw-bold">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="col-md-6">
@@ -125,7 +125,7 @@
 
                             <div class="col-md-6">
                                 <div class="mb-1">
-                                    <label class="form-label required">Tax Amount</label>
+                                    <label class="form-label">Tax Amount</label>
                                     <input type="number" @class([
                                         'form-control',
                                         'is-invalid' => $errors->has('menu.tax_amount') ? true : false,
@@ -139,7 +139,7 @@
 
                             <div class="col-md-6">
                                 <div class="mb-1">
-                                    <label class="form-label required">MRP</label>
+                                    <label class="form-label">MRP</label>
                                     <input type="number" @class([
                                         'form-control',
                                         'is-invalid' => $errors->has('menu.mrp') ? true : false,
