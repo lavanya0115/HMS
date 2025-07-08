@@ -153,10 +153,41 @@ class MenuSummary extends Component
 
         $headings = $data[0];
         $rows = array_slice($data, 1);
-        foreach ($rows as $row) {
+        foreach ($rows as $index => $row) {
             $menuData = array_combine($headings, $row);
 
-
+            if(empty($menuData['Item Name (En)'])){
+                session()->flash('warning', "Item Name in English is empty in $index row. Check and Re-upload");
+                return redirect()->route('menu.items.list');
+            }
+            if(empty($menuData['Item Name (Ka)'])){
+                session()->flash('warning', "Item Name in Kannada is empty in $index row. Check and Re-upload");
+                return redirect()->route('menu.items.list');
+            }
+            if(empty($menuData['Category Title'])){
+                session()->flash('warning', "Category Title is empty in $index row. Check and Re-upload");
+                return redirect()->route('menu.items.list');
+            }
+            if(empty($menuData['Category Type'])){
+                session()->flash('warning', "Category Type is empty in $index row. Check and Re-upload");
+                return redirect()->route('menu.items.list');
+            }
+            if(empty($menuData['Qty'])){
+                session()->flash('warning', "Qty is empty in $index row. Check and Re-upload");
+                return redirect()->route('menu.items.list');
+            }
+            if(empty($menuData['Unit Type'])){
+                session()->flash('warning', "Unit Type is empty in $index row. Check and Re-upload");
+                return redirect()->route('menu.items.list');
+            }
+            if(empty($menuData['Basic Price'])){
+                session()->flash('warning', "Basic Price is empty in $index row. Check and Re-upload");
+                return redirect()->route('menu.items.list');
+            }
+            if(empty($menuData['Tax %'])){
+                session()->flash('warning', "Tax% is empty in $index row. Check and Re-upload");
+                return redirect()->route('menu.items.list');
+            }
             // $menu = MenuItem::where('name', 'like', '%' . $menuData['Item Name (En)'] . '%')
             //     ->first();
             $category = Category::where('title', 'like', '%' . $menuData['Category Title'] . '%')->where('type', 'like', '%' . $menuData['Category Type'] . '%')->first();
