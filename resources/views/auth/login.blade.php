@@ -86,7 +86,7 @@
                                         </div>
 
                                         <div class=" mt-3 float-end">
-                                            <a href="#"
+                                            <a href="{{ route('register-new-member') }}"
                                                 class="me-3 text-decoration-none text text-secondary fw-bold">New
                                                 Member?
                                             </a>
