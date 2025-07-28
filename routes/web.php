@@ -23,9 +23,13 @@ Route::get('/', function () {
     return redirect()->route('login');
     // return view('welcome');
 });
+Route::get('/new-member', function () {
+    return view('auth.register');
+})->name('register-new-member');
 
 Route::post('/login', [LoginController::class, 'authenticateAdmin'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/register', [LoginController::class, 'register'])->name('register');
 
 
 Route::middleware([
