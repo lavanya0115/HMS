@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Models\Category;
 use App\Models\MenuItem;
 use Illuminate\Support\Carbon;
 
@@ -21,6 +22,22 @@ class MenuCard extends Component
             $currentCategory = 'Dinner';
         }
 
+        $categoryMenuTimings = Category::where('type', 'menu')
+            ->where('is_active', 1)
+            ->where('day', $currentday)
+            ->get(['title', 'show_time_from', 'show_time_to'])
+            ->mapWithKeys(function ($item) {
+                return [
+                    $item->title => [
+                        'show_time_from' => $item->show_time_from,
+                        'show_time_to'   => $item->show_time_to,
+                    ]
+                ];
+            })
+            ->toArray();
+
+        // dd($categoryMenuTimings);
+
         $menuItems = MenuItem::with('category')
             ->whereHas('category', function ($query) use ($currentCategory, $currentday) {
                 $query->where('day', $currentday)
@@ -35,7 +52,8 @@ class MenuCard extends Component
         return view(
             'livewire.menu-card',
             [
-                'menuItems' => $menuItems
+                'menuItems' => $menuItems,
+                'timings'   => $categoryMenuTimings
             ]
         )->layout('layouts.guest');;
     }

@@ -15,7 +15,8 @@ class VideoHandler extends Component
     public $video;
 
     protected $rules = [
-        'video' => 'required',
+        // 'video' => 'required',
+        'video' => 'required|file|mimes:mp4|max:3145728', 
     ];
 
     protected $messages = [
@@ -46,9 +47,9 @@ class VideoHandler extends Component
 
             $fileSizeInMB = round($fileSize / (1024 * 1024), 2);
 
-            $random = now()->format('H:i');
-            $uniqueFileName = $fileName . '_' . $random;
-            $fileDirectory = 'videos/';
+            $random = now()->format('Hi');
+            $uniqueFileName = $random . '_' .$fileName;
+            $fileDirectory = 'videos';
             if (!file_exists($fileDirectory)) {
                 mkdir($fileDirectory, 0755, true);
             }
@@ -72,7 +73,6 @@ class VideoHandler extends Component
             return;
         }
     }
-
 
     public function resetFields()
     {
