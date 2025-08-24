@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>HMS</title>
+    <title>Sree Anandham</title>
 
     <!-- CSS files -->
     <link href="{{ asset('/theme/css/tabler.min.css') }}" rel="stylesheet" />
@@ -26,7 +26,7 @@
         .menu-header {
             text-align: center;
             padding: 20px;
-            background-color: #ff8c00;
+            background-color: #F57C00
             color: white;
             margin-bottom: 20px;
         }
@@ -51,8 +51,8 @@
             font-size: 1.8rem;
             font-weight: bold;
             margin-bottom: 20px;
-            color: #ff8c00;
-            border-bottom: 2px solid #ff8c00;
+            color: #F57C00
+            border-bottom: 2px solid #F57C00
             display: inline-block;
         }
 
@@ -79,29 +79,28 @@
         }
 
         .menu-item-price {
-            color: #ff8c00;
+            color: #F57C00 //#ff8c00 old
             font-weight: bold;
         }
     </style> --}}
     <style>
         body {
-            background-image: linear-gradient(rgba(255, 243, 205, 0.8), rgba(230, 255, 216, 0.9)), url('{{ asset('theme/logo/Food-03.png') }}');
+            background: rgb(255, 255, 255);
+            background-image: linear-gradient(rgba(255, 255, 255, 255), rgba(255, 255, 255, 0.9)), url('{{ asset('theme/logo/Food-03.png') }}');
             background-size: cover;
             background-attachment: fixed;
             background-repeat: no-repeat;
             transition: background 1.5s ease-in-out;
-            font-family: 'Georgia', serif;
-            color: #7a0505;
-            /* opacity: 0.9; */
+            font-family: 'Poppins', sans-serif;
         }
 
 
         .menu-header {
             text-align: center;
-            color: white;
-            background-color: #f7a94d;
-            padding: 40px 20px 0;
-            font-family: 'Georgia', serif;
+            /* color: white; */
+            background-color: #006400;
+            padding: 30px 20px 0;
+            font-family: 'Poppins', sans-serif;
             font-size: 2rem;
         }
 
@@ -152,13 +151,15 @@
         } */
 
         .animated-text {
-            background: linear-gradient(90deg, #144201ea, #9bcc6d, #1a4b04e5);
-            background-size: 300% 100%;
+            background: linear-gradient(90deg,#ffffff, #006400, #ffffff);
+            background-size: 100% 100%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: gradientMove 5s infinite;
             /* animation: typing 5s steps(30, end),  1.5s step-end infinite; */
             font-size: 1.5rem;
+            font-weight: bold;
+
         }
 
         @keyframes gradientMove {
@@ -182,8 +183,6 @@
         .item-status {
             animation: bounceIn 4.5s ease-out 3s forwards;
         }
-
-
         @keyframes bounceIn {
             0% {
                 transform: scale(0.3);
@@ -231,16 +230,18 @@
         }
 
         .menu-section {
-            margin: 20px 0;
+            margin: 10px 0;
         }
 
         .menu-title {
+            width: 100%;
+            background: #F57C00;
             text-align: left;
-            font-family: cursive;
-            font-size: large;
+            font-family: 'Poppins', sans-serif;
+            font-size: medium;
             font-weight: bold;
-            color: #ff8c00;
-            border-bottom: 2px solid #ff8c00;
+            color: #ffffff;
+            /* border-bottom: 1px solid  #D32F2F; */
             display: inline-block;
         }
 
@@ -250,12 +251,13 @@
         }
 
         .menu-item {
-            color: #033b08e0;
+            font-family: 'Poppins', sans-serif;
+            color:  #006400;
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
-            font-size: 1.0rem;
+            padding: 4px 0;
+            font-size: 0.8rem;
+            /* border-bottom: 1px solid #ddd; */
         }
 
         .menu-item:last-child {
@@ -263,11 +265,16 @@
         }
 
         .menu-item-name {
+            font-family: 'Poppins', sans-serif;
             font-weight: 500;
+            font-weight: bold;
         }
 
         .menu-item-price {
-            color: #ff8c00;
+            /* color: #F57C00 */
+            /* font-weight: 500; */
+            font-family: 'Poppins', sans-serif;
+            color:  #F57C00;
             font-weight: bold;
         }
 
@@ -286,21 +293,10 @@
                 transform: translateX(-100%);
             }
         }
-
-        footer {
-            background: linear-gradient(rgba(225, 248, 212, 0.9), rgba(255, 228, 141, 0.8));
-            color: #033b08e0;
-            text-align: center;
-            padding: 10px;
-        }
-
-        footer span {
-            font-size: 1.2rem;
-        }
-
-        footer .order-image {
-            max-width: 5%;
-            vertical-align: middle;
+        .time-range {
+            font-size: 12px; !important
+            font-weight: 200;
+            font-family: 'Poppins', sans-serif; !important
         }
     </style>
     @livewireStyles
@@ -315,9 +311,8 @@
         $slogan = Category::where('is_active', 1)
             ->where('type', 'slogan')
             ->where('day', lcfirst($day))
-            ->pluck('title')
-            ->first();
-          
+            ->value('title');
+           
         $videos = Video::select('title', 'path')->get();
         // ->map(function ($video) {
         //     $video->path = asset($video->path);
@@ -332,26 +327,27 @@
     @endphp
     {{-- <div class="container-xxl"> --}}
 
-    <div class="page" style="height: 100vh; overflow: hidden;">
+    <div class="page ps-3" style="height: 100vh; overflow: hidden;">
         <div class="page-wrapper" style="height: 100%; display: flex; flex-direction: column;">
             <div class="row g-0" style="height: 100%;">
                 <div class="col-md-9" style="height: 100%;">
-                    <div class="row align-items-center ">
+                    <div class="row align-items-center mt-3">
                         <!-- Logo Section -->
                         <div class="col-md-2 text-center">
-                            <img src="{{ asset('images/logo.png') }}" alt="HMS" class="img-fluid"
-                                style="max-width: 120px; height: 100%;">
+                            <img src="{{ asset('images/logo2.png') }}" alt="HMS" class="img-fluid"
+                                style="width: 200px; height: 70%;"
+                                >
                         </div>
                         <!-- Title Section -->
                         <div class="col-md-10 text-center">
-                            <div class="text-center">
-                                <img src="{{ asset('designs/Header_design.png') }}" alt="Decorative Border"
+                            {{-- <div class="text-center">
+                                <img src="{{ asset('designs/bottom_border.png') }}" alt="Decorative Border"
                                     class="border-image" style="max-width: 20%; height: auto;">
-                            </div>
+                            </div> --}}
                             <h3 class="animated-text">{{ $slogan }}</h3>
                             <div class="text-center">
-                                <img src="{{ asset('designs/Header_design-02.png') }}" alt="Decorative Border"
-                                    class="border-image" style="max-width: 20%; height: auto;">
+                                <img src="{{ asset('designs/solgan border design.png') }}" alt="Decorative Border"
+                                    class="border-image " style="max-width: 30%; height: auto;">
                             </div>
                         </div>
                     </div>
@@ -367,7 +363,7 @@
 
 
                 <!-- Right Section (Video) -->
-                <div class="col-md-3 border" style=" position: relative; height: 100%; display: flex;">
+                <div class="col-md-3" style=" position: relative; height: 100%; display: flex;">
                     <video id="videoPlayer" class="video-section" autoplay muted playsinline
                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
                         <source id="videoSource" src="" type="video/mp4">
@@ -377,15 +373,31 @@
                 </div>
 
             </div>
-            <footer>
-                <div style="overflow: hidden; white-space: nowrap;">
-                    <div style="display: inline-block; animation: marquee 18s linear infinite; font-size: 1.2rem;">
-                        Fresh, fast, and flavorful <img src="{{ asset('theme/images/hurryup2.png') }}" alt="order"
-                            class="order-image"> place your order today!
-                        <span class="text fw-bold " style="color:#ff8c00">Contact: +91 99012 88017</span>
-                    </div>
-                </div>
-            </footer>
+        </div>
+       <div class="rounded-pill" 
+            style=" 
+                    background: transparent;
+                    /* background: #7B3F00;  */
+                    border:none;
+                    /* padding: 3px; */
+                    color: #006400; 
+                    text-align: center; 
+                    font-weight: bold; 
+                    animation: marquee 20s linear infinite; 
+                    font-size: 1rem; 
+                    font-family: 'Poppins', sans-serif !important;">
+                
+            FRESH, FAST, & FLAVORFUL 
+            <img src="{{ asset('theme/images/hurryup2.png') }}" alt="order"
+                style="max-width: 4%; vertical-align: middle;"> 
+            FOR BULK ORDER!
+            
+            <span class="text fw-bold ps-3 fs-5 pe-2" 
+                style="color: #F57C00; font-family: 'Poppins', sans-serif !important;">
+                CONTACT: +91 99012 88017
+            </span>
+            
+            OPEN EVERY DAY 7AM - 9PM
         </div>
     </div>
     @stack('modals')
