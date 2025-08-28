@@ -77,11 +77,15 @@ class MenuHandler extends Component
 
     public function create()
     {
+        reLogin();
+
         $this->validate();
+
         $authorId = auth()?->user()?->id ?? null;
         if ($this->menu['is_available']  == false && empty($this->menu['custom_status'])) {
             return $this->addError('menu.custom_status', 'The custom status field is required.');
         }
+
         $menuExists = MenuItem::where('name', $this->menu['name'])
             ->where('category_id', $this->menu['category_id'])->first();
 
@@ -114,6 +118,7 @@ class MenuHandler extends Component
         }
 
         $this->menu['created_by'] = $authorId;
+
         $this->menu['updated_by'] = $authorId;
         try {
             $menu = MenuItem::create($this->menu);
@@ -131,18 +136,24 @@ class MenuHandler extends Component
 
     public function update()
     {
+        reLogin();
+        
         $this->validate();
+        
         $authorId = auth()->user()->id;
+        
         if ($this->menu['is_available'] == false && empty($this->menu['custom_status'])) {
             return $this->addError('menu.custom_status', 'The custom status field is required.');
         }
 
         $menuExists = MenuItem::where('name', $this->menu['name'])
             ->where('id', '!=', $this->menu['id'])->first();
+        
         if ($menuExists) {
             $this->addError('menu.name', 'menu Name already exists.');
             return;
         }
+        
         $unitTypeExists = Category::where('type', 'unit_type')->where('title', 'like', '%' . $this->menu['unit_type'] . '%')->exists();
 
         if (!$unitTypeExists) {

@@ -24,3 +24,14 @@ if (!function_exists('getAuthData')) {
         return $auth;
     }
 }
+
+if (!function_exists('reLogin')) {
+    function reLogin()
+    {
+        if(getAuthData() === null){
+            return redirect(route('login'));
+        }
+    }
+}
+
+

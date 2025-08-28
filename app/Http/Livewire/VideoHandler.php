@@ -33,7 +33,10 @@ class VideoHandler extends Component
     // }
     public function create(Request $request)
     {
+        reLogin();
+
         $this->validate();
+        
         $authId = getAuthData()->id;
 
         try {

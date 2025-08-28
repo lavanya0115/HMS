@@ -61,6 +61,8 @@ class EmployeeHandler extends Component
 
     public function create()
     {
+        reLogin();
+        
         $this->validate();
 
         $employeeEmailExists = User::where('email', $this->employee['email'])->first();
@@ -102,6 +104,8 @@ class EmployeeHandler extends Component
 
     public function update()
     {
+        reLogin();
+        
         $this->validate();
 
         $employeeEmailExists = User::where('email', $this->employee['email'])->where('id', '!=', $this->employee['id'])->first();

@@ -43,6 +43,9 @@ class CategoryHandler extends Component
     }
     public function create()
     {
+       
+        reLogin();
+        
         $this->validate();
         $categoryExists = Category::where('title', $this->category['title'])
             ->first();
@@ -69,6 +72,8 @@ class CategoryHandler extends Component
 
     public function update()
     {
+        reLogin();
+        
         $this->validate();
 
         $categoryNameExists = Category::where('title', $this->category['title'])
