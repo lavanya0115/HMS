@@ -16,73 +16,6 @@
     {{-- Animate.css --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
-    {{-- <style>
-        body {
-            background-color: #fdf2e9;
-            font-family: 'Georgia', serif;
-            color: #4a4a4a;
-        }
-
-        .menu-header {
-            text-align: center;
-            padding: 20px;
-            background-color: #F57C00
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        .menu-header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
-
-        .menu-header p {
-            margin: 0;
-            font-size: 1.2rem;
-        }
-
-        .menu-section {
-            margin: 20px 0;
-        }
-
-        .menu-title {
-            text-align: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #F57C00
-            border-bottom: 2px solid #F57C00
-            display: inline-block;
-        }
-
-        .menu-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .menu-item {
-            color: #0b4106e3;
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
-            font-size: 1.1rem;
-        }
-
-        .menu-item:last-child {
-            border-bottom: none;
-        }
-
-        .menu-item-name {
-            font-weight: 500;
-        }
-
-        .menu-item-price {
-            color: #F57C00 //#ff8c00 old
-            font-weight: bold;
-        }
-    </style> --}}
     <style>
         body {
             background: rgb(255, 255, 255);
@@ -215,9 +148,6 @@
                 opacity: 0;
             }
         }
-
-
-
         .menu-header h1 {
             margin: 0;
             font-size: 2.5rem;
@@ -235,6 +165,8 @@
 
         .menu-title {
             width: 100%;
+            /* background: #006400; */
+            /* background: #7B3F00; */
             background: #F57C00;
             text-align: left;
             font-family: 'Poppins', sans-serif;
@@ -252,7 +184,9 @@
 
         .menu-item {
             font-family: 'Poppins', sans-serif;
-            color:  #006400;
+            color:  #7B3F00;
+            /* color:  #F57C00; */
+            /* color:  #006400; */
             display: flex;
             justify-content: space-between;
             padding: 4px 0;
@@ -274,7 +208,9 @@
             /* color: #F57C00 */
             /* font-weight: 500; */
             font-family: 'Poppins', sans-serif;
-            color:  #F57C00;
+            /* color:  #F57C00; */
+            color:  #7B3F00;
+            /* color:  #006400; */
             font-weight: bold;
         }
 
@@ -284,7 +220,7 @@
             display: block;
         }
 
-        @keyframes marquee {
+        /* @keyframes marquee {
             from {
                 transform: translateX(100%);
             }
@@ -292,7 +228,7 @@
             to {
                 transform: translateX(-100%);
             }
-        }
+        } */
         .time-range {
             font-size: 12px; !important
             font-weight: 200;
@@ -327,29 +263,31 @@
     @endphp
     {{-- <div class="container-xxl"> --}}
 
-    <div class="page ps-3" style="height: 100vh; overflow: hidden;">
+    <div class="page" style="height: 100vh; overflow: hidden;">
         <div class="page-wrapper" style="height: 100%; display: flex; flex-direction: column;">
-            <div class="row g-0" style="height: 100%;">
+            <div class="row" style="height: 100%;">
                 <div class="col-md-9" style="height: 100%;">
-                    <div class="row align-items-center mt-3">
+                    {{-- <div class="row" style="background:#F57C00;">  --}}
+                    {{-- <div class="row" style="background:#7B3F00;"> --}}
+                    <div class="row" style="background:#006400;">
                         <!-- Logo Section -->
-                        <div class="col-md-2 text-center">
-                            <img src="{{ asset('images/logo2.png') }}" alt="HMS" class="img-fluid"
-                                style="width: 200px; height: 70%;"
+                        {{-- <div class="col-md-2 text-center"> --}}
+                            <img src="{{ asset('images/NewLogo.png') }}" alt="HMS" class="img-fluid"
+                                style="width: 20%; height: 20%; margin-left:40%;"
                                 >
-                        </div>
+                        {{-- </div> --}}
                         <!-- Title Section -->
-                        <div class="col-md-10 text-center">
-                            {{-- <div class="text-center">
+                        {{-- <div class="col-md-10 text-center">
+                            <div class="text-center">
                                 <img src="{{ asset('designs/bottom_border.png') }}" alt="Decorative Border"
                                     class="border-image" style="max-width: 20%; height: auto;">
-                            </div> --}}
+                            </div>
                             <h3 class="animated-text">{{ $slogan }}</h3>
                             <div class="text-center">
                                 <img src="{{ asset('designs/solgan border design.png') }}" alt="Decorative Border"
                                     class="border-image " style="max-width: 30%; height: auto;">
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <!-- Content Section -->
@@ -363,7 +301,7 @@
 
 
                 <!-- Right Section (Video) -->
-                <div class="col-md-3" style=" position: relative; height: 100%; display: flex;">
+                <div class="col-md-3" style=" position: relative; height: 110%; display: flex;">
                     <video id="videoPlayer" class="video-section" autoplay muted playsinline
                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
                         <source id="videoSource" src="" type="video/mp4">
@@ -374,26 +312,26 @@
 
             </div>
         </div>
-       <div class="rounded-pill" 
+       <div 
             style=" 
-                    background: transparent;
+                    /* background: transparent; */
+                    /* background: #F57C00;  */
                     /* background: #7B3F00;  */
+                    background: #006400; 
                     border:none;
-                    /* padding: 3px; */
-                    color: #006400; 
-                    text-align: center; 
+                    padding: 1%;
+                    color: #ffffff;  
                     font-weight: bold; 
-                    animation: marquee 20s linear infinite; 
                     font-size: 1rem; 
                     font-family: 'Poppins', sans-serif !important;">
                 
             FRESH, FAST, & FLAVORFUL 
-            <img src="{{ asset('theme/images/hurryup2.png') }}" alt="order"
-                style="max-width: 4%; vertical-align: middle;"> 
+            {{-- <img src="{{ asset('theme/images/hurryup2.png') }}" alt="order"
+                style="max-width: 4%; vertical-align: middle;">  --}}
             FOR BULK ORDER!
             
-            <span class="text fw-bold ps-3 fs-5 pe-2" 
-                style="color: #F57C00; font-family: 'Poppins', sans-serif !important;">
+            <span class="text fw-bold ps-2 fs-5 pe-2" 
+                style="color: #ffffff; font-family: 'Poppins', sans-serif !important;">
                 CONTACT: +91 99012 88017
             </span>
             

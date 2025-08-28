@@ -45,7 +45,7 @@ class MenuCard extends Component
                     ->where('show_time_to', '>=', now()->format('H:i'));
             })
             ->orderByDesc('is_available')
-            ->get()
+            ->paginate(45)
             ->groupBy('category.title');
 
 

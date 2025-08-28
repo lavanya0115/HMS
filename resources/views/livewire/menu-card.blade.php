@@ -27,7 +27,7 @@
                 @foreach ($menuItems as $label => $items)
                     @php
                         // Chunk the items into groups of 6
-                        $chunks = $items->chunk(14);
+                        $chunks = $items->chunk(15);
                         $fromTime = $timings[$label]['show_time_from'];
                         $toTime   = $timings[$label]['show_time_to'];
                     @endphp
