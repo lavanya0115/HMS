@@ -27,6 +27,7 @@
                 <div class="d-flex justify-content-evenly">
                     @foreach ($menuItemsEnglish as $label => $items)
                         @php
+                            // dd($label, $menuItemsEnglish);
                             // Chunk the items into groups of 6
                             $chunks = $items->chunk(20);
                             $fromTime = $timings[$label]['show_time_from'];
@@ -38,13 +39,28 @@
                             <div class="col-md-4 d-flex flex-column">
                                 <div class="menu-section">
                                     <div class="menu-title mx-auto p-1 rounded ps-3">{{ $label }} <small
-                                            class="time-range">{{ '[ ' . $fromTime . ' - ' . $toTime . ' ]' }}</small></div>
+                                            class="time-range">{{ '[ ' . $fromTime . ' - ' . $toTime . ' ]' }}</small>
+                                    </div>
                                     <ul class="menu-list mt-3">
                                         @foreach ($chunk as $item)
+                                            @php
+                                                $tag = '';
+                                                if (!empty($item->meta)) {
+                                                    $metaData = json_decode($item->meta, true);
+                                                    $tag = $metaData['tag'];
+                                                }
+                                            @endphp
                                             @if ($item->is_available)
-                                                <li class="menu-item">                                                    
+                                                <li class="menu-item">
                                                     <span class="menu-item-name">
-                                                     <small class="badge text-bg-danger me-2" style="background-color:#">Must Try</small>{{ $item->name }}
+                                                        {{ $item->name }}
+                                                        @if (!empty($tag))
+                                                            <small class="badge text-bg-danger me-2"
+                                                                style="background-color:#">
+
+                                                                {{ $tag }}
+                                                            </small>
+                                                        @endif
                                                     </span>
                                                     <span
                                                         class="menu-item-price fw-bold">{{ '₹ ' . $item->price }}</span>
@@ -79,7 +95,8 @@
                             <div class="col-md-4 d-flex flex-column">
                                 <div class="menu-section">
                                     <div class="menu-title mx-auto p-1 rounded ps-3">{{ $label }} <small
-                                            class="time-range">{{ '[ ' . $fromTime . ' - ' . $toTime . ' ]' }}</small></div>
+                                            class="time-range">{{ '[ ' . $fromTime . ' - ' . $toTime . ' ]' }}</small>
+                                    </div>
                                     <ul class="menu-list mt-3">
                                         @foreach ($chunk as $item)
                                             @if ($item->is_available)
@@ -119,10 +136,11 @@
                 <div style="padding-left: 12%;">
                     <div class="col-md-4">
                         <div class="card bg-danger-lt">
-                            <div class="card-header" style="background:#D32F2F;color:#ffffff; padding-left:35%;">Add Extra</div>
+                            <div class="card-header" style="background:#D32F2F;color:#ffffff; padding-left:35%;">Add
+                                Extra</div>
                             <div class="card-body">
                                 {{-- <div class="d-flex justify-content-around"> --}}
-                                    {{-- <li >
+                                {{-- <li >
                                         <span class="fw-bold text-success">{{ 'Ghee ' . 10 }}</span>
                                         <span class="fw-bold text-success">Ghee</span>
                                     </li>
@@ -130,22 +148,22 @@
                                         <span class="badge text-bg-success" style="color: #006400"></span>
                                         <span class="fw-bold text-success">Podi</span>
                                     </li> --}}
-                                    <li class="menu-item">
-                                        {{-- <div class="d-flex justify-content-between"> --}}
-                                        <span class="fw-bold text-success">
-                                           Ghee
-                                        </span>
-                                        <span class="fw-bold text-success">{{ '₹ ' . 15 }}</span>
-                                        {{-- </div> --}}
-                                    </li>
-                                    <li class="menu-item">
-                                        {{-- <div class="d-flex justify-content-between"> --}}
-                                        <span class="fw-bold text-success">
-                                           Podi
-                                        </span>
-                                        <span class="fw-bold text-success">{{ '₹ ' . 10 }}</span>
-                                        {{-- </div> --}}
-                                    </li>
+                                <li class="menu-item">
+                                    {{-- <div class="d-flex justify-content-between"> --}}
+                                    <span class="fw-bold text-success">
+                                        Ghee
+                                    </span>
+                                    <span class="fw-bold text-success">{{ '₹ ' . 15 }}</span>
+                                    {{-- </div> --}}
+                                </li>
+                                <li class="menu-item">
+                                    {{-- <div class="d-flex justify-content-between"> --}}
+                                    <span class="fw-bold text-success">
+                                        Podi
+                                    </span>
+                                    <span class="fw-bold text-success">{{ '₹ ' . 10 }}</span>
+                                    {{-- </div> --}}
+                                </li>
                                 {{-- </div> --}}
                             </div>
                         </div>

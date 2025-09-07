@@ -188,6 +188,28 @@
                                 @error('menu.custom_status')
                                     <span class="text text-danger" style="margin-top:-2% ">{{ $message }}</span>
                                 @enderror
+
+                                <div class="col-md-12">
+                                    
+                                    <div class="mb-1">
+                                        <label class="form-label">Tag</label>
+                                        <select id="tag" @class([
+                                            'form-select',
+                                            'is-invalid' => $errors->has('tag') ? true : false,
+                                        ])
+                                            placeholder="choose tag" wire:model="tag">
+                                            <option value="">choose tag</option>
+                                            @if (!empty($tags))
+                                                @foreach ($tags as $tag)
+                                                    <option value="{{ $tag->title }}">{{ $tag->title }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                                @error('tag')
+                                    <span class="text text-danger" style="margin-top:-2% ">{{ $message }}</span>
+                                @enderror
                             {{-- @endif --}}
                             <div class="col-md-12">
                                 <div class="mb-1">

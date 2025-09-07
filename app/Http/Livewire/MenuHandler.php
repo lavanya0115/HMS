@@ -24,6 +24,8 @@ class MenuHandler extends Component
         'tax_amount' => '',
         'mrp' => '',
     ];
+    public $tag;
+    public $tags;
     public $unitTypes;
 
     protected $rules = [
@@ -73,6 +75,7 @@ class MenuHandler extends Component
                 return redirect()->back()->with('warning', 'menu not found');
             }
         }
+        $this->tags = Category::where('type', 'tag')->get();
     }
 
     public function create()
@@ -115,6 +118,10 @@ class MenuHandler extends Component
         if ($menuExists) {
             $this->addError('menu.name', 'menu already exists.');
             return;
+        }
+
+        if(!empty($this->tag)){
+            $this->menu['meta'] = json_encode(["tag"=>$this->tag]);
         }
 
         $this->menu['created_by'] = $authorId;
@@ -177,6 +184,10 @@ class MenuHandler extends Component
                 'created_by' =>  $authorId,
                 'updated_by' =>  $authorId,
             ]);
+        }
+
+         if(!empty($this->tag)){
+            $this->menu['meta'] = json_encode(["tag"=>$this->tag]);
         }
 
         $this->menu['updated_by'] = $authorId;
