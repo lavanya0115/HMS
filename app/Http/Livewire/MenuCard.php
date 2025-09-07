@@ -38,21 +38,34 @@ class MenuCard extends Component
 
         // dd($categoryMenuTimings);
 
-        $menuItems = MenuItem::with('category')
+        $menuItemsKannada = MenuItem::with('category')
             ->whereHas('category', function ($query) use ($currentCategory, $currentday) {
-                $query->where('day', $currentday)
+                $query->where('is_active', 1)
+                    ->where('day', $currentday)
                     ->where('show_time_from', '<=', now()->format('H:i'))
                     ->where('show_time_to', '>=', now()->format('H:i'));
             })
             ->orderByDesc('is_available')
-            ->paginate(45)
+            ->paginate(10)
+            ->groupBy('category.title');
+
+        $menuItemsEnglish = MenuItem::with('category')
+            ->whereHas('category', function ($query) use ($currentCategory, $currentday) {
+                $query->where('day', $currentday)
+                    ->where('is_active', 1)
+                    ->where('show_time_from', '<=', now()->format('H:i'))
+                    ->where('show_time_to', '>=', now()->format('H:i'));
+            })
+            ->orderByDesc('is_available')
+            ->paginate(10)
             ->groupBy('category.title');
 
 
         return view(
             'livewire.menu-card',
             [
-                'menuItems' => $menuItems,
+                'menuItemsKannada' => $menuItemsKannada,
+                'menuItemsEnglish' => $menuItemsEnglish,
                 'timings'   => $categoryMenuTimings
             ]
         )->layout('layouts.guest');;

@@ -147,7 +147,8 @@ class MenuHandler extends Component
         }
 
         $menuExists = MenuItem::where('name', $this->menu['name'])
-            ->where('id', '!=', $this->menu['id'])->first();
+            ->where('id', '!=', $this->menu['id'])
+            ->where('category_id', $this->menu['category_id'])->first();
         
         if ($menuExists) {
             $this->addError('menu.name', 'menu Name already exists.');

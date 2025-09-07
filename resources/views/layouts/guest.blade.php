@@ -19,7 +19,10 @@
     <style>
         body {
             background: rgb(255, 255, 255);
-            background-image: linear-gradient(rgba(255, 255, 255, 255), rgba(255, 255, 255, 0.9)), url('{{ asset('theme/logo/Food-03.png') }}');
+            /* background-image: linear-gradient(rgba(255, 218, 177, 0.9), rgba(255, 218, 177, 0.9)), url('{{ asset('theme/logo/Food-03.png') }}'); */
+            background-image: linear-gradient(rgba(255, 255, 255), rgba(255, 255, 255, 0.9)), url('{{ asset('theme/logo/Food-03.png') }}');
+            /* background-image: linear-gradient(rgba(255, 237, 216, 0.9), rgba(255, 237, 216, 0.9)), url('{{ asset('theme/logo/Food-03.png') }}'); */
+            /* background-image: linear-gradient(rgba(255, 237, 216, 0.9), rgba(255, 237, 216, 0.9) ); */
             background-size: cover;
             background-attachment: fixed;
             background-repeat: no-repeat;
@@ -32,6 +35,7 @@
             text-align: center;
             /* color: white; */
             background-color: #006400;
+            /* background-color: #006400; */
             padding: 30px 20px 0;
             font-family: 'Poppins', sans-serif;
             font-size: 2rem;
@@ -165,9 +169,9 @@
 
         .menu-title {
             width: 100%;
-            /* background: #006400; */
+            background: #006400;
             /* background: #7B3F00; */
-            background: #F57C00;
+            /* background: #F57C00; */
             text-align: left;
             font-family: 'Poppins', sans-serif;
             font-size: medium;
@@ -182,16 +186,36 @@
             padding: 0;
         }
 
-        .menu-item {
+        .add-extra-menu-item {
             font-family: 'Poppins', sans-serif;
             color:  #7B3F00;
             /* color:  #F57C00; */
             /* color:  #006400; */
+            /* color:  #D32F2F; */
             display: flex;
             justify-content: space-between;
             padding: 4px 0;
             font-size: 0.8rem;
             /* border-bottom: 1px solid #ddd; */
+        }
+        /* .menu-item {
+            font-family: 'Poppins', sans-serif;
+            color:  #7B3F00;
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.8rem;
+        } */
+
+        .menu-item {
+            font-family: 'Poppins', sans-serif;
+            color: #7B3F00;
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.8rem;
+            position: relative;
+            padding-left: 1rem;
         }
 
         .menu-item:last-child {
@@ -206,12 +230,13 @@
 
         .menu-item-price {
             /* color: #F57C00 */
-            /* font-weight: 500; */
+            font-weight: 500;
             font-family: 'Poppins', sans-serif;
             /* color:  #F57C00; */
-            color:  #7B3F00;
-            /* color:  #006400; */
+            /* color:  #7B3F00; */
+            color:  #006400;
             font-weight: bold;
+            font-size: 115%;
         }
 
         .logo {
@@ -267,13 +292,13 @@
         <div class="page-wrapper" style="height: 100%; display: flex; flex-direction: column;">
             <div class="row" style="height: 100%;">
                 <div class="col-md-9" style="height: 100%;">
-                    {{-- <div class="row" style="background:#F57C00;">  --}}
+                    <div class="row" style="background:#F57C00;"> 
                     {{-- <div class="row" style="background:#7B3F00;"> --}}
-                    <div class="row" style="background:#006400;">
+                    {{-- <div class="row" style="background:#006400;"> --}}
                         <!-- Logo Section -->
                         {{-- <div class="col-md-2 text-center"> --}}
                             <img src="{{ asset('images/NewLogo.png') }}" alt="HMS" class="img-fluid"
-                                style="width: 20%; height: 20%; margin-left:40%;"
+                                style="width: 25%; height: 25%; margin-left:5%;"
                                 >
                         {{-- </div> --}}
                         <!-- Title Section -->
@@ -315,9 +340,9 @@
        <div 
             style=" 
                     /* background: transparent; */
-                    /* background: #F57C00;  */
+                    background: #F57C00; 
                     /* background: #7B3F00;  */
-                    background: #006400; 
+                    /* background: #006400;  */
                     border:none;
                     padding: 1%;
                     color: #ffffff;  
