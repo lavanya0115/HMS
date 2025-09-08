@@ -8,9 +8,9 @@
 
         .menu-design-before,
         .menu-design-after {
-            width: 20px;
-            height: 20px;
-            margin: 0 5px;
+            width: 15px;
+            height: 15px;
+            margin: 0 3px;
         }
 
         #commingsoon {
@@ -25,45 +25,47 @@
         <div class="row" wire:poll.3s>
             @if (count($menuItemsEnglish) > 0 && count($menuItemsEnglish) > 0)
                 <div class="d-flex justify-content-evenly">
-                    @foreach ($menuItemsEnglish as $label => $items)
+
+                    @foreach ($menuItemsEnglish as $label => $subcategories)
                         @php
-                            // dd($label, $menuItemsEnglish);
-                            // Chunk the items into groups of 6
-                            $chunks = $items->chunk(20);
-                            $fromTime = $timings[$label]['show_time_from'];
-                            $toTime = $timings[$label]['show_time_to'];
+                            $fromTime = $timings[$label]['show_time_from'] ?? '';
+                            $toTime = $timings[$label]['show_time_to'] ?? '';
                         @endphp
 
-                        @foreach ($chunks as $chunk)
-                            {{-- @dd($chunk) --}}
-                            <div class="col-md-4 d-flex flex-column">
-                                <div class="menu-section">
-                                    <div class="menu-title mx-auto p-1 rounded ps-3">{{ $label }} <small
-                                            class="time-range">{{ '[ ' . $fromTime . ' - ' . $toTime . ' ]' }}</small>
-                                    </div>
-                                    <ul class="menu-list mt-3">
-                                        @foreach ($chunk as $item)
+                        <div class="col-md-4 d-flex flex-column">
+                            <div class="menu-section">
+                                <div class="menu-title mx-auto p-1 rounded ps-3">
+                                    {{ $label }}
+                                    <small class="time-range">{{ '[ ' . $fromTime . ' - ' . $toTime . ' ]' }}</small>
+                                </div>
+
+                                @foreach ($subcategories as $variety => $items)
+                                    @if (!($variety === 'Others' && count($subcategories) > 1))
+                                        <div class="menu-title mx-auto p-1 rounded ps-3">
+                                            {{ $variety }}
+                                        </div>
+                                    @endif
+
+                                    <ul class="menu-list mt-2">
+                                        @foreach ($items as $item)
                                             @php
                                                 $tag = '';
                                                 if (!empty($item->meta)) {
                                                     $metaData = json_decode($item->meta, true);
-                                                    $tag = $metaData['tag'];
+                                                    $tag = $metaData['tag'] ?? '';
                                                 }
                                             @endphp
+
                                             @if ($item->is_available)
                                                 <li class="menu-item">
                                                     <span class="menu-item-name">
                                                         {{ $item->name }}
                                                         @if (!empty($tag))
-                                                            <small class="badge text-bg-danger me-2"
-                                                                style="background-color:#">
-
-                                                                {{ $tag }}
-                                                            </small>
+                                                            <small
+                                                                class="badge text-bg-danger me-2">{{ $tag }}</small>
                                                         @endif
                                                     </span>
-                                                    <span
-                                                        class="menu-item-price fw-bold">{{ '₹ ' . $item->price }}</span>
+                                                    <span class="menu-item-price fw-bold">₹ {{ $item->price }}</span>
                                                 </li>
                                             @else
                                                 <li class="menu-item not-available-menus text-muted">
@@ -77,10 +79,12 @@
                                             @endif
                                         @endforeach
                                     </ul>
-                                </div>
+                                @endforeach
                             </div>
-                        @endforeach
+                        </div>
                     @endforeach
+
+
 
                     @foreach ($menuItemsKannada as $label => $items)
                         @php

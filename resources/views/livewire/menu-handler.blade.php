@@ -189,7 +189,7 @@
                                     <span class="text text-danger" style="margin-top:-2% ">{{ $message }}</span>
                                 @enderror
 
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     
                                     <div class="mb-1">
                                         <label class="form-label">Tag</label>
@@ -208,6 +208,20 @@
                                     </div>
                                 </div>
                                 @error('tag')
+                                    <span class="text text-danger" style="margin-top:-2% ">{{ $message }}</span>
+                                @enderror
+
+                                <div class="col-md-6">
+                                    
+                                    <div class="mb-1">
+                                        <label class="form-label">variety</label>
+                                        <input type="text" @class([
+                                        'form-control',
+                                        'is-invalid' => $errors->has('variety') ? true : false,
+                                    ]) wire:model="variety">
+                                    </div>
+                                </div>
+                                @error('variety')
                                     <span class="text text-danger" style="margin-top:-2% ">{{ $message }}</span>
                                 @enderror
                             {{-- @endif --}}

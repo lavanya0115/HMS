@@ -24,6 +24,7 @@ class MenuHandler extends Component
         'tax_amount' => '',
         'mrp' => '',
     ];
+    public $variety;
     public $tag;
     public $tags;
     public $unitTypes;
@@ -70,6 +71,17 @@ class MenuHandler extends Component
             $menu = MenuItem::find($menuId);
             if ($menu) {
                 $this->menu = $menu->toArray();
+                
+                $metaData = json_decode($this->menu['meta'], true);
+
+                if (!empty($metaData['variety'])) {
+                    $this->variety = $metaData['variety'];
+                }
+
+                if (!empty($metaData['tag'])) {
+                    $this->tag = $metaData['tag'];
+                }
+               
                 $this->menu['is_available'] = $menu->is_available ? true : false;
             } else {
                 return redirect()->back()->with('warning', 'menu not found');
@@ -120,9 +132,17 @@ class MenuHandler extends Component
             return;
         }
 
-        if(!empty($this->tag)){
-            $this->menu['meta'] = json_encode(["tag"=>$this->tag]);
+        $meta = [];
+
+        if (!empty($this->variety)) {
+            $meta['variety'] = $this->variety;
         }
+
+        if (!empty($this->tag)) {
+            $meta['tag'] = $this->tag;
+        }
+
+        $this->menu['meta'] = json_encode($meta);
 
         $this->menu['created_by'] = $authorId;
 
@@ -186,9 +206,17 @@ class MenuHandler extends Component
             ]);
         }
 
-         if(!empty($this->tag)){
-            $this->menu['meta'] = json_encode(["tag"=>$this->tag]);
+        $meta = [];
+
+        if (!empty($this->variety)) {
+            $meta['variety'] = $this->variety;
         }
+
+        if (!empty($this->tag)) {
+            $meta['tag'] = $this->tag;
+        }
+
+        $this->menu['meta'] = json_encode($meta);
 
         $this->menu['updated_by'] = $authorId;
 

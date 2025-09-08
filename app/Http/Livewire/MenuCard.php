@@ -49,17 +49,26 @@ class MenuCard extends Component
             ->paginate(10)
             ->groupBy('category.title');
 
-        $menuItemsEnglish = MenuItem::with('category')
-            ->whereHas('category', function ($query) use ($currentCategory, $currentday) {
-                $query->where('day', $currentday)
-                    ->where('is_active', 1)
-                    ->where('show_time_from', '<=', now()->format('H:i'))
-                    ->where('show_time_to', '>=', now()->format('H:i'));
-            })
-            ->orderByDesc('is_available')
-            ->paginate(10)
-            ->groupBy('category.title');
-
+       $menuItemsEnglish = MenuItem::with('category')
+        ->whereHas('category', function ($query) use ($currentday) {
+            $query->where('day', $currentday)
+                ->where('is_active', 1)
+                ->where('show_time_from', '<=', now()->format('H:i'))
+                ->where('show_time_to', '>=', now()->format('H:i'));
+        })
+        ->orderByDesc('is_available')
+        ->take(10)
+        ->get()
+        ->groupBy(fn($item) => $item->category->title) // group by category (Lunch/Dinner)
+        ->map(function ($items) {
+            return $items->groupBy(function ($item) {
+                $meta = json_decode($item->meta, true);
+                return $meta['variety'] ?? 'Others'; // group by variety
+            });
+        });
+        //  if($meta != null){
+                    // dd($menuItemsEnglish);
+                // }
 
         return view(
             'livewire.menu-card',

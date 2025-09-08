@@ -212,8 +212,8 @@
             color: #7B3F00;
             display: flex;
             justify-content: space-between;
-            padding: 4px 0;
-            font-size: 0.8rem;
+            padding: 3px 0;
+            font-size: 0.6rem;
             position: relative;
             padding-left: 1rem;
         }
