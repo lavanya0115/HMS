@@ -32,6 +32,7 @@ class CategorySummary extends Component
 
     public function mount(Request $request)
     {
+        reLogin();
         $this->categoryId = $request->categoryId;
     }
     public function deleteCategoryById($categoryId)

@@ -26,6 +26,7 @@ class VideoSummary extends Component
 
     public function mount(Request $request)
     {
+        reLogin();
         $this->videoId = $request->videoId;
     }
     public function deleteVideoById($videoId)

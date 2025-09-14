@@ -99,6 +99,7 @@ class MenuSummary extends Component
 
     public function mount(Request $request)
     {
+        reLogin();
         $this->menuId = $request->menuId ?? null;
     }
     public function showNoticeListener($status, $message)
