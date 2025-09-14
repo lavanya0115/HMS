@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\CategorySummary;
+use App\Http\Livewire\MenuCardSpecial;
+use App\Http\Livewire\MenuCardBeverage;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Livewire\ActivityLogHandler;
 use App\Http\Controllers\Auth\LoginController;
@@ -50,6 +52,8 @@ Route::middleware([
     Route::get('/category', CategorySummary::class)->name('category');
     Route::get('/video', VideoSummary::class)->name('video');
     Route::get('menu/card', MenuCard::class)->name('menu.card');
+    Route::get('menu/card/special', MenuCardSpecial::class)->name('menu.card.special');
+    Route::get('menu/card/beverage', MenuCardBeverage::class)->name('menu.card.beverage');
 });
 
 Route::middleware(['auth:web,visitor,exhibitor'])->group(function () {
