@@ -25,6 +25,7 @@ class EmployeeSummary extends Component
 
     public function mount(Request $request)
     {
+        relogin();
         $this->employeeId = $request->employeeId ?? null;
     }
     public function showNoticeListener($status, $message)
