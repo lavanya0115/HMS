@@ -172,7 +172,7 @@
             background: #006400;
             /* background: #7B3F00; */
             /* background: #F57C00; */
-            text-align: left;
+            /* text-align: left; */
             font-family: 'Poppins', sans-serif;
             font-size: medium;
             font-weight: bold;
@@ -188,7 +188,7 @@
 
         .add-extra-menu-item {
             font-family: 'Poppins', sans-serif;
-            color:  #7B3F00;
+            color: #7B3F00;
             /* color:  #F57C00; */
             /* color:  #006400; */
             /* color:  #D32F2F; */
@@ -207,37 +207,75 @@
             font-size: 0.8rem;
         } */
 
+        /* .menu-item { */
+        /* font-family: 'Poppins', sans-serif;
+            color: #7B3F00;
+            display: flex; */
+        /* justify-content: space-between; */
+        /* align-items: center;
+            padding: 4px 0;
+            font-size: 0.9rem; */
+        /* position: relative; */
+        /* padding-left: 1rem; */
+        /* } */
+
+        /* .menu-item:last-child {
+            border-bottom: none;
+        } */
+
+        /* .menu-item-name {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-weight: bold;
+        } */
+
+        /* .menu-item-price { */
+        /* color: #F57C00 */
+        /* font-weight: 500; */
+        /* font-family: 'Poppins', sans-serif; */
+        /* color:  #F57C00; */
+        /* color:  #7B3F00; */
+        /* color:  #006400; */
+        /* font-weight: bold; */
+        /* font-size: 115%; */
+        /* } */
+
         .menu-item {
             font-family: 'Poppins', sans-serif;
             color: #7B3F00;
             display: flex;
-            justify-content: space-between;
-            padding: 3px 0;
-            font-size: 0.6rem;
-            position: relative;
-            padding-left: 1rem;
-        }
-
-        .menu-item:last-child {
-            border-bottom: none;
+            align-items: center;
+            font-size: 0.8rem;
+            /* a little bigger for readability */
+            padding: 4px 0;
         }
 
         .menu-item-name {
             font-family: 'Poppins', sans-serif;
-            font-weight: 500;
             font-weight: bold;
+            flex: 1;
+            /* equal width */
+        }
+
+        .menu-item-name:first-child {
+            text-align: left;
         }
 
         .menu-item-price {
-            /* color: #F57C00 */
-            font-weight: 500;
-            font-family: 'Poppins', sans-serif;
-            /* color:  #F57C00; */
-            /* color:  #7B3F00; */
-            color:  #006400;
+            flex: 1;
+            /* equal width */
+            text-align: center;
+            color: #006400;
             font-weight: bold;
             font-size: 115%;
+            padding: 0 10px;
+            /* <-- adds gap around price */
         }
+
+        .menu-item-name:last-child {
+            text-align: right;
+        }
+
 
         .logo {
             max-width: 150px;
@@ -292,14 +330,13 @@
         <div class="page-wrapper" style="height: 100%; display: flex; flex-direction: column;">
             <div class="row" style="height: 100%;">
                 <div class="col-md-9" style="height: 100%;">
-                    <div class="row" style="background:#F57C00;"> 
-                    {{-- <div class="row" style="background:#7B3F00;"> --}}
-                    {{-- <div class="row" style="background:#006400;"> --}}
+                    <div class="row" style="background:#F57C00;">
+                        {{-- <div class="row" style="background:#7B3F00;"> --}}
+                        {{-- <div class="row" style="background:#006400;"> --}}
                         <!-- Logo Section -->
                         {{-- <div class="col-md-2 text-center"> --}}
-                            <img src="{{ asset('images/NewLogo.png') }}" alt="HMS" class="img-fluid"
-                                style="width: 25%; height: 25%; margin-left:5%;"
-                                >
+                        <img src="{{ asset('images/NewLogo.png') }}" alt="HMS" class="img-fluid"
+                            style="width: 25%; height: 25%; margin-left:5%;">
                         {{-- </div> --}}
                         <!-- Title Section -->
                         {{-- <div class="col-md-10 text-center">
@@ -354,12 +391,12 @@
             {{-- <img src="{{ asset('theme/images/hurryup2.png') }}" alt="order"
                 style="max-width: 4%; vertical-align: middle;">  --}}
             FOR BULK ORDER!
-            
-            <span class="text fw-bold ps-2 fs-5 pe-2" 
+
+            <span class="text fw-bold ps-2 fs-5 pe-2"
                 style="color: #ffffff; font-family: 'Poppins', sans-serif !important;">
                 CONTACT: +91 99012 88017
             </span>
-            
+
             OPEN EVERY DAY 7AM - 9PM
         </div>
     </div>
