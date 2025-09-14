@@ -38,18 +38,17 @@ class MenuCard extends Component
 
         // dd($categoryMenuTimings);
 
-        $menuItemsKannada = MenuItem::with('category')
-            ->whereHas('category', function ($query) use ($currentCategory, $currentday) {
-                $query->where('is_active', 1)
-                    ->where('day', $currentday)
-                    ->where('show_time_from', '<=', now()->format('H:i'))
-                    ->where('show_time_to', '>=', now()->format('H:i'));
-            })
-            ->orderByDesc('is_available')
-            ->paginate(10)
-            ->groupBy('category.title');
-
-       $menuItemsEnglish = MenuItem::with('category')
+        // $menuItemsKannada = MenuItem::with('category')
+        //     ->whereHas('category', function ($query) use ($currentCategory, $currentday) {
+        //         $query->where('is_active', 1)
+        //             ->where('day', $currentday)
+        //             ->where('show_time_from', '<=', now()->format('H:i'))
+        //             ->where('show_time_to', '>=', now()->format('H:i'));
+        //     })
+        //     ->orderByDesc('is_available')
+        //     ->paginate(10)
+        //     ->groupBy('category.title');
+        $menuItemsEnglish = MenuItem::with('category')
         ->whereHas('category', function ($query) use ($currentday) {
             $query->where('day', $currentday)
                 ->where('is_active', 1)
@@ -66,14 +65,11 @@ class MenuCard extends Component
                 return $meta['variety'] ?? 'Others'; // group by variety
             });
         });
-        //  if($meta != null){
-                    // dd($menuItemsEnglish);
-                // }
 
         return view(
             'livewire.menu-card',
             [
-                'menuItemsKannada' => $menuItemsKannada,
+                // 'menuItemsKannada' => $menuItemsKannada,
                 'menuItemsEnglish' => $menuItemsEnglish,
                 'timings'   => $categoryMenuTimings
             ]

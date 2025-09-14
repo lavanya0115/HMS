@@ -24,95 +24,51 @@
     <div class="container mt-3">
         <div class="row" wire:poll.3s>
             @if (count($menuItemsEnglish) > 0 && count($menuItemsEnglish) > 0)
-                <div class="d-flex justify-content-evenly">
 
-                    @foreach ($menuItemsEnglish as $label => $subcategories)
-                        @php
-                            $fromTime = $timings[$label]['show_time_from'] ?? '';
-                            $toTime = $timings[$label]['show_time_to'] ?? '';
-                        @endphp
+                @foreach ($menuItemsEnglish as $label => $items)
+                    @php
+                        $chunks = $items->chunk(10);
+                        $fromTime = $timings[$label]['show_time_from'] ?? '';
+                        $toTime = $timings[$label]['show_time_to'] ?? '';
+                    @endphp
 
-                        <div class="col-md-4 d-flex flex-column">
-                            <div class="menu-section">
-                                <div class="menu-title mx-auto p-1 rounded ps-3">
-                                    {{ $label }}
-                                    <small class="time-range">{{ '[ ' . $fromTime . ' - ' . $toTime . ' ]' }}</small>
-                                </div>
+                    @foreach ($chunks as $subcategories)
+                        @foreach ($subcategories as $variety => $category)
+                            <div class="col-md-6 d-flex flex-column">
+                                <div class="menu-section">
 
-                                @foreach ($subcategories as $variety => $items)
-                                    @if (!($variety === 'Others' && count($subcategories) > 1))
+                                    @if ($variety !== 'Others' && count($subcategories) > 1)
                                         <div class="menu-title mx-auto p-1 rounded ps-3">
                                             {{ $variety }}
                                         </div>
+                                    @else
+                                        <div class="menu-title mx-auto p-1 rounded ps-3">{{ $label }} <small
+                                                class="time-range">{{ '[ ' . $fromTime . ' - ' . $toTime . ' ]' }}</small>
+                                        </div>
                                     @endif
-
-                                    <ul class="menu-list mt-2">
-                                        @foreach ($items as $item)
-                                            @php
-                                                $tag = '';
-                                                if (!empty($item->meta)) {
-                                                    $metaData = json_decode($item->meta, true);
-                                                    $tag = $metaData['tag'] ?? '';
-                                                }
-                                            @endphp
-
+                                    <ul class="menu-list mt-3">
+                                        @foreach ($category as $item)
                                             @if ($item->is_available)
-                                                <li class="menu-item">
-                                                    <span class="menu-item-name">
+                                                <div class="row menu-item py-1">
+
+                                                    <div class="col text-start">
                                                         {{ $item->name }}
                                                         @if (!empty($tag))
                                                             <small
-                                                                class="badge text-bg-danger me-2">{{ $tag }}</small>
+                                                                class="badge bg-danger ms-2">{{ $tag }}</small>
                                                         @endif
-                                                    </span>
-                                                    <span class="menu-item-price fw-bold">₹ {{ $item->price }}</span>
-                                                </li>
-                                            @else
-                                                <li class="menu-item not-available-menus text-muted">
-                                                    <small class="fw-bold animate__animated animate__fadeIn"
-                                                        style="color:#D32F2F;"
-                                                        id="text-name-{{ $item->id }}">{{ $item->name }}</small>
-                                                    <small class="fw-bold animate__animated animate__flash d-none"
-                                                        style="color:#D32F2F;"
-                                                        id="text-status-{{ $item->id }}">{{ $item->custom_status }}</small>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endforeach
+                                                    </div>
 
 
+                                                    <div class="col-3 text-center fw-bold text-success">
+                                                        ₹ {{ $item->price }}
+                                                    </div>
 
-                    @foreach ($menuItemsKannada as $label => $items)
-                        @php
-                            // Chunk the items into groups of 6
-                            $chunks = $items->chunk(20);
-                            $fromTime = $timings[$label]['show_time_from'];
-                            $toTime = $timings[$label]['show_time_to'];
-                        @endphp
 
-                        @foreach ($chunks as $chunk)
-                            {{-- @dd($chunk) --}}
-                            <div class="col-md-4 d-flex flex-column">
-                                <div class="menu-section">
-                                    <div class="menu-title mx-auto p-1 rounded ps-3">{{ $label }} <small
-                                            class="time-range">{{ '[ ' . $fromTime . ' - ' . $toTime . ' ]' }}</small>
-                                    </div>
-                                    <ul class="menu-list mt-3">
-                                        @foreach ($chunk as $item)
-                                            @if ($item->is_available)
-                                                <li class="menu-item">
-                                                    {{-- <div class="d-flex justify-content-between"> --}}
-                                                    <span class="menu-item-name">
+                                                    <div class="col text-end">
                                                         {{ $item->kannada_name }}
-                                                    </span>
-                                                    <span
-                                                        class="menu-item-price fw-bold">{{ '₹ ' . $item->price }}</span>
-                                                    {{-- </div> --}}
-                                                </li>
+                                                    </div>
+                                                </div>
                                             @else
                                                 <li class="menu-item not-available-menus text-muted">
                                                     <small class="fw-bold animate__animated animate__fadeIn"
@@ -129,47 +85,50 @@
                             </div>
                         @endforeach
                     @endforeach
-                </div>
-                {{-- <div class="card">
-                    <div class="card-header">
-                        <h1 class=""></h1>
-                    </div>
-                    <div class="card-body"></div>
-                </div> --}}
+                @endforeach
 
-                <div style="padding-left: 12%;">
-                    <div class="col-md-4">
-                        <div class="card bg-danger-lt">
+
+                {{--  Add Extra --}}
+                <div class="row d-flex justify-content-around">
+                    <div class="col-md-6">
+                        <div class="col-md-8 card bg-danger-lt">
                             <div class="card-header" style="background:#D32F2F;color:#ffffff; padding-left:35%;">Add
                                 Extra</div>
                             <div class="card-body">
-                                {{-- <div class="d-flex justify-content-around"> --}}
-                                {{-- <li >
-                                        <span class="fw-bold text-success">{{ 'Ghee ' . 10 }}</span>
-                                        <span class="fw-bold text-success">Ghee</span>
-                                    </li>
-                                    <li style="color: #006400;">
-                                        <span class="badge text-bg-success" style="color: #006400"></span>
-                                        <span class="fw-bold text-success">Podi</span>
-                                    </li> --}}
-                                <li class="menu-item">
-                                    {{-- <div class="d-flex justify-content-between"> --}}
-                                    <span class="fw-bold text-success">
-                                        Ghee
-                                    </span>
-                                    <span class="fw-bold text-success">{{ '₹ ' . 15 }}</span>
-                                    {{-- </div> --}}
+                                <li class="menu-item d-flex justify-content-between ">
+                                    <div>
+                                        <span class="fw-bold text-success">
+                                            Ghee <span class="ps-2">{{ ' ₹ ' . 15 }}</span>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="fw-bold text-success">
+                                            Podi <span class="ps-2">{{ ' ₹ ' . 10 }}</span>
+                                        </span>
+                                    </div>
                                 </li>
-                                <li class="menu-item">
-                                    {{-- <div class="d-flex justify-content-between"> --}}
+                                {{-- <li class="menu-item">
+                                    <div class="d-flex justify-content-between">
                                     <span class="fw-bold text-success">
                                         Podi
                                     </span>
-                                    <span class="fw-bold text-success">{{ '₹ ' . 10 }}</span>
-                                    {{-- </div> --}}
-                                </li>
+                                    <span class="fw-bold text-success ps-3">{{ ' ₹ ' . 10 }}</span>
+                                    </div>
+                                </li> --}}
                                 {{-- </div> --}}
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        {{-- <div class="ps-2 text fw-bold" style="color: #F57C00"> --}}
+                        <div class="ps-2 text fw-bold" style="color: #7B3F00">
+                            <span> ** All prices inclusive of taxes</span>
+                        </div>
+                        <div class="ps-2 text fw-bold" style="color: #7B3F00">
+                            <span> ** Packing charges extra <strong class="fs-6"style="color: #006400;">Rs. 10</strong></span>
+                        </div>
+                        <div class="ps-2 text fw-bold" style="color: #7B3F00;">
+                           <span> We are Available on  <strong class="fs-6" style="color: #F57C00;">Swiggy & Zomota</strong></span>
                         </div>
                     </div>
                 </div>
