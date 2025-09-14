@@ -7,10 +7,11 @@ use App\Models\Category;
 use App\Models\MenuItem;
 use Illuminate\Support\Carbon;
 
-class MenuCard extends Component
+class MenuCardSpecial extends Component
 {
     public function render()
     {
+
         $currentHour = Carbon::now()->hour;
         $currentday  = Carbon::now()->format('l');
         $currentCategory = '';
@@ -22,7 +23,7 @@ class MenuCard extends Component
             $currentCategory = 'Dinner';
         }
 
-        $categoryMenuTimings = Category::where('type', 'menu')
+        $specialMenuTimings = Category::where('type', 'special')
             ->where('is_active', 1)
             ->where('day', $currentday)
             ->get(['title', 'show_time_from', 'show_time_to'])
@@ -36,22 +37,10 @@ class MenuCard extends Component
             })
             ->toArray();
 
-        // dd($categoryMenuTimings);
-
-        // $menuItemsKannada = MenuItem::with('category')
-        //     ->whereHas('category', function ($query) use ($currentCategory, $currentday) {
-        //         $query->where('is_active', 1)
-        //             ->where('day', $currentday)
-        //             ->where('show_time_from', '<=', now()->format('H:i'))
-        //             ->where('show_time_to', '>=', now()->format('H:i'));
-        //     })
-        //     ->orderByDesc('is_available')
-        //     ->paginate(10)
-        //     ->groupBy('category.title');
-        $menuItemsEnglish = MenuItem::with('category')
+        $specialMenuItems = MenuItem::with('category')
         ->whereHas('category', function ($query) use ($currentday) {
             $query->where('day', $currentday)
-                ->where('type', 'menu')
+                ->where('type', 'special')
                 ->where('is_active', 1)
                 ->where('show_time_from', '<=', now()->format('H:i'))
                 ->where('show_time_to', '>=', now()->format('H:i'));
@@ -67,13 +56,9 @@ class MenuCard extends Component
             });
         });
 
-        return view(
-            'livewire.menu-card',
-            [
-                // 'menuItemsKannada' => $menuItemsKannada,
-                'menuItemsEnglish' => $menuItemsEnglish,
-                'timings'   => $categoryMenuTimings
-            ]
-        )->layout('layouts.guest');
+        return view('livewire.menu-card-special',[
+                'specialMenuItems' => $specialMenuItems,
+                'timings'   => $specialMenuTimings
+        ])->layout('layouts.guest');
     }
 }
