@@ -119,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 mt-3 text-center">
                         {{-- <div class="ps-2 text fw-bold" style="color: #F57C00"> --}}
                         <div class="ps-2 text fw-bold" style="color: #7B3F00">
                             <span> ** All prices inclusive of taxes</span>
