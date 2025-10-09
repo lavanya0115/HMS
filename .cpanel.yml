@@ -1,7 +1,34 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home2/sreeanandham/repositories/Divine
-    - /bin/cp index.html $DEPLOYPATH
-    - /bin/cp style.css $DEPLOYPATH
-    - /bin/cp -R images $DEPLOYPATH
+    - export REPOPATH=/home2/sreeanandham/repositories/Divine
+    - export DEPLOYPATH=/home2/sreeanandham/public_html/
+    
+    # Clear deployment directory (optional - be careful!)
+    # - /bin/rm -rf $DEPLOYPATH/*
+    
+    # Copy all Laravel files to public_html
+    - /bin/cp -R $REPOPATH/* $DEPLOYPATH/
+    - /bin/cp -R $REPOPATH/.* $DEPLOYPATH/ 2>/dev/null || true
+    
+    # Laravel-specific directory permissions
+    - chmod -R 775 $DEPLOYPATH/storage/
+    - chmod -R 775 $DEPLOYPATH/bootstrap/cache/
+    
+    # Install Composer dependencies
+    - cd $DEPLOYPATH && composer install --no-dev --optimize-autoloader
+    
+    # Laravel optimization commands
+    - cd $DEPLOYPATH && php artisan config:cache
+    - cd $DEPLOYPATH && php artisan route:cache
+    - cd $DEPLOYPATH && php artisan view:cache
+    
+    # Run database migrations
+    - cd $DEPLOYPATH && php artisan migrate --force
+    
+    # Create storage link
+    - cd $DEPLOYPATH && php artisan storage:link
+    
+    # Set proper file permissions
+    - /bin/find $DEPLOYPATH -type d -exec chmod 755 {} \;
+    - /bin/find $DEPLOYPATH -type f -exec chmod 644 {} \;
