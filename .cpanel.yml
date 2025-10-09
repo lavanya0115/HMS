@@ -1,0 +1,5 @@
+# Sample .cpanel.yml file for deploying to cPanel
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home2/sreeanandham/repositories/Divine
+    - /bin/cp -R * $DEPLOYPATH
