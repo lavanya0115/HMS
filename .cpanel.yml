@@ -1,34 +1,29 @@
 ---
 deployment:
   tasks:
-    - export REPOPATH=/home2/sreeanandham/repositories/Divine
     - export DEPLOYPATH=/home2/sreeanandham/public_html/
     
-    # Clear deployment directory (optional - be careful!)
-    # - /bin/rm -rf $DEPLOYPATH/*
+    # Clean deployment directory (remove this line if you want to keep existing files)
+    - /bin/rm -rf $DEPLOYPATH/*
     
-    # Copy all Laravel files to public_html
-    - /bin/cp -R $REPOPATH/* $DEPLOYPATH/
-    - /bin/cp -R $REPOPATH/.* $DEPLOYPATH/ 2>/dev/null || true
+    # Copy all files from repository to public_html
+    - /bin/cp -R * $DEPLOYPATH/
+    - /bin/cp -R .[^.]* $DEPLOYPATH/ 2>/dev/null || true
     
-    # Laravel-specific directory permissions
+    # Set proper permissions for Laravel
     - chmod -R 775 $DEPLOYPATH/storage/
     - chmod -R 775 $DEPLOYPATH/bootstrap/cache/
     
-    # Install Composer dependencies
-    - cd $DEPLOYPATH && composer install --no-dev --optimize-autoloader
+    # Install Composer dependencies (if composer.json exists)
+    - cd $DEPLOYPATH && [ -f "composer.json" ] && composer install --no-dev --optimize-autoloader
     
-    # Laravel optimization commands
-    - cd $DEPLOYPATH && php artisan config:cache
-    - cd $DEPLOYPATH && php artisan route:cache
-    - cd $DEPLOYPATH && php artisan view:cache
+    # Laravel optimizations (only if it's a Laravel project)
+    - cd $DEPLOYPATH && [ -f "artisan" ] && php artisan config:cache
+    - cd $DEPLOYPATH && [ -f "artisan" ] && php artisan route:cache
+    - cd $DEPLOYPATH && [ -f "artisan" ] && php artisan view:cache
+    - cd $DEPLOYPATH && [ -f "artisan" ] && php artisan migrate --force
+    - cd $DEPLOYPATH && [ -f "artisan" ] && php artisan storage:link
     
-    # Run database migrations
-    - cd $DEPLOYPATH && php artisan migrate --force
-    
-    # Create storage link
-    - cd $DEPLOYPATH && php artisan storage:link
-    
-    # Set proper file permissions
+    # General file permissions
     - /bin/find $DEPLOYPATH -type d -exec chmod 755 {} \;
     - /bin/find $DEPLOYPATH -type f -exec chmod 644 {} \;
